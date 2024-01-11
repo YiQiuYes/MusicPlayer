@@ -2,11 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:musicplayer/common/net/RequestManager.dart';
 import 'package:musicplayer/generated/l10n.dart';
 import 'package:musicplayer/router/RouteConfig.dart';
 
-void main() {
+void main() async {
   runApp(const MyApp());
+
+  // 初始化网络请求管理
+  await RequestManager().persistCookieJarInit();
 }
 
 class MyApp extends StatelessWidget {

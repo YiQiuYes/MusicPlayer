@@ -1,14 +1,11 @@
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-class ScreenAdaptor {
-  ScreenAdaptor._();
+class ScreenAdaptor{
 
-  static ScreenAdaptor get instance => _getInstance();
-  static ScreenAdaptor? _instance;
-
-  static ScreenAdaptor _getInstance() {
-    _instance ??= ScreenAdaptor._();
-    return _instance!;
+  ScreenAdaptor._privateConstructor();
+  static final ScreenAdaptor _instance = ScreenAdaptor._privateConstructor();
+  factory ScreenAdaptor(){
+    return _instance;
   }
 
   // 屏幕适配工具

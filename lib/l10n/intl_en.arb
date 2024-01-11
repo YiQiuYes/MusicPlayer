@@ -1,5 +1,6 @@
 {
   "navigationBarHome" : "Home",
   "navigationBarExplore" : "Explore",
-  "navigationBarMusicLibrary" : "MusicLibrary"
+  "navigationBarMusicLibrary" : "MusicLibrary",
+  "homeSearchBar" : "Search for songs、artists、albums"
 }

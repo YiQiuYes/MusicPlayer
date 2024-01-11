@@ -29,16 +29,8 @@ class _AppMainPageState extends State<AppMainPage> {
           _getNavigationRail(),
           // 主页面
           Expanded(
-            child: Obx(() {
-              return IndexedStack(
-                index: state.currentIndex.value,
-                children: const [
-                  HomePage(),
-                  ExplorePage(),
-                  MusicLibraryPage(),
-                ],
-              );
-            }),
+            // 获取主页面
+            child: _getMainPage(),
           ),
         ],
       ),
@@ -47,10 +39,24 @@ class _AppMainPageState extends State<AppMainPage> {
     );
   }
 
+  // 获取主页面
+  Widget _getMainPage() {
+    return Obx(() {
+      return IndexedStack(
+        index: state.currentIndex.value,
+        children: const [
+          HomePage(),
+          ExplorePage(),
+          MusicLibraryPage(),
+        ],
+      );
+    });
+  }
+
   // 获取侧边导航栏
   Widget _getNavigationRail() {
     // 如果是横屏，不显示侧边导航栏
-    if (ScreenAdaptor.instance.getOrientation()) {
+    if (ScreenAdaptor().getOrientation()) {
       return const SizedBox();
     }
 
@@ -60,7 +66,7 @@ class _AppMainPageState extends State<AppMainPage> {
           NavigationRailDestination(
             icon: const Icon(Icons.home_outlined),
             label: Text(S.of(context).navigationBarHome),
-            padding: EdgeInsets.only(top: 5.w, bottom: 5.w),
+            padding: EdgeInsets.only(top: 15.w, bottom: 5.w),
             selectedIcon: const Icon(Icons.home),
           ),
           NavigationRailDestination(
@@ -88,7 +94,7 @@ class _AppMainPageState extends State<AppMainPage> {
   // 获取底部导航栏
   Widget? _getBottomNavigationBar() {
     // 如果是竖屏，不显示底部导航栏
-    if (!ScreenAdaptor.instance.getOrientation()) {
+    if (!ScreenAdaptor().getOrientation()) {
       return null;
     }
     return Obx(() {

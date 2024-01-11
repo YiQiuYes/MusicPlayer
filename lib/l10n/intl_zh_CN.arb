@@ -1,5 +1,6 @@
 {
   "navigationBarHome" : "首页",
   "navigationBarExplore" : "发现",
-  "navigationBarMusicLibrary" : "音乐库"
+  "navigationBarMusicLibrary" : "音乐库",
+  "homeSearchBar" : "搜索歌曲、歌手、专辑"
 }

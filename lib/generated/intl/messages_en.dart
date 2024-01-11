@@ -22,6 +22,8 @@ class MessageLookup extends MessageLookupByLibrary {
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
+        "homeSearchBar": MessageLookupByLibrary.simpleMessage(
+            "Search for songs、artists、albums"),
         "navigationBarExplore": MessageLookupByLibrary.simpleMessage("Explore"),
         "navigationBarHome": MessageLookupByLibrary.simpleMessage("Home"),
         "navigationBarMusicLibrary":

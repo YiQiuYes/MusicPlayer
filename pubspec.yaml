@@ -34,6 +34,17 @@ dependencies:
   flutter_screenutil: ^5.9.0
   # 路由管理
   get: ^4.6.5
+  # 加密处理
+  encrypt: ^5.0.3
+  crypto: ^3.0.3
+  pointycastle: ^3.1.2
+  # 网络请求dio
+  dio: ^5.3.3
+  # Cookie管理
+  cookie_jar: ^4.0.8
+  dio_cookie_manager: ^3.1.1
+  # 路径管理
+  path_provider: ^2.1.1
   # 多语言本地化
   flutter_localizations:
     sdk: flutter

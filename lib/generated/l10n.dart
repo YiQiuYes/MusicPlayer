@@ -79,6 +79,16 @@ class S {
       args: [],
     );
   }
+
+  /// `Search for songs、artists、albums`
+  String get homeSearchBar {
+    return Intl.message(
+      'Search for songs、artists、albums',
+      name: 'homeSearchBar',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {
