@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:musicplayer/common/utils/ScreenAdaptor.dart';
-import 'package:musicplayer/components/SalomonNavigationRail.dart';
+import 'package:musicplayer/generated/l10n.dart';
 import 'package:musicplayer/router/RouteConfig.dart';
-import 'package:salomon_bottom_bar/salomon_bottom_bar.dart';
 
 void main() {
   runApp(const MyApp());
@@ -22,6 +21,13 @@ class MyApp extends StatelessWidget {
       splitScreenMode: true,
       builder: (context, child) {
         return GetMaterialApp(
+          localizationsDelegates: const [
+            S.delegate,
+            GlobalMaterialLocalizations.delegate,
+            GlobalWidgetsLocalizations.delegate,
+            GlobalCupertinoLocalizations.delegate,
+          ],
+          supportedLocales: S.delegate.supportedLocales,
           title: 'Flutter Demo',
           theme: ThemeData(
             colorScheme:

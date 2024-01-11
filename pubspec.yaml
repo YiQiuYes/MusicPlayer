@@ -30,12 +30,14 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  # 底部导航栏
-  salomon_bottom_bar: ^3.3.2
   # 屏幕适配工具
   flutter_screenutil: ^5.9.0
   # 路由管理
   get: ^4.6.5
+  # 多语言本地化
+  flutter_localizations:
+    sdk: flutter
+  intl: ^0.18.1
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
@@ -93,3 +95,5 @@ flutter:
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages
+flutter_intl:
+  enabled: true

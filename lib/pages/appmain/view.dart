@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:musicplayer/generated/l10n.dart';
 import 'package:musicplayer/pages/explore/view.dart';
 import 'package:musicplayer/pages/home/view.dart';
 import 'package:musicplayer/pages/music_library/view.dart';
-import 'package:salomon_bottom_bar/salomon_bottom_bar.dart';
 
 import '../../common/utils/ScreenAdaptor.dart';
-import '../../components/SalomonNavigationRail.dart';
 import 'logic.dart';
 
 class AppMainPage extends StatefulWidget {
@@ -20,8 +20,6 @@ class _AppMainPageState extends State<AppMainPage> {
   final logic = Get.put(AppMainLogic());
   final state = Get.find<AppMainLogic>().state;
 
-  int _currentIndex = 0;
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -31,14 +29,16 @@ class _AppMainPageState extends State<AppMainPage> {
           _getNavigationRail(),
           // 主页面
           Expanded(
-            child: IndexedStack(
-              index: _currentIndex == 0 ? 0 : _currentIndex - 1,
-              children: const [
-                HomePage(),
-                ExplorePage(),
-                MusicLibraryPage(),
-              ],
-            ),
+            child: Obx(() {
+              return IndexedStack(
+                index: state.currentIndex.value,
+                children: const [
+                  HomePage(),
+                  ExplorePage(),
+                  MusicLibraryPage(),
+                ],
+              );
+            }),
           ),
         ],
       ),
@@ -54,91 +54,67 @@ class _AppMainPageState extends State<AppMainPage> {
       return const SizedBox();
     }
 
-    return SizedBox(
-      width: 100,
-      child: SalomonNavigationRail(
-        currentIndex: _currentIndex,
-        onTap: (i) => setState(() => _currentIndex = i),
-        itemPadding: const EdgeInsets.symmetric(
-          vertical: 0,
-          horizontal: 16,
-        ),
-        margin: const EdgeInsets.only(
-          bottom: 30,
-          top: 30,
-        ),
-        items: [
-          /// Home
-          SalomonNavigationRailItem(
-            icon: const Icon(Icons.home),
-            title: const Text("Home"),
+    return Obx(() {
+      return NavigationRail(
+        destinations: [
+          NavigationRailDestination(
+            icon: const Icon(Icons.home_outlined),
+            label: Text(S.of(context).navigationBarHome),
+            padding: EdgeInsets.only(top: 5.w, bottom: 5.w),
+            selectedIcon: const Icon(Icons.home),
           ),
-
-          /// Likes
-          SalomonNavigationRailItem(
-            icon: const Icon(Icons.favorite_border),
-            title: const Text("Likes"),
+          NavigationRailDestination(
+            icon: const Icon(Icons.explore_outlined),
+            label: Text(S.of(context).navigationBarExplore),
+            padding: EdgeInsets.only(top: 5.w, bottom: 5.w),
+            selectedIcon: const Icon(Icons.explore),
           ),
-
-          /// Search
-          SalomonNavigationRailItem(
-            icon: const Icon(Icons.search),
-            title: const Text("Search"),
-          ),
-
-          /// Profile
-          SalomonNavigationRailItem(
-            icon: const Icon(Icons.person),
-            title: const Text("Profile"),
+          NavigationRailDestination(
+            icon: const Icon(Icons.library_music_outlined),
+            label: Text(S.of(context).navigationBarMusicLibrary),
+            padding: EdgeInsets.only(top: 5.w, bottom: 5.w),
+            selectedIcon: const Icon(Icons.library_music),
           ),
         ],
-      ),
-    );
+        selectedIndex: state.currentIndex.value,
+        onDestinationSelected: (int index) {
+          state.currentIndex.value = index;
+        },
+        labelType: NavigationRailLabelType.selected,
+      );
+    });
   }
 
   // 获取底部导航栏
-  SalomonBottomBar? _getBottomNavigationBar() {
+  Widget? _getBottomNavigationBar() {
     // 如果是竖屏，不显示底部导航栏
     if (!ScreenAdaptor.instance.getOrientation()) {
       return null;
     }
-    return SalomonBottomBar(
-      currentIndex: _currentIndex,
-      onTap: (i) => setState(() => _currentIndex = i),
-      margin: const EdgeInsets.only(
-        left: 30,
-        right: 30,
-        bottom: 30,
-      ),
-      itemPadding: const EdgeInsets.symmetric(
-        vertical: 12,
-        horizontal: 50,
-      ),
-      items: [
-        /// Home
-        SalomonBottomBarItem(
-          icon: const Icon(Icons.home),
-          title: const Text("Home"),
-        ),
-
-        /// Likes
-        SalomonBottomBarItem(
-          icon: const Icon(Icons.favorite_border),
-          title: const Text("Likes"),
-        ),
-
-        /// Search
-        SalomonBottomBarItem(
-          icon: const Icon(Icons.search),
-          title: const Text("Search"),
-        ),
-
-        /// Profile
-        SalomonBottomBarItem(
-          icon: const Icon(Icons.person),
-          title: const Text("Profile"),
-        ),
-      ],
-    );
+    return Obx(() {
+      return NavigationBar(
+        destinations: [
+          NavigationDestination(
+            icon: const Icon(Icons.home_outlined),
+            label: S.of(context).navigationBarHome,
+            selectedIcon: const Icon(Icons.home),
+          ),
+          NavigationDestination(
+            icon: const Icon(Icons.explore_outlined),
+            label: S.of(context).navigationBarExplore,
+            selectedIcon: const Icon(Icons.explore),
+          ),
+          NavigationDestination(
+            icon: const Icon(Icons.library_music_outlined),
+            label: S.of(context).navigationBarMusicLibrary,
+            selectedIcon: const Icon(Icons.library_music),
+          ),
+        ],
+        selectedIndex: state.currentIndex.value,
+        onDestinationSelected: (int index) {
+          state.currentIndex.value = index;
+        },
+      );
+    });
   }
 }
