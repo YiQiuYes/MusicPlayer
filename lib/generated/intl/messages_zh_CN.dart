@@ -22,6 +22,17 @@ class MessageLookup extends MessageLookupByLibrary {
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
+        "drawerHeaderName": MessageLookupByLibrary.simpleMessage("你好"),
+        "drawerTileHome": MessageLookupByLibrary.simpleMessage("主页"),
+        "drawerTileSettings": MessageLookupByLibrary.simpleMessage("设置"),
+        "homeByAppleMusic":
+            MessageLookupByLibrary.simpleMessage("by Apple Music"),
+        "homeCharts": MessageLookupByLibrary.simpleMessage("排行榜"),
+        "homeForYou": MessageLookupByLibrary.simpleMessage("For You"),
+        "homeGreetText": MessageLookupByLibrary.simpleMessage("你好"),
+        "homeNewAlbum": MessageLookupByLibrary.simpleMessage("新专速递"),
+        "homeRecommendArtist": MessageLookupByLibrary.simpleMessage("推荐艺人"),
+        "homeRecommendPlaylist": MessageLookupByLibrary.simpleMessage("推荐歌单"),
         "homeSearchBar": MessageLookupByLibrary.simpleMessage("搜索歌曲、歌手、专辑"),
         "navigationBarExplore": MessageLookupByLibrary.simpleMessage("发现"),
         "navigationBarHome": MessageLookupByLibrary.simpleMessage("首页"),

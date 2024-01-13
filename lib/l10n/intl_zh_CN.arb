@@ -2,5 +2,15 @@
   "navigationBarHome" : "首页",
   "navigationBarExplore" : "发现",
   "navigationBarMusicLibrary" : "音乐库",
-  "homeSearchBar" : "搜索歌曲、歌手、专辑"
+  "homeGreetText" : "你好",
+  "homeSearchBar" : "搜索歌曲、歌手、专辑",
+  "homeByAppleMusic" : "by Apple Music",
+  "homeRecommendPlaylist" : "推荐歌单",
+  "homeForYou" : "For You",
+  "homeRecommendArtist": "推荐艺人",
+  "homeNewAlbum": "新专速递",
+  "homeCharts": "排行榜",
+  "drawerHeaderName" : "你好",
+  "drawerTileSettings" : "设置",
+  "drawerTileHome" : "主页"
 }

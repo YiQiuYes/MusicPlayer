@@ -80,11 +80,111 @@ class S {
     );
   }
 
+  /// `Hello`
+  String get homeGreetText {
+    return Intl.message(
+      'Hello',
+      name: 'homeGreetText',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Search for songs、artists、albums`
   String get homeSearchBar {
     return Intl.message(
       'Search for songs、artists、albums',
       name: 'homeSearchBar',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `by Apple Music`
+  String get homeByAppleMusic {
+    return Intl.message(
+      'by Apple Music',
+      name: 'homeByAppleMusic',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Recommended Playlists`
+  String get homeRecommendPlaylist {
+    return Intl.message(
+      'Recommended Playlists',
+      name: 'homeRecommendPlaylist',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `For You`
+  String get homeForYou {
+    return Intl.message(
+      'For You',
+      name: 'homeForYou',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Recommended Artists`
+  String get homeRecommendArtist {
+    return Intl.message(
+      'Recommended Artists',
+      name: 'homeRecommendArtist',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Latest Albums`
+  String get homeNewAlbum {
+    return Intl.message(
+      'Latest Albums',
+      name: 'homeNewAlbum',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Charts`
+  String get homeCharts {
+    return Intl.message(
+      'Charts',
+      name: 'homeCharts',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Hello`
+  String get drawerHeaderName {
+    return Intl.message(
+      'Hello',
+      name: 'drawerHeaderName',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Settings`
+  String get drawerTileSettings {
+    return Intl.message(
+      'Settings',
+      name: 'drawerTileSettings',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Home`
+  String get drawerTileHome {
+    return Intl.message(
+      'Home',
+      name: 'drawerTileHome',
       desc: '',
       args: [],
     );

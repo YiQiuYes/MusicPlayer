@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -8,6 +10,7 @@ import 'package:musicplayer/pages/music_library/view.dart';
 
 import '../../common/utils/ScreenAdaptor.dart';
 import 'logic.dart';
+import '../../common/utils/AppTheme.dart';
 
 class AppMainPage extends StatefulWidget {
   const AppMainPage({super.key});
@@ -16,41 +19,239 @@ class AppMainPage extends StatefulWidget {
   State<AppMainPage> createState() => _AppMainPageState();
 }
 
-class _AppMainPageState extends State<AppMainPage> {
+class _AppMainPageState extends State<AppMainPage>
+    with TickerProviderStateMixin {
   final logic = Get.put(AppMainLogic());
   final state = Get.find<AppMainLogic>().state;
 
   @override
+  void initState() {
+    state.tabController = TabController(
+      length: 3,
+      vsync: this,
+    );
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    state.tabController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Row(
-        children: [
-          // 侧边导航栏
-          _getNavigationRail(),
-          // 主页面
-          Expanded(
-            // 获取主页面
-            child: _getMainPage(),
-          ),
-        ],
+    return SafeArea(
+      child: Scaffold(
+        key: state.scaffoldKey,
+        drawer: _getDrawer(),
+        body: Row(
+          children: [
+            // 侧边导航栏
+            _getNavigationRail(),
+            // 主页面
+            Expanded(
+              child: _getMainPage(),
+            ),
+          ],
+        ),
+        // 底部导航栏
+        bottomNavigationBar: _getBottomNavigationBar(),
       ),
-      // 底部导航栏
-      bottomNavigationBar: _getBottomNavigationBar(),
+    );
+  }
+
+  // 获取侧边栏
+  Widget _getDrawer() {
+    return Padding(
+      padding: EdgeInsets.only(
+        top: ScreenAdaptor().getLengthByOrientation(
+          vertical: 200.w,
+          horizon: 12.w,
+        ),
+        bottom: ScreenAdaptor().getLengthByOrientation(
+          vertical: 200.w,
+          horizon: 12.w,
+        ),
+        left: ScreenAdaptor().getLengthByOrientation(
+          vertical: 30.w,
+          horizon: 15.w,
+        ),
+      ),
+      child: ClipRRect(
+        borderRadius: BorderRadius.all(
+          Radius.circular(ScreenAdaptor().getLengthByOrientation(
+            vertical: 30.w,
+            horizon: 15.w,
+          )),
+        ),
+        child: Drawer(
+          width: ScreenAdaptor().getLengthByOrientation(
+            vertical: 500.w,
+            horizon: 250.w,
+          ),
+          child: ListView(
+            children: [
+              Obx(() {
+                return SizedBox(
+                  height: ScreenAdaptor().getLengthByOrientation(
+                    vertical: 270.w,
+                    horizon: 140.w,
+                  ),
+                  child: DrawerHeader(
+                    decoration: BoxDecoration(
+                      image: DecorationImage(
+                        image: NetworkImage(
+                          state.avatarUrl.value,
+                        ),
+                        fit: BoxFit.cover,
+                        colorFilter: AppTheme().isDarkMode(
+                          dart: ColorFilter.mode(
+                            Colors.black.withOpacity(0.5),
+                            BlendMode.srcOver,
+                          ),
+                        ),
+                      ),
+                    ),
+                    child: Center(
+                      child: Text(
+                        S.of(context).drawerHeaderName,
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: ScreenAdaptor().getLengthByOrientation(
+                            vertical: 10.sp,
+                            horizon: 20.sp,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                );
+              }),
+              Padding(
+                padding: EdgeInsets.only(
+                  left: ScreenAdaptor().getLengthByOrientation(
+                    vertical: 30.w,
+                    horizon: 15.w,
+                  ),
+                  right: ScreenAdaptor().getLengthByOrientation(
+                    vertical: 30.w,
+                    horizon: 15.w,
+                  ),
+                ),
+                child: Column(
+                  children: [
+                    // 间距
+                    SizedBox(
+                      height: ScreenAdaptor().getLengthByOrientation(
+                        vertical: 10.w,
+                        horizon: 5.w,
+                      ),
+                    ),
+                    Card(
+                      clipBehavior: Clip.antiAlias,
+                      elevation: ScreenAdaptor().getLengthByOrientation(
+                        vertical: 11.w,
+                        horizon: 7.w,
+                      ),
+                      child: InkWell(
+                        onTap: () {
+                          state.scaffoldKey.currentState?.closeDrawer();
+                          state.tabController.animateTo(0);
+                          state.currentIndex.value = 0;
+                        },
+                        child: Padding(
+                          padding: EdgeInsets.only(
+                            left: ScreenAdaptor().getLengthByOrientation(
+                              vertical: 30.w,
+                              horizon: 20.w,
+                            ),
+                            top: ScreenAdaptor().getLengthByOrientation(
+                              vertical: 20.w,
+                              horizon: 10.w,
+                            ),
+                            bottom: ScreenAdaptor().getLengthByOrientation(
+                              vertical: 20.w,
+                              horizon: 10.w,
+                            ),
+                          ),
+                          child: Row(
+                            children: [
+                              const Icon(Icons.home),
+                              SizedBox(
+                                width: ScreenAdaptor().getLengthByOrientation(
+                                  vertical: 30.w,
+                                  horizon: 10.w,
+                                ),
+                              ),
+                              Text(S.of(context).drawerTileHome),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                    // 间距
+                    SizedBox(
+                      height: ScreenAdaptor().getLengthByOrientation(
+                        vertical: 20.w,
+                        horizon: 10.w,
+                      ),
+                    ),
+                    Card(
+                      clipBehavior: Clip.antiAlias,
+                      elevation: ScreenAdaptor().getLengthByOrientation(
+                        vertical: 11.w,
+                        horizon: 7.w,
+                      ),
+                      child: Padding(
+                        padding: EdgeInsets.only(
+                          left: ScreenAdaptor().getLengthByOrientation(
+                            vertical: 30.w,
+                            horizon: 20.w,
+                          ),
+                          top: ScreenAdaptor().getLengthByOrientation(
+                            vertical: 20.w,
+                            horizon: 10.w,
+                          ),
+                          bottom: ScreenAdaptor().getLengthByOrientation(
+                            vertical: 20.w,
+                            horizon: 10.w,
+                          ),
+                        ),
+                        child: Row(
+                          children: [
+                            const Icon(Icons.settings),
+                            SizedBox(
+                              width: ScreenAdaptor().getLengthByOrientation(
+                                vertical: 30.w,
+                                horizon: 10.w,
+                              ),
+                            ),
+                            Text(S.of(context).drawerTileSettings),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
     );
   }
 
   // 获取主页面
   Widget _getMainPage() {
-    return Obx(() {
-      return IndexedStack(
-        index: state.currentIndex.value,
-        children: const [
-          HomePage(),
-          ExplorePage(),
-          MusicLibraryPage(),
-        ],
-      );
-    });
+    return TabBarView(
+      controller: state.tabController,
+      children: const [
+        HomePage(),
+        ExplorePage(),
+        MusicLibraryPage(),
+      ],
+    );
   }
 
   // 获取侧边导航栏
@@ -62,11 +263,20 @@ class _AppMainPageState extends State<AppMainPage> {
 
     return Obx(() {
       return NavigationRail(
+        leading: TextButton(
+          onPressed: () {
+            state.scaffoldKey.currentState?.openDrawer();
+          },
+          child: Icon(
+            Icons.menu,
+            color: Theme.of(context).colorScheme.onSurface,
+          ),
+        ),
         destinations: [
           NavigationRailDestination(
             icon: const Icon(Icons.home_outlined),
             label: Text(S.of(context).navigationBarHome),
-            padding: EdgeInsets.only(top: 15.w, bottom: 5.w),
+            padding: EdgeInsets.only(top: 5.w, bottom: 5.w),
             selectedIcon: const Icon(Icons.home),
           ),
           NavigationRailDestination(
@@ -84,6 +294,7 @@ class _AppMainPageState extends State<AppMainPage> {
         ],
         selectedIndex: state.currentIndex.value,
         onDestinationSelected: (int index) {
+          state.tabController.animateTo(index);
           state.currentIndex.value = index;
         },
         labelType: NavigationRailLabelType.selected,
@@ -119,6 +330,7 @@ class _AppMainPageState extends State<AppMainPage> {
         selectedIndex: state.currentIndex.value,
         onDestinationSelected: (int index) {
           state.currentIndex.value = index;
+          state.tabController.animateTo(index);
         },
       );
     });

@@ -7,7 +7,7 @@ import 'package:dio/dio.dart';
 import 'package:dio_cookie_manager/dio_cookie_manager.dart';
 import 'package:encrypt/encrypt.dart';
 import 'package:musicplayer/common/net/MyOptions.dart';
-import 'package:musicplayer/common/utils/crypto.dart';
+import 'package:musicplayer/common/utils/Crypto.dart';
 import 'package:path_provider/path_provider.dart';
 
 class RequestManager {
@@ -41,7 +41,7 @@ class RequestManager {
     _persistCookieJar
         .loadForRequest(Uri.parse("https://music.163.com"))
         .then((value) {
-          // TODO: 未完成
+      // TODO: 未完成
       if (value.isEmpty) {
         _persistCookieJar.saveFromResponse(Uri.parse("https://music.163.com"), [
           Cookie("__remember_me", "true"),
@@ -49,6 +49,19 @@ class RequestManager {
           Cookie("MUSIC_A", _anonymousToken()),
         ]);
       }
+
+      MyOptions myOptions = MyOptions();
+      myOptions.crypto = "weapi";
+      Map<String, dynamic> queryParameters = {
+        "limit": 30,
+        "total": true,
+        "n": 1000,
+      };
+      post(
+        "https://music.163.com/weapi/personalized/playlist",
+        queryParameters: queryParameters,
+        myOptions: myOptions,
+      ).then((value) => print(value));
     });
   }
 

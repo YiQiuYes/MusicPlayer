@@ -45,6 +45,10 @@ dependencies:
   dio_cookie_manager: ^3.1.1
   # 路径管理
   path_provider: ^2.1.1
+  # 数据持久化存储
+  shared_preferences: ^2.2.2
+  # 本地图片缓存
+  cached_network_image: ^3.3.0
   # 多语言本地化
   flutter_localizations:
     sdk: flutter

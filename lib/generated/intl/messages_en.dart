@@ -22,6 +22,19 @@ class MessageLookup extends MessageLookupByLibrary {
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
+        "drawerHeaderName": MessageLookupByLibrary.simpleMessage("Hello"),
+        "drawerTileHome": MessageLookupByLibrary.simpleMessage("Home"),
+        "drawerTileSettings": MessageLookupByLibrary.simpleMessage("Settings"),
+        "homeByAppleMusic":
+            MessageLookupByLibrary.simpleMessage("by Apple Music"),
+        "homeCharts": MessageLookupByLibrary.simpleMessage("Charts"),
+        "homeForYou": MessageLookupByLibrary.simpleMessage("For You"),
+        "homeGreetText": MessageLookupByLibrary.simpleMessage("Hello"),
+        "homeNewAlbum": MessageLookupByLibrary.simpleMessage("Latest Albums"),
+        "homeRecommendArtist":
+            MessageLookupByLibrary.simpleMessage("Recommended Artists"),
+        "homeRecommendPlaylist":
+            MessageLookupByLibrary.simpleMessage("Recommended Playlists"),
         "homeSearchBar": MessageLookupByLibrary.simpleMessage(
             "Search for songs、artists、albums"),
         "navigationBarExplore": MessageLookupByLibrary.simpleMessage("Explore"),

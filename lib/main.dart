@@ -1,22 +1,27 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:musicplayer/common/net/RequestManager.dart';
+import 'package:musicplayer/common/utils/DataStorageManager.dart';
 import 'package:musicplayer/generated/l10n.dart';
 import 'package:musicplayer/router/RouteConfig.dart';
 
-void main() async {
-  runApp(const MyApp());
-
+Future<void> main() async {
+  // 首先注册组件
+  WidgetsFlutterBinding.ensureInitialized();
+  // 初始化数据存储读取器
+  await DataStorageManager().init();
   // 初始化网络请求管理
   await RequestManager().persistCookieJarInit();
+
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return ScreenUtilInit(
@@ -32,7 +37,7 @@ class MyApp extends StatelessWidget {
             GlobalCupertinoLocalizations.delegate,
           ],
           supportedLocales: S.delegate.supportedLocales,
-          title: 'Flutter Demo',
+          title: 'MusicPlayer',
           theme: ThemeData(
             colorScheme:
                 ColorScheme.fromSeed(seedColor: const Color(0x00a0ca86)),
