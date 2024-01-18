@@ -50,18 +50,18 @@ class RequestManager {
         ]);
       }
 
-      MyOptions myOptions = MyOptions();
-      myOptions.crypto = "weapi";
-      Map<String, dynamic> queryParameters = {
-        "limit": 30,
-        "total": true,
-        "n": 1000,
-      };
-      post(
-        "https://music.163.com/weapi/personalized/playlist",
-        queryParameters: queryParameters,
-        myOptions: myOptions,
-      ).then((value) => print(value));
+      // MyOptions myOptions = MyOptions();
+      // myOptions.crypto = "weapi";
+      // Map<String, dynamic> queryParameters = {
+      //   "limit": 30,
+      //   "total": true,
+      //   "n": 1000,
+      // };
+      // post(
+      //   "https://music.163.com/weapi/personalized/playlist",
+      //   queryParameters: queryParameters,
+      //   myOptions: myOptions,
+      // ).then((value) => print(value));
     });
   }
 

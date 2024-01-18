@@ -41,23 +41,21 @@ class _AppMainPageState extends State<AppMainPage>
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        key: state.scaffoldKey,
-        drawer: _getDrawer(),
-        body: Row(
-          children: [
-            // 侧边导航栏
-            _getNavigationRail(),
-            // 主页面
-            Expanded(
-              child: _getMainPage(),
-            ),
-          ],
-        ),
-        // 底部导航栏
-        bottomNavigationBar: _getBottomNavigationBar(),
+    return Scaffold(
+      key: state.scaffoldKey,
+      drawer: _getDrawer(),
+      body: Row(
+        children: [
+          // 侧边导航栏
+          _getNavigationRail(),
+          // 主页面
+          Expanded(
+            child: _getMainPage(),
+          ),
+        ],
       ),
+      // 底部导航栏
+      bottomNavigationBar: _getBottomNavigationBar(),
     );
   }
 

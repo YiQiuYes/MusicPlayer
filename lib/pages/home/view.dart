@@ -5,7 +5,9 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:musicplayer/common/utils/ScreenAdaptor.dart';
+import 'package:musicplayer/common/utils/StaticData.dart';
 import 'package:musicplayer/components/Cover.dart';
+import 'package:musicplayer/components/RowCover.dart';
 import 'package:musicplayer/generated/l10n.dart';
 
 import 'logic.dart';
@@ -52,36 +54,33 @@ class _HomePageState extends State<HomePage> {
                     (BuildContext context, bool innerBoxIsScrolled) {
                   return [
                     // 欢迎语
-                    _getGreetBar(),
+                    _getGreetBarWidget(),
                     // 搜索框
-                    _getSearchBar(),
+                    _getSearchBarWidget(),
                   ];
                 },
                 body: CustomScrollView(
                   slivers: [
                     // by Apple Music
-                    _getTitleText(title: S.of(context).homeByAppleMusic),
-                    SliverToBoxAdapter(
-                      child: Cover(
-                        imageUrl:
-                            "https://p1.music.126.net/ZtQOTgvhqrcWYapiPj9NWQ==/19018252626210242.jpg",
-                      ),
-                    ),
+                    _getTitleTextWidget(title: S.of(context).homeByAppleMusic),
+                    _getByAppleMusicAlbumWidget(),
                     // 推荐歌单
-                    _getTitleText(title: S.of(context).homeRecommendPlaylist),
+                    _getTitleTextWidget(
+                        title: S.of(context).homeRecommendPlaylist),
                     // For You
-                    _getTitleText(title: S.of(context).homeForYou),
+                    _getTitleTextWidget(title: S.of(context).homeForYou),
                     // 推荐艺人
-                    _getTitleText(title: S.of(context).homeRecommendArtist),
+                    _getTitleTextWidget(
+                        title: S.of(context).homeRecommendArtist),
                     // 新专速递
-                    _getTitleText(title: S.of(context).homeNewAlbum),
+                    _getTitleTextWidget(title: S.of(context).homeNewAlbum),
                     // 排行榜
-                    _getTitleText(title: S.of(context).homeCharts),
+                    _getTitleTextWidget(title: S.of(context).homeCharts),
                   ],
                 ),
               ),
               // 侧边栏抽屉按钮
-              _getDrawerButton(),
+              _getDrawerButtonWidget(),
             ],
           ),
         ),
@@ -89,18 +88,27 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
+  // 获取byAppleMusic专辑
+  Widget _getByAppleMusicAlbumWidget() {
+    return const RowCover(
+      items: byAppleMusicStaticData,
+      subText: "appleMusic",
+      type: "playlist",
+    );
+  }
+
   // 获取标题文本
-  Widget _getTitleText({required String title}) {
+  Widget _getTitleTextWidget({required String title}) {
     return SliverToBoxAdapter(
       child: Container(
         margin: EdgeInsets.only(
           top: ScreenAdaptor().getLengthByOrientation(
             vertical: 15.w,
-            horizon: 25.w,
+            horizon: 10.w,
           ),
           bottom: ScreenAdaptor().getLengthByOrientation(
             vertical: 15.w,
-            horizon: 25.w,
+            horizon: 15.w,
           ),
         ),
         child: Text(
@@ -108,7 +116,7 @@ class _HomePageState extends State<HomePage> {
           style: TextStyle(
             fontSize: ScreenAdaptor().getLengthByOrientation(
               vertical: 33.sp,
-              horizon: 15.sp,
+              horizon: 20.sp,
             ),
             fontWeight: FontWeight.bold,
           ),
@@ -118,7 +126,7 @@ class _HomePageState extends State<HomePage> {
   }
 
   // 侧边栏抽屉按钮
-  Widget _getDrawerButton() {
+  Widget _getDrawerButtonWidget() {
     if (ScreenAdaptor().getOrientation()) {
       return Positioned(
         left: 0.w,
@@ -138,11 +146,11 @@ class _HomePageState extends State<HomePage> {
   }
 
   // 欢迎语
-  Widget _getGreetBar() {
+  Widget _getGreetBarWidget() {
     return SliverAppBar(
       expandedHeight: ScreenAdaptor().getLengthByOrientation(
         vertical: 230.w,
-        horizon: 70.w,
+        horizon: 80.w,
       ),
       backgroundColor: Colors.transparent,
       surfaceTintColor: Colors.transparent,
@@ -189,7 +197,7 @@ class _HomePageState extends State<HomePage> {
   }
 
   // 搜索框
-  Widget _getSearchBar() {
+  Widget _getSearchBarWidget() {
     return SliverAppBar(
       pinned: true,
       surfaceTintColor: Colors.transparent,
