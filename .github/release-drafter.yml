@@ -24,11 +24,11 @@ version-resolver:
   default: patch
 # 这里填写更新内容
 template: |
-  # 自动更新程序
-  * 更新了自动构建
-  * 自动获取版本
-  * 自动下载
-  * 自动替换
+  1.完成推荐歌单的开发
+  2.完成每日推荐歌单的开发
+  3.完成私人FM的开发
+  4.新增各项Api
+  5.新增背景CSS组件
 
   $CHANGES
 no-changes-template: |
