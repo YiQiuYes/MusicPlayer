@@ -113,8 +113,8 @@ class RowCover extends StatelessWidget {
             // 间距
             SizedBox(
               height: ScreenAdaptor().getLengthByOrientation(
-                vertical: 10.w,
-                horizon: 5.w,
+                vertical: 40.w,
+                horizon: 24.w,
               ),
             ),
           ],

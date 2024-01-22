@@ -153,20 +153,31 @@ class _DailyTracksCardState extends State<DailyTracksCard>
                     child: ClipOval(
                       child: BackdropCSSFilter.blur(
                         value: ScreenAdaptor().getLengthByOrientation(
-                          vertical: 10.w,
-                          horizon: 5.w,
+                          vertical: 5.w,
+                          horizon: 2.5.w,
                         ),
-                        child: IconButton(
-                          iconSize: ScreenAdaptor().getLengthByOrientation(
-                            vertical: 60.w,
-                            horizon: 35.w,
+                        child: SizedBox(
+                          width: ScreenAdaptor().getLengthByOrientation(
+                            vertical: 80.w,
+                            horizon: 43.w,
                           ),
-                          // 播放按钮
-                          icon: const Icon(
-                            Icons.play_arrow_rounded,
-                            color: Colors.white,
+                          height: ScreenAdaptor().getLengthByOrientation(
+                            vertical: 80.w,
+                            horizon: 43.w,
                           ),
-                          onPressed: () {},
+                          child: IconButton(
+                            padding: EdgeInsets.zero,
+                            iconSize: ScreenAdaptor().getLengthByOrientation(
+                              vertical: 55.w,
+                              horizon: 30.w,
+                            ),
+                            // 播放按钮
+                            icon: const Icon(
+                              Icons.play_arrow_rounded,
+                              color: Colors.white,
+                            ),
+                            onPressed: () {},
+                          ),
                         ),
                       ),
                     ),
