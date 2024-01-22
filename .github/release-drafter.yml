@@ -22,6 +22,7 @@ version-resolver:
     labels:
       - 'patch'
   default: patch
+# 这里填写更新内容
 template: |
   # 自动更新程序
   * 更新了自动构建

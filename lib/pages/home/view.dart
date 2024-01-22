@@ -1,12 +1,13 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:musicplayer/common/utils/ScreenAdaptor.dart';
 import 'package:musicplayer/common/utils/StaticData.dart';
 import 'package:musicplayer/components/Cover.dart';
+import 'package:musicplayer/components/DailyTrackscard.dart';
+import 'package:musicplayer/components/FMCard.dart';
 import 'package:musicplayer/components/RowCover.dart';
 import 'package:musicplayer/generated/l10n.dart';
 
@@ -19,9 +20,19 @@ class HomePage extends StatefulWidget {
   State<HomePage> createState() => _HomePageState();
 }
 
-class _HomePageState extends State<HomePage> {
+class _HomePageState extends State<HomePage>
+    with AutomaticKeepAliveClientMixin {
   final logic = Get.put(HomeLogic());
   final state = Get.find<HomeLogic>().state;
+
+  @override
+  bool get wantKeepAlive => true;
+
+  @override
+  void initState() {
+    logic.pageInit();
+    super.initState();
+  }
 
   @override
   void dispose() {
@@ -31,6 +42,7 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     return Scaffold(
       body: Padding(
         padding: EdgeInsets.only(
@@ -63,12 +75,18 @@ class _HomePageState extends State<HomePage> {
                   slivers: [
                     // by Apple Music
                     _getTitleTextWidget(title: S.of(context).homeByAppleMusic),
+                    // by Apple Music专辑组件
                     _getByAppleMusicAlbumWidget(),
                     // 推荐歌单
                     _getTitleTextWidget(
-                        title: S.of(context).homeRecommendPlaylist),
+                      title: S.of(context).homeRecommendPlaylist,
+                    ),
+                    // 推荐歌单组件
+                    _getRecommendPlaylistWidget(),
                     // For You
                     _getTitleTextWidget(title: S.of(context).homeForYou),
+                    // For You组件
+                    _getForYouWidget(),
                     // 推荐艺人
                     _getTitleTextWidget(
                         title: S.of(context).homeRecommendArtist),
@@ -88,7 +106,7 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  // 获取byAppleMusic专辑
+  /// 获取byAppleMusic专辑
   Widget _getByAppleMusicAlbumWidget() {
     return const RowCover(
       items: byAppleMusicStaticData,
@@ -97,7 +115,134 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  // 获取标题文本
+  /// 获取推荐歌单专辑
+  Widget _getRecommendPlaylistWidget() {
+    return FutureBuilder(
+      future: state.futureRecommendList.value,
+      builder: (BuildContext context, AsyncSnapshot<List<dynamic>> snapshot) {
+        if (snapshot.connectionState == ConnectionState.done &&
+            snapshot.data!.isNotEmpty) {
+          return RowCover(
+            items: snapshot.data!,
+            subText: "copywriter",
+            type: "playlist",
+          );
+        }
+        return const SliverToBoxAdapter(child: SizedBox());
+      },
+    );
+  }
+
+  /// 获取For You组件
+  Widget _getForYouWidget() {
+    return SliverToBoxAdapter(
+      child: SingleChildScrollView(
+        scrollDirection: Axis.horizontal,
+        physics: ScreenAdaptor().byOrientationReturn(
+          horizon: const NeverScrollableScrollPhysics(),
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Obx(() {
+              return FutureBuilder(
+                future: state.futureDailyTracksList.value,
+                builder: (
+                  BuildContext context,
+                  AsyncSnapshot<List<dynamic>> snapshot,
+                ) {
+                  // 如果数据加载完成且数据不为空
+                  if (snapshot.connectionState == ConnectionState.done &&
+                      snapshot.data!.isNotEmpty) {
+                    return DailyTracksCard(
+                      dailyTracksList: snapshot.data,
+                      width: ScreenAdaptor().getLengthByOrientation(
+                        vertical: 560.w,
+                        horizon: 290.w,
+                      ),
+                      height: ScreenAdaptor().getLengthByOrientation(
+                        vertical: 250.w,
+                        horizon: 120.w,
+                      ),
+                    );
+                  } else if (snapshot.connectionState == ConnectionState.done &&
+                      snapshot.data!.isEmpty) {
+                    // 如果数据加载完成且数据为空
+                    return DailyTracksCard(
+                      width: ScreenAdaptor().getLengthByOrientation(
+                        vertical: 560.w,
+                        horizon: 290.w,
+                      ),
+                      height: ScreenAdaptor().getLengthByOrientation(
+                        vertical: 250.w,
+                        horizon: 120.w,
+                      ),
+                    );
+                  }
+                  return SizedBox(
+                    width: ScreenAdaptor().getLengthByOrientation(
+                      vertical: 560.w,
+                      horizon: 290.w,
+                    ),
+                    height: ScreenAdaptor().getLengthByOrientation(
+                      vertical: 250.w,
+                      horizon: 120.w,
+                    ),
+                  );
+                },
+              );
+            }),
+            // 间距
+            SizedBox(
+              width: ScreenAdaptor().getLengthByOrientation(
+                vertical: 30.w,
+                horizon: 20.w,
+              ),
+            ),
+            // FM
+            Obx(
+              () {
+                return FutureBuilder(
+                  future: state.futurePersonalFMList.value,
+                  builder: (
+                    BuildContext context,
+                    AsyncSnapshot<List<dynamic>> snapshot,
+                  ) {
+                    // 如果数据加载完成且数据不为空
+                    if (snapshot.connectionState == ConnectionState.done) {
+                      return FMCard(
+                        items: snapshot.data,
+                        width: ScreenAdaptor().getLengthByOrientation(
+                          vertical: 560.w,
+                          horizon: 290.w,
+                        ),
+                        height: ScreenAdaptor().getLengthByOrientation(
+                          vertical: 250.w,
+                          horizon: 120.w,
+                        ),
+                      );
+                    }
+                    return SizedBox(
+                      width: ScreenAdaptor().getLengthByOrientation(
+                        vertical: 560.w,
+                        horizon: 290.w,
+                      ),
+                      height: ScreenAdaptor().getLengthByOrientation(
+                        vertical: 250.w,
+                        horizon: 120.w,
+                      ),
+                    );
+                  },
+                );
+              },
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  /// 获取标题文本
   Widget _getTitleTextWidget({required String title}) {
     return SliverToBoxAdapter(
       child: Container(
@@ -116,7 +261,7 @@ class _HomePageState extends State<HomePage> {
           style: TextStyle(
             fontSize: ScreenAdaptor().getLengthByOrientation(
               vertical: 33.sp,
-              horizon: 20.sp,
+              horizon: 18.sp,
             ),
             fontWeight: FontWeight.bold,
           ),

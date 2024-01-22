@@ -1,10 +1,9 @@
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-class ScreenAdaptor{
-
+class ScreenAdaptor {
   ScreenAdaptor._privateConstructor();
   static final ScreenAdaptor _instance = ScreenAdaptor._privateConstructor();
-  factory ScreenAdaptor(){
+  factory ScreenAdaptor() {
     return _instance;
   }
 
@@ -28,5 +27,10 @@ class ScreenAdaptor{
   /// true: 竖屏  false: 横屏
   bool getOrientation() {
     return _screenUtil.orientation.index == 0 ? true : false;
+  }
+
+  /// 横竖屏返回指定内容
+  T? byOrientationReturn<T>({T? vertical, T? horizon}) {
+    return _screenUtil.orientation.index == 0 ? vertical : horizon;
   }
 }

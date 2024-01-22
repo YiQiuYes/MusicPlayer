@@ -28,6 +28,15 @@ class RequestManager {
     return _dio;
   }
 
+  // 返回是否登录成功
+  Future<bool> isLogin() {
+    return _persistCookieJar
+        .loadForRequest(Uri.parse("https://music.163.com"))
+        .then((value) {
+      return value.any((element) => element.name == "MUSIC_U");
+    });
+  }
+
   // 初始化cookie管理器,main函数中调用
   Future<void> persistCookieJarInit() async {
     Directory tempDir = await getTemporaryDirectory();
@@ -38,30 +47,18 @@ class RequestManager {
     );
     // 添加拦截器
     _dio.interceptors.add(CookieManager(_persistCookieJar));
-    _persistCookieJar
+    await _persistCookieJar
         .loadForRequest(Uri.parse("https://music.163.com"))
-        .then((value) {
-      // TODO: 未完成
+        .then((value) async {
+      // 如果cookie为空,则添加游客cookie
       if (value.isEmpty) {
-        _persistCookieJar.saveFromResponse(Uri.parse("https://music.163.com"), [
+        await _persistCookieJar
+            .saveFromResponse(Uri.parse("https://music.163.com"), [
           Cookie("__remember_me", "true"),
           Cookie("_ntes_nuid", Encrypted.fromSecureRandom(16).base16),
           Cookie("MUSIC_A", _anonymousToken()),
         ]);
       }
-
-      // MyOptions myOptions = MyOptions();
-      // myOptions.crypto = "weapi";
-      // Map<String, dynamic> queryParameters = {
-      //   "limit": 30,
-      //   "total": true,
-      //   "n": 1000,
-      // };
-      // post(
-      //   "https://music.163.com/weapi/personalized/playlist",
-      //   queryParameters: queryParameters,
-      //   myOptions: myOptions,
-      // ).then((value) => print(value));
     });
   }
 

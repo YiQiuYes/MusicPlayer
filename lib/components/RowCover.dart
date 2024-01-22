@@ -31,71 +31,94 @@ class RowCover extends StatelessWidget {
     );
   }
 
-  List<Widget> singleCover({required int index, required List<dynamic> items}) {
+  // 单个列组件
+  List<Widget> _singleCover(
+      {required int index, required List<dynamic> items}) {
     return [
-      Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          ClipRRect(
-            borderRadius: BorderRadius.circular(
-              ScreenAdaptor().getLengthByOrientation(
-                vertical: 14.w,
-                horizon: 10.w,
+      SizedBox(
+        width: ScreenAdaptor().getLengthByOrientation(
+          vertical: 250.w,
+          horizon: 120.w,
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            ClipRRect(
+              borderRadius: BorderRadius.circular(
+                ScreenAdaptor().getLengthByOrientation(
+                  vertical: 14.w,
+                  horizon: 10.w,
+                ),
+              ),
+              child: Cover(
+                id: items[index]["id"],
+                imageUrl: SongInfo().getImageUrl(items[index]),
+                width: ScreenAdaptor().getLengthByOrientation(
+                  vertical: 250.w,
+                  horizon: 120.w,
+                ),
+                height: ScreenAdaptor().getLengthByOrientation(
+                  vertical: 250.w,
+                  horizon: 120.w,
+                ),
               ),
             ),
-            child: Cover(
-              id: items[index]["id"],
-              imageUrl: SongInfo().getImageUrl(items[index]),
-              width: ScreenAdaptor().getLengthByOrientation(
-                vertical: 250.w,
-                horizon: 160.w,
-              ),
+            SizedBox(
               height: ScreenAdaptor().getLengthByOrientation(
-                vertical: 250.w,
-                horizon: 160.w,
+                vertical: 10.w,
+                horizon: 5.w,
               ),
             ),
-          ),
-          SizedBox(
-            height: ScreenAdaptor().getLengthByOrientation(
-              vertical: 10.w,
-              horizon: 5.w,
-            ),
-          ),
-          // 专辑文本
-          Text(
-            items[index]["name"],
-            // 最多两行
-            maxLines: 2,
-            // 去除溢出
-            overflow: TextOverflow.ellipsis,
-            style: TextStyle(
-              fontSize: ScreenAdaptor().getLengthByOrientation(
-                vertical: 20.sp,
-                horizon: 16.sp,
+            // 专辑文本
+            Text(
+              items[index]["name"],
+              // 最多两行
+              maxLines: 2,
+              // 去除溢出
+              overflow: TextOverflow.ellipsis,
+              style: TextStyle(
+                fontSize: ScreenAdaptor().getLengthByOrientation(
+                  vertical: 30.sp,
+                  horizon: 13.sp,
+                ),
+                fontWeight: FontWeight.bold,
               ),
-              fontWeight: FontWeight.bold,
             ),
-          ),
-          // 副标题文本
-          Text(
-            SongInfo().getSubText(
-              item: items[index],
-              subText: subText,
-            ),
-            // 去除溢出
-            overflow: TextOverflow.ellipsis,
-            // 最多两行
-            maxLines: 2,
-            style: TextStyle(
-              fontSize: ScreenAdaptor().getLengthByOrientation(
-                vertical: 15.sp,
-                horizon: 11.sp,
+            // 副标题文本
+            Visibility(
+              visible: SongInfo()
+                  .getSubText(
+                    item: items[index],
+                    subText: subText,
+                  )
+                  .isNotEmpty,
+              child: Text(
+                SongInfo().getSubText(
+                  item: items[index],
+                  subText: subText,
+                ),
+                // 去除溢出
+                overflow: TextOverflow.ellipsis,
+                // 最多两行
+                maxLines: 2,
+                style: TextStyle(
+                  fontSize: ScreenAdaptor().getLengthByOrientation(
+                    vertical: 22.sp,
+                    horizon: 10.sp,
+                  ),
+                  color: Colors.black45,
+                ),
               ),
-              color: Colors.black45,
             ),
-          ),
-        ],
+            // 间距
+            SizedBox(
+              height: ScreenAdaptor().getLengthByOrientation(
+                vertical: 10.w,
+                horizon: 5.w,
+              ),
+            ),
+          ],
+        ),
       ),
       // 间距
       SizedBox(
@@ -112,9 +135,9 @@ class RowCover extends StatelessWidget {
     List<Widget> list = [];
     for (int i = 0; i < items.length; i += 5) {
       List<Widget> listRow = [];
-      for (int j = i; j < 5; j++) {
+      for (int j = i; j < i + 5; j++) {
         listRow.addAll(
-          singleCover(items: items, index: j),
+          _singleCover(items: items, index: j),
         );
       }
 
@@ -132,25 +155,23 @@ class RowCover extends StatelessWidget {
 
     // 如果还有剩余的
     if (items.length % 5 != 0) {
+      List<Widget> listRow = [];
       for (int i = items.length - items.length % 5; i < items.length; i++) {
-        List<Widget> listRow = [];
-        for (int j = i; j < 5; j++) {
-          listRow.addAll(
-            singleCover(items: items, index: j),
-          );
-        }
-
-        // 删除最后一个间距
-        if (listRow.isNotEmpty) {
-          listRow.removeLast();
-        }
-
-        list.add(
-          Row(
-            children: listRow,
-          ),
+        listRow.addAll(
+          _singleCover(items: items, index: i),
         );
       }
+      // 删除最后一个间距
+      if (listRow.isNotEmpty) {
+        listRow.removeLast();
+      }
+
+      // 添加行
+      list.add(
+        Row(
+          children: listRow,
+        ),
+      );
     }
     return list;
   }

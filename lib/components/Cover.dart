@@ -16,7 +16,7 @@ class Cover extends StatelessWidget {
   Widget build(BuildContext context) {
     return CachedNetworkImage(
       imageUrl: imageUrl,
-      fit: BoxFit.contain,
+      fit: BoxFit.cover,
       width: width,
       height: height,
     );

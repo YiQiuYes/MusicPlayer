@@ -26,6 +26,7 @@ class _AppMainPageState extends State<AppMainPage>
 
   @override
   void initState() {
+    // 初始化TabController
     state.tabController = TabController(
       length: 3,
       vsync: this,
@@ -77,11 +78,11 @@ class _AppMainPageState extends State<AppMainPage>
         ),
       ),
       child: ClipRRect(
-        borderRadius: BorderRadius.all(
-          Radius.circular(ScreenAdaptor().getLengthByOrientation(
+        borderRadius: BorderRadius.circular(
+          ScreenAdaptor().getLengthByOrientation(
             vertical: 30.w,
             horizon: 15.w,
-          )),
+          ),
         ),
         child: Drawer(
           width: ScreenAdaptor().getLengthByOrientation(
@@ -89,6 +90,7 @@ class _AppMainPageState extends State<AppMainPage>
             horizon: 250.w,
           ),
           child: ListView(
+            padding: EdgeInsets.zero,
             children: [
               Obx(() {
                 return SizedBox(
@@ -97,6 +99,8 @@ class _AppMainPageState extends State<AppMainPage>
                     horizon: 140.w,
                   ),
                   child: DrawerHeader(
+                    margin: EdgeInsets.zero,
+                    padding: EdgeInsets.zero,
                     decoration: BoxDecoration(
                       image: DecorationImage(
                         image: NetworkImage(
@@ -111,14 +115,15 @@ class _AppMainPageState extends State<AppMainPage>
                         ),
                       ),
                     ),
-                    child: Center(
+                    child: Align(
+                      alignment: Alignment(0, -0.52.w),
                       child: Text(
                         S.of(context).drawerHeaderName,
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
                           fontSize: ScreenAdaptor().getLengthByOrientation(
-                            vertical: 10.sp,
-                            horizon: 20.sp,
+                            vertical: 45.sp,
+                            horizon: 28.sp,
                           ),
                         ),
                       ),
@@ -128,6 +133,10 @@ class _AppMainPageState extends State<AppMainPage>
               }),
               Padding(
                 padding: EdgeInsets.only(
+                  top: ScreenAdaptor().getLengthByOrientation(
+                    vertical: 10.w,
+                    horizon: 5.w,
+                  ),
                   left: ScreenAdaptor().getLengthByOrientation(
                     vertical: 30.w,
                     horizon: 15.w,
@@ -308,6 +317,7 @@ class _AppMainPageState extends State<AppMainPage>
     }
     return Obx(() {
       return NavigationBar(
+        height: 160.w,
         destinations: [
           NavigationDestination(
             icon: const Icon(Icons.home_outlined),
