@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:musicplayer/common/net/RequestManager.dart';
 import 'package:musicplayer/common/utils/DataStorageManager.dart';
+import 'package:musicplayer/common/utils/PlatFormUtils.dart';
 import 'package:musicplayer/generated/l10n.dart';
 import 'package:musicplayer/router/RouteConfig.dart';
 
@@ -14,8 +16,24 @@ Future<void> main() async {
   await DataStorageManager().init();
   // 初始化网络请求管理
   await RequestManager().persistCookieJarInit();
-
+  // 状态栏和底部小白条沉浸
+  statusBarAndBottomBarImmersed();
+  // 启动APP
   runApp(const MyApp());
+}
+
+/// 状态栏和底部小白条沉浸
+void statusBarAndBottomBarImmersed() {
+  if (PlatformUtils.isAndroid || PlatformUtils.isIOS) {
+    SystemUiOverlayStyle systemUiOverlayStyle = const SystemUiOverlayStyle(
+      statusBarColor: Colors.transparent,
+      statusBarBrightness: Brightness.dark,
+      systemNavigationBarColor: Colors.transparent,
+      statusBarIconBrightness: Brightness.dark,
+    );
+    SystemChrome.setSystemUIOverlayStyle(systemUiOverlayStyle);
+    SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
+  }
 }
 
 class MyApp extends StatelessWidget {
@@ -36,6 +54,21 @@ class MyApp extends StatelessWidget {
             GlobalCupertinoLocalizations.delegate,
           ],
           supportedLocales: S.delegate.supportedLocales,
+          localeResolutionCallback:
+              (Locale? deviceLocale, Iterable<Locale> supportedLocales) {
+            // 如果语言是英语
+            if (deviceLocale?.languageCode == 'en') {
+              DataStorageManager().setString("LanguageCode", "en");
+              //注意大小写，返回美国英语
+              return const Locale('en', 'US');
+            } else if (deviceLocale?.languageCode == 'zh') {
+              DataStorageManager().setString("LanguageCode", "zh");
+              //注意大小写，返回中文
+              return const Locale('zh', 'CN');
+            } else {
+              return deviceLocale;
+            }
+          },
           title: 'MusicPlayer',
           theme: ThemeData(
             colorScheme:

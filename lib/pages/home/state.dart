@@ -11,8 +11,17 @@ class HomeState {
   late Rx<Future<List<dynamic>>> futureDailyTracksList;
   // 私人FM缓存数据
   late Rx<Future<List<dynamic>>> futurePersonalFMList;
+  // 推荐艺人数据
+  late Rx<Future<List<dynamic>>> futureRecommendArtistsList;
+  // 新专速递
+  late Rx<Future<List<dynamic>>> futureNewAlbumsList;
+  // 排行榜
+  late Rx<Future<List<dynamic>>> futureTopList;
+  // 排行榜过滤器id数组
+  late List<int> topListIds;
 
   HomeState() {
     scrollController = ScrollController();
+    topListIds = [19723756, 180106, 60198, 3812895, 60131];
   }
 }

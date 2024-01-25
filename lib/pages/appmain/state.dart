@@ -20,7 +20,9 @@ class AppMainState {
     if (url != null) {
       avatarUrl = url.obs;
     } else {
-      avatarUrl = "http://s4.music.126.net/style/web2/img/default/default_avatar.jpg".obs;
+      avatarUrl =
+          "http://s4.music.126.net/style/web2/img/default/default_avatar.jpg"
+              .obs;
     }
   }
 }

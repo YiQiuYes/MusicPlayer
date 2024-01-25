@@ -3,8 +3,11 @@ import 'dart:ui' as ui;
 import 'dart:math';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
+import 'package:musicplayer/common/utils/DataStorageManager.dart';
 import 'package:musicplayer/common/utils/ScreenAdaptor.dart';
 import 'package:musicplayer/common/utils/backdropcssfilter/filter.dart';
+import 'package:musicplayer/generated/l10n.dart';
 
 class DailyTracksCard extends StatefulWidget {
   const DailyTracksCard(
@@ -45,36 +48,35 @@ class _DailyTracksCardState extends State<DailyTracksCard>
   // 获取图片构建器
   Future<ui.Image> loadUiImage() async {
     if (widget.dailyTracksList != null && widget.dailyTracksList!.isNotEmpty) {
-      return await loadDailyTracksImage(
-              widget.dailyTracksList![0]["al"]["picUrl"])
-          .then((value) {
-        animationController = AnimationController(
-          duration: const Duration(seconds: 28),
-          vsync: this,
-        )..repeat(reverse: true);
+      ui.Image image = await loadDailyTracksImage(
+          widget.dailyTracksList![0]["al"]["picUrl"]);
+      animationController = AnimationController(
+        duration: const Duration(seconds: 28),
+        vsync: this,
+      )..repeat(reverse: true);
 
-        animation = animationController.drive(Tween(
-          begin: 0,
-          end: (value.height * widget.width / value.width - widget.height),
-        ));
-        return value;
-      });
+      animation = animationController.drive(Tween(
+        begin: 0,
+        end: (image.height * widget.width / image.width - widget.height),
+      ));
+
+      return image;
     } else {
       // 随机从0到3的数，不包括3
       int index = Random().nextInt(3).toInt();
-      return await loadDailyTracksImage(widget.defaultTracksList![index])
-          .then((value) {
-        animationController = AnimationController(
-          duration: const Duration(seconds: 28),
-          vsync: this,
-        )..repeat(reverse: true);
+      ui.Image image = await loadDailyTracksImage(widget.defaultTracksList![index]);
 
-        animation = animationController.drive(Tween(
-          begin: 0,
-          end: (value.height * widget.width / value.width - widget.height),
-        ));
-        return value;
-      });
+      animationController = AnimationController(
+        duration: const Duration(seconds: 28),
+        vsync: this,
+      )..repeat(reverse: true);
+
+      animation = animationController.drive(Tween(
+        begin: 0,
+        end: (image.height * widget.width / image.width - widget.height),
+      ));
+
+      return image;
     }
   }
 
@@ -126,7 +128,7 @@ class _DailyTracksCardState extends State<DailyTracksCard>
                       horizon: 18.w,
                     ),
                     child: Text(
-                      "每日\n推荐",
+                      S.of(context).dailyTracksCardTitle,
                       style: TextStyle(
                         fontSize: ScreenAdaptor().getLengthByOrientation(
                           vertical: 60.sp,
@@ -134,10 +136,14 @@ class _DailyTracksCardState extends State<DailyTracksCard>
                         ),
                         fontWeight: FontWeight.bold,
                         color: Colors.white,
-                        letterSpacing: ScreenAdaptor().getLengthByOrientation(
-                          vertical: 25.w,
-                          horizon: 12.w,
-                        ),
+                        letterSpacing:
+                            DataStorageManager().getString("LanguageCode") ==
+                                    "zh"
+                                ? ScreenAdaptor().getLengthByOrientation(
+                                    vertical: 25.w,
+                                    horizon: 12.w,
+                                  )
+                                : null,
                       ),
                     ),
                   ),

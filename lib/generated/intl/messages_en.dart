@@ -22,9 +22,12 @@ class MessageLookup extends MessageLookupByLibrary {
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
+        "dailyTracksCardTitle":
+            MessageLookupByLibrary.simpleMessage("Recommended\ndaily"),
         "drawerHeaderName": MessageLookupByLibrary.simpleMessage("Hello"),
         "drawerTileHome": MessageLookupByLibrary.simpleMessage("Home"),
         "drawerTileSettings": MessageLookupByLibrary.simpleMessage("Settings"),
+        "fmCardPrivateFM": MessageLookupByLibrary.simpleMessage("PrivateFM"),
         "homeByAppleMusic":
             MessageLookupByLibrary.simpleMessage("by Apple Music"),
         "homeCharts": MessageLookupByLibrary.simpleMessage("Charts"),

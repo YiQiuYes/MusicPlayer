@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:musicplayer/common/utils/ScreenAdaptor.dart';
+import 'package:musicplayer/generated/l10n.dart';
 import 'package:palette_generator/palette_generator.dart';
 import 'package:tinycolor2/tinycolor2.dart';
 
@@ -91,8 +92,8 @@ class _FMCardState extends State<FMCard> {
                   // 私人FM图标和文字
                   Positioned(
                     right: ScreenAdaptor().getLengthByOrientation(
-                      vertical: 25.w,
-                      horizon: 14.w,
+                      vertical: 15.w,
+                      horizon: 10.w,
                     ),
                     bottom: ScreenAdaptor().getLengthByOrientation(
                       vertical: 18.w,
@@ -117,7 +118,7 @@ class _FMCardState extends State<FMCard> {
                           ),
                         ),
                         Text(
-                          "私人FM",
+                          S.of(context).fmCardPrivateFM,
                           style: TextStyle(
                             letterSpacing: 0,
                             color: Colors.white.withOpacity(0.18),
@@ -243,7 +244,7 @@ class _FMCardState extends State<FMCard> {
                             style: TextStyle(
                               color: Colors.white,
                               fontSize: ScreenAdaptor().getLengthByOrientation(
-                                vertical: 28.sp,
+                                vertical: 32.sp,
                                 horizon: 16.sp,
                               ),
                               fontWeight: FontWeight.bold,
@@ -262,7 +263,7 @@ class _FMCardState extends State<FMCard> {
                           style: TextStyle(
                             color: Colors.white.withOpacity(0.6),
                             fontSize: ScreenAdaptor().getLengthByOrientation(
-                              vertical: 18.sp,
+                              vertical: 22.sp,
                               horizon: 11.5.sp,
                             ),
                           ),

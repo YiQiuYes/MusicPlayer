@@ -2,10 +2,10 @@ import 'package:musicplayer/common/net/MyOptions.dart';
 import 'package:musicplayer/common/net/RequestManager.dart';
 import 'package:dio/dio.dart';
 
-class OthersListApi {
-  OthersListApi._privateConstructor();
-  static final OthersListApi _instance = OthersListApi._privateConstructor();
-  factory OthersListApi() {
+class OthersApi {
+  OthersApi._privateConstructor();
+  static final OthersApi _instance = OthersApi._privateConstructor();
+  factory OthersApi() {
     return _instance;
   }
 

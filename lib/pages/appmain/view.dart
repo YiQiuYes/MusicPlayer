@@ -28,6 +28,7 @@ class _AppMainPageState extends State<AppMainPage>
   void initState() {
     // 初始化TabController
     state.tabController = TabController(
+      initialIndex: 2,
       length: 3,
       vsync: this,
     );
@@ -253,6 +254,7 @@ class _AppMainPageState extends State<AppMainPage>
   Widget _getMainPage() {
     return TabBarView(
       controller: state.tabController,
+      physics: const NeverScrollableScrollPhysics(),
       children: const [
         HomePage(),
         ExplorePage(),
@@ -269,42 +271,45 @@ class _AppMainPageState extends State<AppMainPage>
     }
 
     return Obx(() {
-      return NavigationRail(
-        leading: TextButton(
-          onPressed: () {
-            state.scaffoldKey.currentState?.openDrawer();
+      return SizedBox(
+        width: 90.w,
+        child: NavigationRail(
+          leading: TextButton(
+            onPressed: () {
+              state.scaffoldKey.currentState?.openDrawer();
+            },
+            child: Icon(
+              Icons.menu,
+              color: Theme.of(context).colorScheme.onSurface,
+            ),
+          ),
+          destinations: [
+            NavigationRailDestination(
+              icon: const Icon(Icons.home_outlined),
+              label: Text(S.of(context).navigationBarHome),
+              padding: EdgeInsets.only(top: 5.w, bottom: 5.w),
+              selectedIcon: const Icon(Icons.home),
+            ),
+            NavigationRailDestination(
+              icon: const Icon(Icons.explore_outlined),
+              label: Text(S.of(context).navigationBarExplore),
+              padding: EdgeInsets.only(top: 5.w, bottom: 5.w),
+              selectedIcon: const Icon(Icons.explore),
+            ),
+            NavigationRailDestination(
+              icon: const Icon(Icons.library_music_outlined),
+              label: Text(S.of(context).navigationBarMusicLibrary),
+              padding: EdgeInsets.only(top: 5.w, bottom: 5.w),
+              selectedIcon: const Icon(Icons.library_music),
+            ),
+          ],
+          selectedIndex: state.currentIndex.value,
+          onDestinationSelected: (int index) {
+            state.tabController.animateTo(index);
+            state.currentIndex.value = index;
           },
-          child: Icon(
-            Icons.menu,
-            color: Theme.of(context).colorScheme.onSurface,
-          ),
+          labelType: NavigationRailLabelType.selected,
         ),
-        destinations: [
-          NavigationRailDestination(
-            icon: const Icon(Icons.home_outlined),
-            label: Text(S.of(context).navigationBarHome),
-            padding: EdgeInsets.only(top: 5.w, bottom: 5.w),
-            selectedIcon: const Icon(Icons.home),
-          ),
-          NavigationRailDestination(
-            icon: const Icon(Icons.explore_outlined),
-            label: Text(S.of(context).navigationBarExplore),
-            padding: EdgeInsets.only(top: 5.w, bottom: 5.w),
-            selectedIcon: const Icon(Icons.explore),
-          ),
-          NavigationRailDestination(
-            icon: const Icon(Icons.library_music_outlined),
-            label: Text(S.of(context).navigationBarMusicLibrary),
-            padding: EdgeInsets.only(top: 5.w, bottom: 5.w),
-            selectedIcon: const Icon(Icons.library_music),
-          ),
-        ],
-        selectedIndex: state.currentIndex.value,
-        onDestinationSelected: (int index) {
-          state.tabController.animateTo(index);
-          state.currentIndex.value = index;
-        },
-        labelType: NavigationRailLabelType.selected,
       );
     });
   }
@@ -317,7 +322,7 @@ class _AppMainPageState extends State<AppMainPage>
     }
     return Obx(() {
       return NavigationBar(
-        height: 160.w,
+        height: 140.w,
         destinations: [
           NavigationDestination(
             icon: const Icon(Icons.home_outlined),

@@ -5,7 +5,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:musicplayer/common/utils/ScreenAdaptor.dart';
 import 'package:musicplayer/common/utils/StaticData.dart';
-import 'package:musicplayer/components/Cover.dart';
 import 'package:musicplayer/components/DailyTrackscard.dart';
 import 'package:musicplayer/components/FMCard.dart';
 import 'package:musicplayer/components/RowCover.dart';
@@ -30,6 +29,7 @@ class _HomePageState extends State<HomePage>
 
   @override
   void initState() {
+    // 页面初始化
     logic.pageInit();
     super.initState();
   }
@@ -79,21 +79,28 @@ class _HomePageState extends State<HomePage>
                     _getByAppleMusicAlbumWidget(),
                     // 推荐歌单
                     _getTitleTextWidget(
-                      title: S.of(context).homeRecommendPlaylist,
-                    ),
+                        title: S.of(context).homeRecommendPlaylist),
                     // 推荐歌单组件
                     _getRecommendPlaylistWidget(),
                     // For You
                     _getTitleTextWidget(title: S.of(context).homeForYou),
                     // For You组件
                     _getForYouWidget(),
+                    // 间距
+                    _getHeightPaddingWidget(vertical: 40.w, horizon: 20.w),
                     // 推荐艺人
                     _getTitleTextWidget(
                         title: S.of(context).homeRecommendArtist),
+                    // 推荐艺人组件
+                    _getRecommendArtistsWidget(),
                     // 新专速递
                     _getTitleTextWidget(title: S.of(context).homeNewAlbum),
+                    // 新专速递组件
+                    _getNewAlbumsWidget(),
                     // 排行榜
                     _getTitleTextWidget(title: S.of(context).homeCharts),
+                    // 排行榜组件
+                    _getTopListWidget(),
                   ],
                 ),
               ),
@@ -106,12 +113,40 @@ class _HomePageState extends State<HomePage>
     );
   }
 
+  /// 间距
+  Widget _getHeightPaddingWidget({double vertical = 0, double horizon = 0}) {
+    return SliverToBoxAdapter(
+      child: SizedBox(
+        height: ScreenAdaptor().getLengthByOrientation(
+          vertical: vertical,
+          horizon: horizon,
+        ),
+      ),
+    );
+  }
+
   /// 获取byAppleMusic专辑
   Widget _getByAppleMusicAlbumWidget() {
-    return const RowCover(
+    return RowCover(
       items: byAppleMusicStaticData,
       subText: "appleMusic",
       type: "playlist",
+      imageWidth: ScreenAdaptor().getLengthByOrientation(
+        vertical: 250.w,
+        horizon: 120.w,
+      ),
+      imageHeight: ScreenAdaptor().getLengthByOrientation(
+        vertical: 250.w,
+        horizon: 120.w,
+      ),
+      fontMainSize: ScreenAdaptor().getLengthByOrientation(
+        vertical: 24.sp,
+        horizon: 13.sp,
+      ),
+      fontSubSize: ScreenAdaptor().getLengthByOrientation(
+        vertical: 18.sp,
+        horizon: 10.sp,
+      ),
     );
   }
 
@@ -126,6 +161,22 @@ class _HomePageState extends State<HomePage>
             items: snapshot.data!,
             subText: "copywriter",
             type: "playlist",
+            imageWidth: ScreenAdaptor().getLengthByOrientation(
+              vertical: 250.w,
+              horizon: 120.w,
+            ),
+            imageHeight: ScreenAdaptor().getLengthByOrientation(
+              vertical: 250.w,
+              horizon: 120.w,
+            ),
+            fontMainSize: ScreenAdaptor().getLengthByOrientation(
+              vertical: 24.sp,
+              horizon: 13.sp,
+            ),
+            fontSubSize: ScreenAdaptor().getLengthByOrientation(
+              vertical: 18.sp,
+              horizon: 10.sp,
+            ),
           );
         }
         return const SliverToBoxAdapter(child: SizedBox());
@@ -242,6 +293,113 @@ class _HomePageState extends State<HomePage>
     );
   }
 
+  /// 获取推荐艺人组件
+  Widget _getRecommendArtistsWidget() {
+    return Obx(() {
+      return FutureBuilder(
+        future: state.futureRecommendArtistsList.value,
+        builder: (BuildContext context, AsyncSnapshot<List<dynamic>> snapshot) {
+          if (snapshot.connectionState == ConnectionState.done &&
+              snapshot.data!.isNotEmpty) {
+            return RowCover(
+              items: snapshot.data!,
+              type: "artist",
+              imageWidth: ScreenAdaptor().getLengthByOrientation(
+                vertical: 250.w,
+                horizon: 120.w,
+              ),
+              imageHeight: ScreenAdaptor().getLengthByOrientation(
+                vertical: 250.w,
+                horizon: 120.w,
+              ),
+              fontMainSize: ScreenAdaptor().getLengthByOrientation(
+                vertical: 24.sp,
+                horizon: 13.sp,
+              ),
+              fontSubSize: ScreenAdaptor().getLengthByOrientation(
+                vertical: 18.sp,
+                horizon: 10.sp,
+              ),
+            );
+          }
+          return const SliverToBoxAdapter(child: SizedBox());
+        },
+      );
+    });
+  }
+
+  /// 获取新专速递组件
+  Widget _getNewAlbumsWidget() {
+    return Obx(() {
+      return FutureBuilder(
+        future: state.futureNewAlbumsList.value,
+        builder: (BuildContext context, AsyncSnapshot<List<dynamic>> snapshot) {
+          if (snapshot.connectionState == ConnectionState.done &&
+              snapshot.data!.isNotEmpty) {
+            return RowCover(
+              items: snapshot.data!,
+              type: "album",
+              subText: "artist",
+              imageWidth: ScreenAdaptor().getLengthByOrientation(
+                vertical: 250.w,
+                horizon: 120.w,
+              ),
+              imageHeight: ScreenAdaptor().getLengthByOrientation(
+                vertical: 250.w,
+                horizon: 120.w,
+              ),
+              fontMainSize: ScreenAdaptor().getLengthByOrientation(
+                vertical: 24.sp,
+                horizon: 13.sp,
+              ),
+              fontSubSize: ScreenAdaptor().getLengthByOrientation(
+                vertical: 18.sp,
+                horizon: 10.sp,
+              ),
+            );
+          }
+          return const SliverToBoxAdapter(child: SizedBox());
+        },
+      );
+    });
+  }
+
+  /// 获取排行榜组件
+  Widget _getTopListWidget() {
+    return Obx(() {
+      return FutureBuilder(
+        future: state.futureTopList.value,
+        builder: (BuildContext context, AsyncSnapshot<List<dynamic>> snapshot) {
+          if (snapshot.connectionState == ConnectionState.done &&
+              snapshot.data!.isNotEmpty) {
+            return RowCover(
+              items: snapshot.data!,
+              type: "playlist",
+              subText: "updateFrequency",
+              imageWidth: ScreenAdaptor().getLengthByOrientation(
+                vertical: 250.w,
+                horizon: 120.w,
+              ),
+              imageHeight: ScreenAdaptor().getLengthByOrientation(
+                vertical: 250.w,
+                horizon: 120.w,
+              ),
+              fontMainSize: ScreenAdaptor().getLengthByOrientation(
+                vertical: 24.sp,
+                horizon: 13.sp,
+              ),
+              fontSubSize: ScreenAdaptor().getLengthByOrientation(
+                vertical: 18.sp,
+                horizon: 10.sp,
+              ),
+            );
+          }
+          return const SliverToBoxAdapter(child: SizedBox());
+        },
+      );
+    });
+  }
+
   /// 获取标题文本
   Widget _getTitleTextWidget({required String title}) {
     return SliverToBoxAdapter(
@@ -270,7 +428,7 @@ class _HomePageState extends State<HomePage>
     );
   }
 
-  // 侧边栏抽屉按钮
+  /// 侧边栏抽屉按钮
   Widget _getDrawerButtonWidget() {
     if (ScreenAdaptor().getOrientation()) {
       return Positioned(
@@ -290,7 +448,7 @@ class _HomePageState extends State<HomePage>
     return const SizedBox();
   }
 
-  // 欢迎语
+  /// 欢迎语
   Widget _getGreetBarWidget() {
     return SliverAppBar(
       expandedHeight: ScreenAdaptor().getLengthByOrientation(
@@ -341,7 +499,7 @@ class _HomePageState extends State<HomePage>
     );
   }
 
-  // 搜索框
+  /// 搜索框
   Widget _getSearchBarWidget() {
     return SliverAppBar(
       pinned: true,

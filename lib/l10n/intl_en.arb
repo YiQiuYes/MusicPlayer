@@ -2,6 +2,7 @@
   "navigationBarHome" : "Home",
   "navigationBarExplore" : "Explore",
   "navigationBarMusicLibrary" : "MusicLibrary",
+
   "homeGreetText" : "Hello",
   "homeSearchBar" : "Search for songs、artists、albums",
   "homeByAppleMusic" : "by Apple Music",
@@ -10,7 +11,12 @@
   "homeRecommendArtist": "Recommended Artists",
   "homeNewAlbum": "Latest Albums",
   "homeCharts": "Charts",
+
   "drawerHeaderName" : "Hello",
   "drawerTileSettings"  : "Settings",
-  "drawerTileHome" : "Home"
+  "drawerTileHome" : "Home",
+
+  "fmCardPrivateFM" : "PrivateFM",
+
+  "dailyTracksCardTitle" : "Recommended\ndaily"
 }

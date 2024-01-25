@@ -24,11 +24,14 @@ version-resolver:
   default: patch
 # 这里填写更新内容
 template: |
-  1.完成推荐歌单的开发
-  2.完成每日推荐歌单的开发
-  3.完成私人FM的开发
-  4.新增各项Api
-  5.新增背景CSS组件
+  1.修复RowCover分组bug
+  2.新增ArtistApi
+  3.修复每日推荐组件文本间距问题
+  4.新增部分语言国际化
+  5.新增推荐艺人
+  6.新增新专速递
+  7.新增排行榜
+  8.总体上完成发现页的开发
 
   $CHANGES
 no-changes-template: |

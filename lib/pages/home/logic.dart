@@ -1,4 +1,8 @@
+import 'dart:math';
+
 import 'package:get/get.dart';
+import 'package:musicplayer/api/AlbumApi.dart';
+import 'package:musicplayer/api/ArtistApi.dart';
 import 'package:musicplayer/api/OthersApi.dart';
 import 'package:musicplayer/api/PlayListApi.dart';
 import 'package:musicplayer/common/net/RequestManager.dart';
@@ -17,6 +21,12 @@ class HomeLogic extends GetxController {
     state.futureDailyTracksList = loadFutureDailyTracksList().obs;
     // 获取私人FM数据
     state.futurePersonalFMList = loadFuturePersonalFMList().obs;
+    // 获取推荐艺人数据
+    state.futureRecommendArtistsList = loadFutureRecommendArtistsList().obs;
+    // 获取新专速递
+    state.futureNewAlbumsList = loadFutureNewAlbumsList().obs;
+    // 获取排行榜
+    state.futureTopList = loadFutureTopList().obs;
   }
 
   /// 获取推荐歌单数据
@@ -56,9 +66,41 @@ class HomeLogic extends GetxController {
 
   /// 获取私人FM数据
   Future<List<dynamic>> loadFuturePersonalFMList() async {
-    return await OthersListApi().getPersonalFM().then((value) {
+    return await OthersApi().getPersonalFM().then((value) {
       var result = RequestUtils.transformResponse(value);
       return result["data"];
+    });
+  }
+
+  /// 获取推荐艺人数据
+  Future<List<dynamic>> loadFutureRecommendArtistsList() async {
+    // 随机数0到50的整数
+    var offset = Random().nextInt(50);
+    return await ArtistApi()
+        .getTopListOfArtists(limit: 5, offset: offset)
+        .then((value) {
+      var result = RequestUtils.transformResponse(value);
+      return result["artists"];
+    });
+  }
+
+  /// 获取新专速递数据
+  Future<List<dynamic>> loadFutureNewAlbumsList() async {
+    return await AlbumApi().getNewAlbums(limit: 10).then((value) {
+      var result = RequestUtils.transformResponse(value);
+      return result["albums"];
+    });
+  }
+
+  /// 获取排行榜数据
+  Future<List<dynamic>> loadFutureTopList() async {
+    return await PlayListApi().getTopLists().then((value) {
+      var result = RequestUtils.transformResponse(value);
+      List<dynamic> test = result["list"];
+
+      return test.where((dynamic element) {
+        return state.topListIds.contains(element["id"]);
+      }).toList();
     });
   }
 }

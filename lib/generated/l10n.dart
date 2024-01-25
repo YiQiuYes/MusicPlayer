@@ -189,6 +189,26 @@ class S {
       args: [],
     );
   }
+
+  /// `PrivateFM`
+  String get fmCardPrivateFM {
+    return Intl.message(
+      'PrivateFM',
+      name: 'fmCardPrivateFM',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Recommended\ndaily`
+  String get dailyTracksCardTitle {
+    return Intl.message(
+      'Recommended\ndaily',
+      name: 'dailyTracksCardTitle',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {
