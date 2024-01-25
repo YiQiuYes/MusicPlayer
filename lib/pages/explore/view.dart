@@ -48,19 +48,19 @@ class _ExplorePageState extends State<ExplorePage>
   Widget build(BuildContext context) {
     super.build(context);
     appMainContext = context;
-    return Scaffold(
-      body: Padding(
-        padding: EdgeInsets.only(
-          left: ScreenAdaptor().getLengthByOrientation(
-            vertical: 30.w,
-            horizon: 10.w,
+    return SafeArea(
+      child: Scaffold(
+        body: Padding(
+          padding: EdgeInsets.only(
+            left: ScreenAdaptor().getLengthByOrientation(
+              vertical: 30.w,
+              horizon: 10.w,
+            ),
+            right: ScreenAdaptor().getLengthByOrientation(
+              vertical: 30.w,
+              horizon: 20.w,
+            ),
           ),
-          right: ScreenAdaptor().getLengthByOrientation(
-            vertical: 30.w,
-            horizon: 20.w,
-          ),
-        ),
-        child: SafeArea(
           child: CustomScrollView(
             controller: state.scrollController,
             slivers: [
@@ -82,8 +82,8 @@ class _ExplorePageState extends State<ExplorePage>
       elevation: 0,
       surfaceTintColor: Colors.transparent,
       toolbarHeight: ScreenAdaptor().getLengthByOrientation(
-        vertical: 130.w,
-        horizon: 67.w,
+        vertical: 125.w,
+        horizon: 57.w,
       ),
       flexibleSpace: FlexibleSpaceBar(
         background: Stack(
@@ -108,7 +108,7 @@ class _ExplorePageState extends State<ExplorePage>
             Positioned(
               top: ScreenAdaptor().getLengthByOrientation(
                 vertical: 53.w,
-                horizon: 23.5.w,
+                horizon: 20.w,
               ),
               left: ScreenAdaptor().getLengthByOrientation(
                 vertical: 130.w,
@@ -139,7 +139,7 @@ class _ExplorePageState extends State<ExplorePage>
             Positioned(
               top: ScreenAdaptor().getLengthByOrientation(
                 vertical: 25.w,
-                horizon: 8.w,
+                horizon: 5.w,
               ),
               right: 0,
               child: TextButton(

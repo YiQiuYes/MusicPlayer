@@ -43,19 +43,19 @@ class _HomePageState extends State<HomePage>
   @override
   Widget build(BuildContext context) {
     super.build(context);
-    return Scaffold(
-      body: Padding(
-        padding: EdgeInsets.only(
-          left: ScreenAdaptor().getLengthByOrientation(
-            vertical: 30.w,
-            horizon: 10.w,
+    return SafeArea(
+      child: Scaffold(
+        body: Padding(
+          padding: EdgeInsets.only(
+            left: ScreenAdaptor().getLengthByOrientation(
+              vertical: 30.w,
+              horizon: 0,
+            ),
+            right: ScreenAdaptor().getLengthByOrientation(
+              vertical: 30.w,
+              horizon: 20.w,
+            ),
           ),
-          right: ScreenAdaptor().getLengthByOrientation(
-            vertical: 30.w,
-            horizon: 20.w,
-          ),
-        ),
-        child: SafeArea(
           child: Stack(
             children: [
               // 滚动视图
@@ -466,7 +466,7 @@ class _HomePageState extends State<HomePage>
             ),
             top: ScreenAdaptor().getLengthByOrientation(
               vertical: 115.w,
-              horizon: 20.w,
+              horizon: 15.w,
             ),
           ),
           child: ListView(
@@ -508,7 +508,7 @@ class _HomePageState extends State<HomePage>
       elevation: 0,
       toolbarHeight: ScreenAdaptor().getLengthByOrientation(
         vertical: 155.w,
-        horizon: 70.w,
+        horizon: 72.w,
       ),
       title: Align(
         alignment: Alignment.centerRight,
@@ -522,16 +522,6 @@ class _HomePageState extends State<HomePage>
                     state.scrollController.offset.roundToDouble(),
                 MediaQuery.sizeOf(context).width -
                     (ScreenAdaptor().getOrientation() ? 230.w : 0),
-              ),
-              padding: EdgeInsets.only(
-                top: ScreenAdaptor().getLengthByOrientation(
-                  vertical: 13.w,
-                  horizon: 8.w,
-                ),
-                bottom: ScreenAdaptor().getLengthByOrientation(
-                  vertical: 15.w,
-                  horizon: 8.w,
-                ),
               ),
               child: SizedBox(
                 height: ScreenAdaptor().getLengthByOrientation(

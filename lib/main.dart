@@ -16,10 +16,10 @@ Future<void> main() async {
   await DataStorageManager().init();
   // 初始化网络请求管理
   await RequestManager().persistCookieJarInit();
-  // 状态栏和底部小白条沉浸
-  statusBarAndBottomBarImmersed();
   // 启动APP
   runApp(const MyApp());
+  // 状态栏和底部小白条沉浸
+  statusBarAndBottomBarImmersed();
 }
 
 /// 状态栏和底部小白条沉浸
@@ -29,6 +29,8 @@ void statusBarAndBottomBarImmersed() {
       statusBarColor: Colors.transparent,
       statusBarBrightness: Brightness.dark,
       systemNavigationBarColor: Colors.transparent,
+      systemNavigationBarIconBrightness: Brightness.dark,
+      systemNavigationBarDividerColor: Colors.transparent,
       statusBarIconBrightness: Brightness.dark,
     );
     SystemChrome.setSystemUIOverlayStyle(systemUiOverlayStyle);
@@ -45,6 +47,7 @@ class MyApp extends StatelessWidget {
       designSize: const Size(720, 1080),
       minTextAdapt: true,
       splitScreenMode: true,
+      ensureScreenSize: true,
       builder: (context, child) {
         return GetMaterialApp(
           localizationsDelegates: const [
