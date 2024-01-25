@@ -48,28 +48,26 @@ class _ExplorePageState extends State<ExplorePage>
   Widget build(BuildContext context) {
     super.build(context);
     appMainContext = context;
-    return SafeArea(
-      child: Scaffold(
-        body: Padding(
-          padding: EdgeInsets.only(
-            left: ScreenAdaptor().getLengthByOrientation(
-              vertical: 30.w,
-              horizon: 10.w,
-            ),
-            right: ScreenAdaptor().getLengthByOrientation(
-              vertical: 30.w,
-              horizon: 20.w,
-            ),
+    return Scaffold(
+      body: Padding(
+        padding: EdgeInsets.only(
+          left: ScreenAdaptor().getLengthByOrientation(
+            vertical: 30.w,
+            horizon: 10.w,
           ),
-          child: CustomScrollView(
-            controller: state.scrollController,
-            slivers: [
-              // 获取AppBar
-              _getSliverBarWidget(),
-              // 获取歌单组件
-              _getPlayListWidget(),
-            ],
+          right: ScreenAdaptor().getLengthByOrientation(
+            vertical: 30.w,
+            horizon: 20.w,
           ),
+        ),
+        child: CustomScrollView(
+          controller: state.scrollController,
+          slivers: [
+            // 获取AppBar
+            _getSliverBarWidget(),
+            // 获取歌单组件
+            _getPlayListWidget(),
+          ],
         ),
       ),
     );

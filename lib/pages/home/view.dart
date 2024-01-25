@@ -43,71 +43,69 @@ class _HomePageState extends State<HomePage>
   @override
   Widget build(BuildContext context) {
     super.build(context);
-    return SafeArea(
-      child: Scaffold(
-        body: Padding(
-          padding: EdgeInsets.only(
-            left: ScreenAdaptor().getLengthByOrientation(
-              vertical: 30.w,
-              horizon: 0,
-            ),
-            right: ScreenAdaptor().getLengthByOrientation(
-              vertical: 30.w,
-              horizon: 20.w,
-            ),
+    return Scaffold(
+      body: Padding(
+        padding: EdgeInsets.only(
+          left: ScreenAdaptor().getLengthByOrientation(
+            vertical: 30.w,
+            horizon: 0,
           ),
-          child: Stack(
-            children: [
-              // 滚动视图
-              NestedScrollView(
-                physics: const BouncingScrollPhysics(),
-                controller: state.scrollController,
-                headerSliverBuilder:
-                    (BuildContext context, bool innerBoxIsScrolled) {
-                  return [
-                    // 欢迎语
-                    _getGreetBarWidget(),
-                    // 搜索框
-                    _getSearchBarWidget(),
-                  ];
-                },
-                body: CustomScrollView(
-                  slivers: [
-                    // by Apple Music
-                    _getTitleTextWidget(title: S.of(context).homeByAppleMusic),
-                    // by Apple Music专辑组件
-                    _getByAppleMusicAlbumWidget(),
-                    // 推荐歌单
-                    _getTitleTextWidget(
-                        title: S.of(context).homeRecommendPlaylist),
-                    // 推荐歌单组件
-                    _getRecommendPlaylistWidget(),
-                    // For You
-                    _getTitleTextWidget(title: S.of(context).homeForYou),
-                    // For You组件
-                    _getForYouWidget(),
-                    // 间距
-                    _getHeightPaddingWidget(vertical: 40.w, horizon: 20.w),
-                    // 推荐艺人
-                    _getTitleTextWidget(
-                        title: S.of(context).homeRecommendArtist),
-                    // 推荐艺人组件
-                    _getRecommendArtistsWidget(),
-                    // 新专速递
-                    _getTitleTextWidget(title: S.of(context).homeNewAlbum),
-                    // 新专速递组件
-                    _getNewAlbumsWidget(),
-                    // 排行榜
-                    _getTitleTextWidget(title: S.of(context).homeCharts),
-                    // 排行榜组件
-                    _getTopListWidget(),
-                  ],
-                ),
+          right: ScreenAdaptor().getLengthByOrientation(
+            vertical: 30.w,
+            horizon: 20.w,
+          ),
+        ),
+        child: Stack(
+          children: [
+            // 滚动视图
+            NestedScrollView(
+              physics: const BouncingScrollPhysics(),
+              controller: state.scrollController,
+              headerSliverBuilder:
+                  (BuildContext context, bool innerBoxIsScrolled) {
+                return [
+                  // 欢迎语
+                  _getGreetBarWidget(),
+                  // 搜索框
+                  _getSearchBarWidget(),
+                ];
+              },
+              body: CustomScrollView(
+                slivers: [
+                  // by Apple Music
+                  _getTitleTextWidget(title: S.of(context).homeByAppleMusic),
+                  // by Apple Music专辑组件
+                  _getByAppleMusicAlbumWidget(),
+                  // 推荐歌单
+                  _getTitleTextWidget(
+                      title: S.of(context).homeRecommendPlaylist),
+                  // 推荐歌单组件
+                  _getRecommendPlaylistWidget(),
+                  // For You
+                  _getTitleTextWidget(title: S.of(context).homeForYou),
+                  // For You组件
+                  _getForYouWidget(),
+                  // 间距
+                  _getHeightPaddingWidget(vertical: 40.w, horizon: 20.w),
+                  // 推荐艺人
+                  _getTitleTextWidget(
+                      title: S.of(context).homeRecommendArtist),
+                  // 推荐艺人组件
+                  _getRecommendArtistsWidget(),
+                  // 新专速递
+                  _getTitleTextWidget(title: S.of(context).homeNewAlbum),
+                  // 新专速递组件
+                  _getNewAlbumsWidget(),
+                  // 排行榜
+                  _getTitleTextWidget(title: S.of(context).homeCharts),
+                  // 排行榜组件
+                  _getTopListWidget(),
+                ],
               ),
-              // 侧边栏抽屉按钮
-              _getDrawerButtonWidget(),
-            ],
-          ),
+            ),
+            // 侧边栏抽屉按钮
+            _getDrawerButtonWidget(),
+          ],
         ),
       ),
     );

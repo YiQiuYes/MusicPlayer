@@ -46,17 +46,15 @@ class _AppMainPageState extends State<AppMainPage>
     return Scaffold(
       key: state.scaffoldKey,
       drawer: _getDrawer(),
-      body: SafeArea(
-        child: Row(
-          children: [
-            // 侧边导航栏
-            _getNavigationRail(),
-            // 主页面
-            Expanded(
-              child: _getMainPage(),
-            ),
-          ],
-        ),
+      body: Row(
+        children: [
+          // 侧边导航栏
+          _getNavigationRail(),
+          // 主页面
+          Expanded(
+            child: _getMainPage(),
+          ),
+        ],
       ),
       // 底部导航栏
       bottomNavigationBar: _getBottomNavigationBar(),
