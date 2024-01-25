@@ -108,7 +108,7 @@ class _ExplorePageState extends State<ExplorePage>
             Positioned(
               top: ScreenAdaptor().getLengthByOrientation(
                 vertical: 53.w,
-                horizon: 20.w,
+                horizon: 18.w,
               ),
               left: ScreenAdaptor().getLengthByOrientation(
                 vertical: 130.w,
@@ -259,13 +259,15 @@ class _ExplorePageState extends State<ExplorePage>
           ]);
         }
 
-        return AlertDialog(
-          alignment: Alignment.topCenter,
-          scrollable: true,
-          content: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: list,
+        return SafeArea(
+          child: AlertDialog(
+            alignment: Alignment.topCenter,
+            scrollable: true,
+            content: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: list,
+            ),
           ),
         );
       },
@@ -299,15 +301,19 @@ class _ExplorePageState extends State<ExplorePage>
               )!,
               imageWidth: ScreenAdaptor().getLengthByOrientation(
                 vertical: 200.w,
-                horizon: 107.w,
+                horizon: 100.w,
               ),
               imageHeight: ScreenAdaptor().getLengthByOrientation(
                 vertical: 200.w,
-                horizon: 107.w,
+                horizon: 100.w,
+              ),
+              horizontalSpacing: ScreenAdaptor().getLengthByOrientation(
+                vertical: 30.w,
+                horizon: 10.w,
               ),
               fontMainSize: ScreenAdaptor().getLengthByOrientation(
                 vertical: 20.sp,
-                horizon: 12.sp,
+                horizon: 11.sp,
               ),
               fontSubSize: ScreenAdaptor().getLengthByOrientation(
                 vertical: 15.sp,

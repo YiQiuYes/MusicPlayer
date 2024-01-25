@@ -139,6 +139,10 @@ class _HomePageState extends State<HomePage>
         vertical: 250.w,
         horizon: 120.w,
       ),
+      horizontalSpacing: ScreenAdaptor().getLengthByOrientation(
+        vertical: 30.w,
+        horizon: 16.w,
+      ),
       fontMainSize: ScreenAdaptor().getLengthByOrientation(
         vertical: 24.sp,
         horizon: 13.sp,
@@ -168,6 +172,10 @@ class _HomePageState extends State<HomePage>
             imageHeight: ScreenAdaptor().getLengthByOrientation(
               vertical: 250.w,
               horizon: 120.w,
+            ),
+            horizontalSpacing: ScreenAdaptor().getLengthByOrientation(
+              vertical: 30.w,
+              horizon: 16.w,
             ),
             fontMainSize: ScreenAdaptor().getLengthByOrientation(
               vertical: 24.sp,
@@ -312,6 +320,10 @@ class _HomePageState extends State<HomePage>
                 vertical: 250.w,
                 horizon: 120.w,
               ),
+              horizontalSpacing: ScreenAdaptor().getLengthByOrientation(
+                vertical: 30.w,
+                horizon: 16.w,
+              ),
               fontMainSize: ScreenAdaptor().getLengthByOrientation(
                 vertical: 24.sp,
                 horizon: 13.sp,
@@ -348,6 +360,10 @@ class _HomePageState extends State<HomePage>
                 vertical: 250.w,
                 horizon: 120.w,
               ),
+              horizontalSpacing: ScreenAdaptor().getLengthByOrientation(
+                vertical: 30.w,
+                horizon: 16.w,
+              ),
               fontMainSize: ScreenAdaptor().getLengthByOrientation(
                 vertical: 24.sp,
                 horizon: 13.sp,
@@ -383,6 +399,10 @@ class _HomePageState extends State<HomePage>
               imageHeight: ScreenAdaptor().getLengthByOrientation(
                 vertical: 250.w,
                 horizon: 120.w,
+              ),
+              horizontalSpacing: ScreenAdaptor().getLengthByOrientation(
+                vertical: 30.w,
+                horizon: 16.w,
               ),
               fontMainSize: ScreenAdaptor().getLengthByOrientation(
                 vertical: 24.sp,

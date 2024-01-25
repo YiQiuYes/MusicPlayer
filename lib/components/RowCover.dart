@@ -12,6 +12,7 @@ class RowCover extends StatelessWidget {
       this.type,
       required this.imageWidth,
       required this.imageHeight,
+      required this.horizontalSpacing,
       required this.fontMainSize,
       required this.fontSubSize,
       this.columnNumber = 5});
@@ -26,6 +27,8 @@ class RowCover extends StatelessWidget {
   final double imageWidth;
   // 图片高度
   final double imageHeight;
+  // 水平组件间距
+  final double horizontalSpacing;
   // 主字体大小
   final double fontMainSize;
   // 副字体大小
@@ -122,10 +125,7 @@ class RowCover extends StatelessWidget {
       ),
       // 间距
       SizedBox(
-        width: ScreenAdaptor().getLengthByOrientation(
-          vertical: 30.w,
-          horizon: 16.w,
-        ),
+        width: horizontalSpacing,
       ),
     ];
   }
@@ -208,7 +208,9 @@ class RowCover extends StatelessWidget {
   /// 添加完整的
   List<Widget> _buildRows(List<dynamic> items) {
     List<Widget> list = [];
-    for (int i = 0; i < items.length - items.length % columnNumber; i += columnNumber) {
+    for (int i = 0;
+        i < items.length - items.length % columnNumber;
+        i += columnNumber) {
       List<Widget> listRow = [];
       for (int j = i; j < i + columnNumber; j++) {
         listRow.addAll(
@@ -232,7 +234,9 @@ class RowCover extends StatelessWidget {
     // 如果还有剩余的
     if (items.length % columnNumber != 0) {
       List<Widget> listRow = [];
-      for (int i = items.length - items.length % columnNumber; i < items.length; i++) {
+      for (int i = items.length - items.length % columnNumber;
+          i < items.length;
+          i++) {
         listRow.addAll(
           _switchSingle(items: items, index: i),
         );

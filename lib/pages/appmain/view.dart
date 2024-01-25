@@ -46,15 +46,17 @@ class _AppMainPageState extends State<AppMainPage>
     return Scaffold(
       key: state.scaffoldKey,
       drawer: _getDrawer(),
-      body: Row(
-        children: [
-          // 侧边导航栏
-          _getNavigationRail(),
-          // 主页面
-          Expanded(
-            child: _getMainPage(),
-          ),
-        ],
+      body: SafeArea(
+        child: Row(
+          children: [
+            // 侧边导航栏
+            _getNavigationRail(),
+            // 主页面
+            Expanded(
+              child: _getMainPage(),
+            ),
+          ],
+        ),
       ),
       // 底部导航栏
       bottomNavigationBar: _getBottomNavigationBar(),
@@ -63,111 +65,155 @@ class _AppMainPageState extends State<AppMainPage>
 
   // 获取侧边栏
   Widget _getDrawer() {
-    return Padding(
-      padding: EdgeInsets.only(
-        top: ScreenAdaptor().getLengthByOrientation(
-          vertical: 200.w,
-          horizon: 12.w,
-        ),
-        bottom: ScreenAdaptor().getLengthByOrientation(
-          vertical: 200.w,
-          horizon: 12.w,
-        ),
-        left: ScreenAdaptor().getLengthByOrientation(
-          vertical: 30.w,
-          horizon: 15.w,
-        ),
-      ),
-      child: ClipRRect(
-        borderRadius: BorderRadius.circular(
-          ScreenAdaptor().getLengthByOrientation(
+    return SafeArea(
+      child: Padding(
+        padding: EdgeInsets.only(
+          top: ScreenAdaptor().getLengthByOrientation(
+            vertical: 200.w,
+            horizon: 12.w,
+          ),
+          bottom: ScreenAdaptor().getLengthByOrientation(
+            vertical: 200.w,
+            horizon: 12.w,
+          ),
+          left: ScreenAdaptor().getLengthByOrientation(
             vertical: 30.w,
             horizon: 15.w,
           ),
         ),
-        child: Drawer(
-          width: ScreenAdaptor().getLengthByOrientation(
-            vertical: 500.w,
-            horizon: 250.w,
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(
+            ScreenAdaptor().getLengthByOrientation(
+              vertical: 30.w,
+              horizon: 15.w,
+            ),
           ),
-          child: ListView(
-            padding: EdgeInsets.zero,
-            children: [
-              Obx(() {
-                return SizedBox(
-                  height: ScreenAdaptor().getLengthByOrientation(
-                    vertical: 270.w,
-                    horizon: 140.w,
-                  ),
-                  child: DrawerHeader(
-                    margin: EdgeInsets.zero,
-                    padding: EdgeInsets.zero,
-                    decoration: BoxDecoration(
-                      image: DecorationImage(
-                        image: NetworkImage(
-                          state.avatarUrl.value,
+          child: Drawer(
+            width: ScreenAdaptor().getLengthByOrientation(
+              vertical: 500.w,
+              horizon: 250.w,
+            ),
+            child: ListView(
+              padding: EdgeInsets.zero,
+              children: [
+                Obx(() {
+                  return SizedBox(
+                    height: ScreenAdaptor().getLengthByOrientation(
+                      vertical: 270.w,
+                      horizon: 140.w,
+                    ),
+                    child: DrawerHeader(
+                      margin: EdgeInsets.zero,
+                      padding: EdgeInsets.zero,
+                      decoration: BoxDecoration(
+                        image: DecorationImage(
+                          image: NetworkImage(
+                            state.avatarUrl.value,
+                          ),
+                          fit: BoxFit.cover,
+                          colorFilter: AppTheme().isDarkMode(
+                            dart: ColorFilter.mode(
+                              Colors.black.withOpacity(0.5),
+                              BlendMode.srcOver,
+                            ),
+                          ),
                         ),
-                        fit: BoxFit.cover,
-                        colorFilter: AppTheme().isDarkMode(
-                          dart: ColorFilter.mode(
-                            Colors.black.withOpacity(0.5),
-                            BlendMode.srcOver,
+                      ),
+                      child: Align(
+                        alignment: Alignment(0, -0.52.w),
+                        child: Text(
+                          S.of(context).drawerHeaderName,
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: ScreenAdaptor().getLengthByOrientation(
+                              vertical: 45.sp,
+                              horizon: 28.sp,
+                            ),
                           ),
                         ),
                       ),
                     ),
-                    child: Align(
-                      alignment: Alignment(0, -0.52.w),
-                      child: Text(
-                        S.of(context).drawerHeaderName,
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: ScreenAdaptor().getLengthByOrientation(
-                            vertical: 45.sp,
-                            horizon: 28.sp,
+                  );
+                }),
+                Padding(
+                  padding: EdgeInsets.only(
+                    top: ScreenAdaptor().getLengthByOrientation(
+                      vertical: 10.w,
+                      horizon: 5.w,
+                    ),
+                    left: ScreenAdaptor().getLengthByOrientation(
+                      vertical: 30.w,
+                      horizon: 15.w,
+                    ),
+                    right: ScreenAdaptor().getLengthByOrientation(
+                      vertical: 30.w,
+                      horizon: 15.w,
+                    ),
+                  ),
+                  child: Column(
+                    children: [
+                      // 间距
+                      SizedBox(
+                        height: ScreenAdaptor().getLengthByOrientation(
+                          vertical: 10.w,
+                          horizon: 5.w,
+                        ),
+                      ),
+                      Card(
+                        clipBehavior: Clip.antiAlias,
+                        elevation: ScreenAdaptor().getLengthByOrientation(
+                          vertical: 11.w,
+                          horizon: 7.w,
+                        ),
+                        child: InkWell(
+                          onTap: () {
+                            state.scaffoldKey.currentState?.closeDrawer();
+                            state.tabController.animateTo(0);
+                            state.currentIndex.value = 0;
+                          },
+                          child: Padding(
+                            padding: EdgeInsets.only(
+                              left: ScreenAdaptor().getLengthByOrientation(
+                                vertical: 30.w,
+                                horizon: 20.w,
+                              ),
+                              top: ScreenAdaptor().getLengthByOrientation(
+                                vertical: 20.w,
+                                horizon: 10.w,
+                              ),
+                              bottom: ScreenAdaptor().getLengthByOrientation(
+                                vertical: 20.w,
+                                horizon: 10.w,
+                              ),
+                            ),
+                            child: Row(
+                              children: [
+                                const Icon(Icons.home),
+                                SizedBox(
+                                  width: ScreenAdaptor().getLengthByOrientation(
+                                    vertical: 30.w,
+                                    horizon: 10.w,
+                                  ),
+                                ),
+                                Text(S.of(context).drawerTileHome),
+                              ],
+                            ),
                           ),
                         ),
                       ),
-                    ),
-                  ),
-                );
-              }),
-              Padding(
-                padding: EdgeInsets.only(
-                  top: ScreenAdaptor().getLengthByOrientation(
-                    vertical: 10.w,
-                    horizon: 5.w,
-                  ),
-                  left: ScreenAdaptor().getLengthByOrientation(
-                    vertical: 30.w,
-                    horizon: 15.w,
-                  ),
-                  right: ScreenAdaptor().getLengthByOrientation(
-                    vertical: 30.w,
-                    horizon: 15.w,
-                  ),
-                ),
-                child: Column(
-                  children: [
-                    // 间距
-                    SizedBox(
-                      height: ScreenAdaptor().getLengthByOrientation(
-                        vertical: 10.w,
-                        horizon: 5.w,
+                      // 间距
+                      SizedBox(
+                        height: ScreenAdaptor().getLengthByOrientation(
+                          vertical: 20.w,
+                          horizon: 10.w,
+                        ),
                       ),
-                    ),
-                    Card(
-                      clipBehavior: Clip.antiAlias,
-                      elevation: ScreenAdaptor().getLengthByOrientation(
-                        vertical: 11.w,
-                        horizon: 7.w,
-                      ),
-                      child: InkWell(
-                        onTap: () {
-                          state.scaffoldKey.currentState?.closeDrawer();
-                          state.tabController.animateTo(0);
-                          state.currentIndex.value = 0;
-                        },
+                      Card(
+                        clipBehavior: Clip.antiAlias,
+                        elevation: ScreenAdaptor().getLengthByOrientation(
+                          vertical: 11.w,
+                          horizon: 7.w,
+                        ),
                         child: Padding(
                           padding: EdgeInsets.only(
                             left: ScreenAdaptor().getLengthByOrientation(
@@ -185,65 +231,23 @@ class _AppMainPageState extends State<AppMainPage>
                           ),
                           child: Row(
                             children: [
-                              const Icon(Icons.home),
+                              const Icon(Icons.settings),
                               SizedBox(
                                 width: ScreenAdaptor().getLengthByOrientation(
                                   vertical: 30.w,
                                   horizon: 10.w,
                                 ),
                               ),
-                              Text(S.of(context).drawerTileHome),
+                              Text(S.of(context).drawerTileSettings),
                             ],
                           ),
                         ),
                       ),
-                    ),
-                    // 间距
-                    SizedBox(
-                      height: ScreenAdaptor().getLengthByOrientation(
-                        vertical: 20.w,
-                        horizon: 10.w,
-                      ),
-                    ),
-                    Card(
-                      clipBehavior: Clip.antiAlias,
-                      elevation: ScreenAdaptor().getLengthByOrientation(
-                        vertical: 11.w,
-                        horizon: 7.w,
-                      ),
-                      child: Padding(
-                        padding: EdgeInsets.only(
-                          left: ScreenAdaptor().getLengthByOrientation(
-                            vertical: 30.w,
-                            horizon: 20.w,
-                          ),
-                          top: ScreenAdaptor().getLengthByOrientation(
-                            vertical: 20.w,
-                            horizon: 10.w,
-                          ),
-                          bottom: ScreenAdaptor().getLengthByOrientation(
-                            vertical: 20.w,
-                            horizon: 10.w,
-                          ),
-                        ),
-                        child: Row(
-                          children: [
-                            const Icon(Icons.settings),
-                            SizedBox(
-                              width: ScreenAdaptor().getLengthByOrientation(
-                                vertical: 30.w,
-                                horizon: 10.w,
-                              ),
-                            ),
-                            Text(S.of(context).drawerTileSettings),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),
