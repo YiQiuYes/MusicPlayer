@@ -48,31 +48,28 @@ class _ExplorePageState extends State<ExplorePage>
   Widget build(BuildContext context) {
     super.build(context);
     appMainContext = context;
-    return SafeArea(
-      left: false,
-      child: Scaffold(
-        extendBody: true,
-        extendBodyBehindAppBar: true,
-        body: Padding(
-          padding: EdgeInsets.only(
-            left: ScreenAdaptor().getLengthByOrientation(
-              vertical: 30.w,
-              horizon: 10.w,
-            ),
-            right: ScreenAdaptor().getLengthByOrientation(
-              vertical: 30.w,
-              horizon: 20.w,
-            ),
+    return Scaffold(
+      extendBody: true,
+      extendBodyBehindAppBar: true,
+      body: Padding(
+        padding: EdgeInsets.only(
+          left: ScreenAdaptor().getLengthByOrientation(
+            vertical: 30.w,
+            horizon: 10.w,
           ),
-          child: CustomScrollView(
-            controller: state.scrollController,
-            slivers: [
-              // 获取AppBar
-              _getSliverBarWidget(),
-              // 获取歌单组件
-              _getPlayListWidget(),
-            ],
+          right: ScreenAdaptor().getLengthByOrientation(
+            vertical: 30.w,
+            horizon: 20.w,
           ),
+        ),
+        child: CustomScrollView(
+          controller: state.scrollController,
+          slivers: [
+            // 获取AppBar
+            _getSliverBarWidget(),
+            // 获取歌单组件
+            _getPlayListWidget(),
+          ],
         ),
       ),
     );
@@ -297,8 +294,9 @@ class _ExplorePageState extends State<ExplorePage>
               vertical: 3,
               horizon: 5,
             )!;
+            double padding = MediaQuery.paddingOf(context).left + MediaQuery.paddingOf(context).right;
             double width =
-                (MediaQuery.of(context).size.width - 10.w * columnNumber - 120.w) / columnNumber;
+                (MediaQuery.of(context).size.width - 10.w * columnNumber - 120.w - padding) / columnNumber;
             return RowCover(
               items: snapshot.data![state.currentTab]!,
               subText: logic.getSubText(state.currentTab),

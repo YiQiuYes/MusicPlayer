@@ -132,8 +132,9 @@ class _HomePageState extends State<HomePage>
   Widget _getByAppleMusicAlbumWidget() {
     // 列数
     int columnNumber = 5;
+    double padding = MediaQuery.paddingOf(context).left + MediaQuery.paddingOf(context).right;
     double width =
-        (MediaQuery.of(context).size.width - 10.w * columnNumber - 110.w) / columnNumber;
+        (MediaQuery.of(context).size.width - 10.w * columnNumber - 120.w - padding) / columnNumber;
     return RowCover(
       items: byAppleMusicStaticData,
       subText: "appleMusic",
@@ -170,8 +171,9 @@ class _HomePageState extends State<HomePage>
             snapshot.data!.isNotEmpty) {
           // 列数
           int columnNumber = 5;
+          double padding = MediaQuery.paddingOf(context).left + MediaQuery.paddingOf(context).right;
           double width =
-              (MediaQuery.of(context).size.width - 10.w * columnNumber - 110.w) / columnNumber;
+              (MediaQuery.of(context).size.width - 10.w * columnNumber - 120.w - padding) / columnNumber;
           return RowCover(
             items: snapshot.data!,
             subText: "copywriter",
@@ -322,8 +324,9 @@ class _HomePageState extends State<HomePage>
               snapshot.data!.isNotEmpty) {
             // 列数
             int columnNumber = 5;
+            double padding = MediaQuery.paddingOf(context).left + MediaQuery.paddingOf(context).right;
             double width =
-                (MediaQuery.of(context).size.width - 10.w * columnNumber - 110.w) / columnNumber;
+                (MediaQuery.of(context).size.width - 10.w * columnNumber - 120.w - padding) / columnNumber;
             return RowCover(
               items: snapshot.data!,
               type: "artist",
@@ -365,8 +368,9 @@ class _HomePageState extends State<HomePage>
               snapshot.data!.isNotEmpty) {
             // 列数
             int columnNumber = 5;
+            double padding = MediaQuery.paddingOf(context).left + MediaQuery.paddingOf(context).right;
             double width =
-                (MediaQuery.of(context).size.width - 10.w * columnNumber - 110.w) / columnNumber;
+                (MediaQuery.of(context).size.width - 10.w * columnNumber - 120.w - padding) / columnNumber;
             return RowCover(
               items: snapshot.data!,
               type: "album",
@@ -409,8 +413,9 @@ class _HomePageState extends State<HomePage>
               snapshot.data!.isNotEmpty) {
             // 列数
             int columnNumber = 5;
+            double padding = MediaQuery.paddingOf(context).left + MediaQuery.paddingOf(context).right;
             double width =
-                (MediaQuery.of(context).size.width - 10.w * columnNumber - 110.w) / columnNumber;
+                (MediaQuery.of(context).size.width - 10.w * columnNumber - 120.w - padding) / columnNumber;
             return RowCover(
               items: snapshot.data!,
               type: "playlist",
