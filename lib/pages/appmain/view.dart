@@ -45,6 +45,8 @@ class _AppMainPageState extends State<AppMainPage>
   Widget build(BuildContext context) {
     return Scaffold(
       key: state.scaffoldKey,
+      extendBody: true,
+      extendBodyBehindAppBar: true,
       drawer: _getDrawer(),
       body: Row(
         children: [
@@ -273,44 +275,47 @@ class _AppMainPageState extends State<AppMainPage>
     }
 
     return Obx(() {
-      return SizedBox(
-        width: 90.w,
-        child: NavigationRail(
-          leading: TextButton(
-            onPressed: () {
-              state.scaffoldKey.currentState?.openDrawer();
+      return SafeArea(
+        right: false,
+        child: SizedBox(
+          width: 90.w,
+          child: NavigationRail(
+            leading: TextButton(
+              onPressed: () {
+                state.scaffoldKey.currentState?.openDrawer();
+              },
+              child: Icon(
+                Icons.menu,
+                color: Theme.of(context).colorScheme.onSurface,
+              ),
+            ),
+            destinations: [
+              NavigationRailDestination(
+                icon: const Icon(Icons.home_outlined),
+                label: Text(S.of(context).navigationBarHome),
+                padding: EdgeInsets.only(top: 5.w, bottom: 5.w),
+                selectedIcon: const Icon(Icons.home),
+              ),
+              NavigationRailDestination(
+                icon: const Icon(Icons.explore_outlined),
+                label: Text(S.of(context).navigationBarExplore),
+                padding: EdgeInsets.only(top: 5.w, bottom: 5.w),
+                selectedIcon: const Icon(Icons.explore),
+              ),
+              NavigationRailDestination(
+                icon: const Icon(Icons.library_music_outlined),
+                label: Text(S.of(context).navigationBarMusicLibrary),
+                padding: EdgeInsets.only(top: 5.w, bottom: 5.w),
+                selectedIcon: const Icon(Icons.library_music),
+              ),
+            ],
+            selectedIndex: state.currentIndex.value,
+            onDestinationSelected: (int index) {
+              state.tabController.animateTo(index);
+              state.currentIndex.value = index;
             },
-            child: Icon(
-              Icons.menu,
-              color: Theme.of(context).colorScheme.onSurface,
-            ),
+            labelType: NavigationRailLabelType.selected,
           ),
-          destinations: [
-            NavigationRailDestination(
-              icon: const Icon(Icons.home_outlined),
-              label: Text(S.of(context).navigationBarHome),
-              padding: EdgeInsets.only(top: 5.w, bottom: 5.w),
-              selectedIcon: const Icon(Icons.home),
-            ),
-            NavigationRailDestination(
-              icon: const Icon(Icons.explore_outlined),
-              label: Text(S.of(context).navigationBarExplore),
-              padding: EdgeInsets.only(top: 5.w, bottom: 5.w),
-              selectedIcon: const Icon(Icons.explore),
-            ),
-            NavigationRailDestination(
-              icon: const Icon(Icons.library_music_outlined),
-              label: Text(S.of(context).navigationBarMusicLibrary),
-              padding: EdgeInsets.only(top: 5.w, bottom: 5.w),
-              selectedIcon: const Icon(Icons.library_music),
-            ),
-          ],
-          selectedIndex: state.currentIndex.value,
-          onDestinationSelected: (int index) {
-            state.tabController.animateTo(index);
-            state.currentIndex.value = index;
-          },
-          labelType: NavigationRailLabelType.selected,
         ),
       );
     });

@@ -43,69 +43,74 @@ class _HomePageState extends State<HomePage>
   @override
   Widget build(BuildContext context) {
     super.build(context);
-    return Scaffold(
-      body: Padding(
-        padding: EdgeInsets.only(
-          left: ScreenAdaptor().getLengthByOrientation(
-            vertical: 30.w,
-            horizon: 0,
-          ),
-          right: ScreenAdaptor().getLengthByOrientation(
-            vertical: 30.w,
-            horizon: 20.w,
-          ),
-        ),
-        child: Stack(
-          children: [
-            // 滚动视图
-            NestedScrollView(
-              physics: const BouncingScrollPhysics(),
-              controller: state.scrollController,
-              headerSliverBuilder:
-                  (BuildContext context, bool innerBoxIsScrolled) {
-                return [
-                  // 欢迎语
-                  _getGreetBarWidget(),
-                  // 搜索框
-                  _getSearchBarWidget(),
-                ];
-              },
-              body: CustomScrollView(
-                slivers: [
-                  // by Apple Music
-                  _getTitleTextWidget(title: S.of(context).homeByAppleMusic),
-                  // by Apple Music专辑组件
-                  _getByAppleMusicAlbumWidget(),
-                  // 推荐歌单
-                  _getTitleTextWidget(
-                      title: S.of(context).homeRecommendPlaylist),
-                  // 推荐歌单组件
-                  _getRecommendPlaylistWidget(),
-                  // For You
-                  _getTitleTextWidget(title: S.of(context).homeForYou),
-                  // For You组件
-                  _getForYouWidget(),
-                  // 间距
-                  _getHeightPaddingWidget(vertical: 40.w, horizon: 20.w),
-                  // 推荐艺人
-                  _getTitleTextWidget(
-                      title: S.of(context).homeRecommendArtist),
-                  // 推荐艺人组件
-                  _getRecommendArtistsWidget(),
-                  // 新专速递
-                  _getTitleTextWidget(title: S.of(context).homeNewAlbum),
-                  // 新专速递组件
-                  _getNewAlbumsWidget(),
-                  // 排行榜
-                  _getTitleTextWidget(title: S.of(context).homeCharts),
-                  // 排行榜组件
-                  _getTopListWidget(),
-                ],
-              ),
+    return SafeArea(
+      left: false,
+      child: Scaffold(
+        extendBody: true,
+        extendBodyBehindAppBar: true,
+        body: Padding(
+          padding: EdgeInsets.only(
+            left: ScreenAdaptor().getLengthByOrientation(
+              vertical: 30.w,
+              horizon: 0,
             ),
-            // 侧边栏抽屉按钮
-            _getDrawerButtonWidget(),
-          ],
+            right: ScreenAdaptor().getLengthByOrientation(
+              vertical: 30.w,
+              horizon: 20.w,
+            ),
+          ),
+          child: Stack(
+            children: [
+              // 滚动视图
+              NestedScrollView(
+                physics: const BouncingScrollPhysics(),
+                controller: state.scrollController,
+                headerSliverBuilder:
+                    (BuildContext context, bool innerBoxIsScrolled) {
+                  return [
+                    // 欢迎语
+                    _getGreetBarWidget(),
+                    // 搜索框
+                    _getSearchBarWidget(),
+                  ];
+                },
+                body: CustomScrollView(
+                  slivers: [
+                    // by Apple Music
+                    _getTitleTextWidget(title: S.of(context).homeByAppleMusic),
+                    // by Apple Music专辑组件
+                    _getByAppleMusicAlbumWidget(),
+                    // 推荐歌单
+                    _getTitleTextWidget(
+                        title: S.of(context).homeRecommendPlaylist),
+                    // 推荐歌单组件
+                    _getRecommendPlaylistWidget(),
+                    // For You
+                    _getTitleTextWidget(title: S.of(context).homeForYou),
+                    // For You组件
+                    _getForYouWidget(),
+                    // 间距
+                    _getHeightPaddingWidget(vertical: 40.w, horizon: 20.w),
+                    // 推荐艺人
+                    _getTitleTextWidget(
+                        title: S.of(context).homeRecommendArtist),
+                    // 推荐艺人组件
+                    _getRecommendArtistsWidget(),
+                    // 新专速递
+                    _getTitleTextWidget(title: S.of(context).homeNewAlbum),
+                    // 新专速递组件
+                    _getNewAlbumsWidget(),
+                    // 排行榜
+                    _getTitleTextWidget(title: S.of(context).homeCharts),
+                    // 排行榜组件
+                    _getTopListWidget(),
+                  ],
+                ),
+              ),
+              // 侧边栏抽屉按钮
+              _getDrawerButtonWidget(),
+            ],
+          ),
         ),
       ),
     );
@@ -125,29 +130,33 @@ class _HomePageState extends State<HomePage>
 
   /// 获取byAppleMusic专辑
   Widget _getByAppleMusicAlbumWidget() {
+    // 列数
+    int columnNumber = 5;
+    double width =
+        (MediaQuery.of(context).size.width - 10.w * columnNumber - 110.w) / columnNumber;
     return RowCover(
       items: byAppleMusicStaticData,
       subText: "appleMusic",
       type: "playlist",
       imageWidth: ScreenAdaptor().getLengthByOrientation(
         vertical: 250.w,
-        horizon: 120.w,
+        horizon: width,
       ),
       imageHeight: ScreenAdaptor().getLengthByOrientation(
         vertical: 250.w,
-        horizon: 120.w,
+        horizon: width,
       ),
       horizontalSpacing: ScreenAdaptor().getLengthByOrientation(
         vertical: 30.w,
-        horizon: 16.w,
+        horizon: 10.w,
       ),
       fontMainSize: ScreenAdaptor().getLengthByOrientation(
         vertical: 24.sp,
-        horizon: 13.sp,
+        horizon: 11.sp,
       ),
       fontSubSize: ScreenAdaptor().getLengthByOrientation(
         vertical: 18.sp,
-        horizon: 10.sp,
+        horizon: 9.sp,
       ),
     );
   }
@@ -159,29 +168,33 @@ class _HomePageState extends State<HomePage>
       builder: (BuildContext context, AsyncSnapshot<List<dynamic>> snapshot) {
         if (snapshot.connectionState == ConnectionState.done &&
             snapshot.data!.isNotEmpty) {
+          // 列数
+          int columnNumber = 5;
+          double width =
+              (MediaQuery.of(context).size.width - 10.w * columnNumber - 110.w) / columnNumber;
           return RowCover(
             items: snapshot.data!,
             subText: "copywriter",
             type: "playlist",
             imageWidth: ScreenAdaptor().getLengthByOrientation(
               vertical: 250.w,
-              horizon: 120.w,
+              horizon: width,
             ),
             imageHeight: ScreenAdaptor().getLengthByOrientation(
               vertical: 250.w,
-              horizon: 120.w,
+              horizon: width,
             ),
             horizontalSpacing: ScreenAdaptor().getLengthByOrientation(
               vertical: 30.w,
-              horizon: 16.w,
+              horizon: 10.w,
             ),
             fontMainSize: ScreenAdaptor().getLengthByOrientation(
               vertical: 24.sp,
-              horizon: 13.sp,
+              horizon: 11.sp,
             ),
             fontSubSize: ScreenAdaptor().getLengthByOrientation(
               vertical: 18.sp,
-              horizon: 10.sp,
+              horizon: 9.sp,
             ),
           );
         }
@@ -307,28 +320,32 @@ class _HomePageState extends State<HomePage>
         builder: (BuildContext context, AsyncSnapshot<List<dynamic>> snapshot) {
           if (snapshot.connectionState == ConnectionState.done &&
               snapshot.data!.isNotEmpty) {
+            // 列数
+            int columnNumber = 5;
+            double width =
+                (MediaQuery.of(context).size.width - 10.w * columnNumber - 110.w) / columnNumber;
             return RowCover(
               items: snapshot.data!,
               type: "artist",
               imageWidth: ScreenAdaptor().getLengthByOrientation(
                 vertical: 250.w,
-                horizon: 120.w,
+                horizon: width,
               ),
               imageHeight: ScreenAdaptor().getLengthByOrientation(
                 vertical: 250.w,
-                horizon: 120.w,
+                horizon: width,
               ),
               horizontalSpacing: ScreenAdaptor().getLengthByOrientation(
                 vertical: 30.w,
-                horizon: 16.w,
+                horizon: 10.w,
               ),
               fontMainSize: ScreenAdaptor().getLengthByOrientation(
                 vertical: 24.sp,
-                horizon: 13.sp,
+                horizon: 11.sp,
               ),
               fontSubSize: ScreenAdaptor().getLengthByOrientation(
                 vertical: 18.sp,
-                horizon: 10.sp,
+                horizon: 9.sp,
               ),
             );
           }
@@ -346,29 +363,33 @@ class _HomePageState extends State<HomePage>
         builder: (BuildContext context, AsyncSnapshot<List<dynamic>> snapshot) {
           if (snapshot.connectionState == ConnectionState.done &&
               snapshot.data!.isNotEmpty) {
+            // 列数
+            int columnNumber = 5;
+            double width =
+                (MediaQuery.of(context).size.width - 10.w * columnNumber - 110.w) / columnNumber;
             return RowCover(
               items: snapshot.data!,
               type: "album",
               subText: "artist",
               imageWidth: ScreenAdaptor().getLengthByOrientation(
                 vertical: 250.w,
-                horizon: 120.w,
+                horizon: width,
               ),
               imageHeight: ScreenAdaptor().getLengthByOrientation(
                 vertical: 250.w,
-                horizon: 120.w,
+                horizon: width,
               ),
               horizontalSpacing: ScreenAdaptor().getLengthByOrientation(
                 vertical: 30.w,
-                horizon: 16.w,
+                horizon: 10.w,
               ),
               fontMainSize: ScreenAdaptor().getLengthByOrientation(
                 vertical: 24.sp,
-                horizon: 13.sp,
+                horizon: 11.sp,
               ),
               fontSubSize: ScreenAdaptor().getLengthByOrientation(
                 vertical: 18.sp,
-                horizon: 10.sp,
+                horizon: 9.sp,
               ),
             );
           }
@@ -386,29 +407,33 @@ class _HomePageState extends State<HomePage>
         builder: (BuildContext context, AsyncSnapshot<List<dynamic>> snapshot) {
           if (snapshot.connectionState == ConnectionState.done &&
               snapshot.data!.isNotEmpty) {
+            // 列数
+            int columnNumber = 5;
+            double width =
+                (MediaQuery.of(context).size.width - 10.w * columnNumber - 110.w) / columnNumber;
             return RowCover(
               items: snapshot.data!,
               type: "playlist",
               subText: "updateFrequency",
               imageWidth: ScreenAdaptor().getLengthByOrientation(
                 vertical: 250.w,
-                horizon: 120.w,
+                horizon: width,
               ),
               imageHeight: ScreenAdaptor().getLengthByOrientation(
                 vertical: 250.w,
-                horizon: 120.w,
+                horizon: width,
               ),
               horizontalSpacing: ScreenAdaptor().getLengthByOrientation(
                 vertical: 30.w,
-                horizon: 16.w,
+                horizon: 10.w,
               ),
               fontMainSize: ScreenAdaptor().getLengthByOrientation(
                 vertical: 24.sp,
-                horizon: 13.sp,
+                horizon: 11.sp,
               ),
               fontSubSize: ScreenAdaptor().getLengthByOrientation(
                 vertical: 18.sp,
-                horizon: 10.sp,
+                horizon: 9.sp,
               ),
             );
           }

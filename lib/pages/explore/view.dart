@@ -48,26 +48,31 @@ class _ExplorePageState extends State<ExplorePage>
   Widget build(BuildContext context) {
     super.build(context);
     appMainContext = context;
-    return Scaffold(
-      body: Padding(
-        padding: EdgeInsets.only(
-          left: ScreenAdaptor().getLengthByOrientation(
-            vertical: 30.w,
-            horizon: 10.w,
+    return SafeArea(
+      left: false,
+      child: Scaffold(
+        extendBody: true,
+        extendBodyBehindAppBar: true,
+        body: Padding(
+          padding: EdgeInsets.only(
+            left: ScreenAdaptor().getLengthByOrientation(
+              vertical: 30.w,
+              horizon: 10.w,
+            ),
+            right: ScreenAdaptor().getLengthByOrientation(
+              vertical: 30.w,
+              horizon: 20.w,
+            ),
           ),
-          right: ScreenAdaptor().getLengthByOrientation(
-            vertical: 30.w,
-            horizon: 20.w,
+          child: CustomScrollView(
+            controller: state.scrollController,
+            slivers: [
+              // 获取AppBar
+              _getSliverBarWidget(),
+              // 获取歌单组件
+              _getPlayListWidget(),
+            ],
           ),
-        ),
-        child: CustomScrollView(
-          controller: state.scrollController,
-          slivers: [
-            // 获取AppBar
-            _getSliverBarWidget(),
-            // 获取歌单组件
-            _getPlayListWidget(),
-          ],
         ),
       ),
     );
@@ -116,22 +121,20 @@ class _ExplorePageState extends State<ExplorePage>
                 vertical: 130.w,
                 horizon: 75.w,
               ),
-              child: Center(
-                child: Obx(() {
-                  return TabBar(
-                    tabs: logic.getTabBarTabs(),
-                    controller: state.tabController.value,
-                    isScrollable: true,
-                    splashBorderRadius: BorderRadius.circular(
-                      ScreenAdaptor().getLengthByOrientation(
-                        vertical: 23.w,
-                        horizon: 15.w,
-                      ),
+              child: Obx(() {
+                return TabBar(
+                  tabs: logic.getTabBarTabs(),
+                  controller: state.tabController.value,
+                  isScrollable: true,
+                  splashBorderRadius: BorderRadius.circular(
+                    ScreenAdaptor().getLengthByOrientation(
+                      vertical: 23.w,
+                      horizon: 15.w,
                     ),
-                    onTap: logic.onTabChange,
-                  );
-                }),
-              ),
+                  ),
+                  onTap: logic.onTabChange,
+                );
+              }),
             ),
             // 更多按钮
             Positioned(
@@ -289,21 +292,25 @@ class _ExplorePageState extends State<ExplorePage>
           if (snapshot.connectionState == ConnectionState.done &&
               snapshot.data!.isNotEmpty &&
               snapshot.data![state.currentTab] != null) {
+            // 列数
+            int columnNumber = ScreenAdaptor().byOrientationReturn(
+              vertical: 3,
+              horizon: 5,
+            )!;
+            double width =
+                (MediaQuery.of(context).size.width - 10.w * columnNumber - 120.w) / columnNumber;
             return RowCover(
               items: snapshot.data![state.currentTab]!,
               subText: logic.getSubText(state.currentTab),
               type: "playlist",
-              columnNumber: ScreenAdaptor().byOrientationReturn(
-                vertical: 3,
-                horizon: 5,
-              )!,
+              columnNumber: columnNumber,
               imageWidth: ScreenAdaptor().getLengthByOrientation(
                 vertical: 200.w,
-                horizon: 100.w,
+                horizon: width,
               ),
               imageHeight: ScreenAdaptor().getLengthByOrientation(
                 vertical: 200.w,
-                horizon: 100.w,
+                horizon: width,
               ),
               horizontalSpacing: ScreenAdaptor().getLengthByOrientation(
                 vertical: 30.w,
