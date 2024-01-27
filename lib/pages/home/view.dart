@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:musicplayer/common/utils/AppTheme.dart';
 import 'package:musicplayer/common/utils/ScreenAdaptor.dart';
 import 'package:musicplayer/common/utils/StaticData.dart';
 import 'package:musicplayer/components/DailyTrackscard.dart';
@@ -43,14 +44,16 @@ class _HomePageState extends State<HomePage>
 
   @override
   Widget build(BuildContext context) {
+    // 状态栏颜色
+    AppTheme.statusBarAndBottomBarImmersed();
     super.build(context);
     return SafeArea(
       left: false,
       right: false,
       bottom: false,
       child: Scaffold(
-        extendBody: true,
-        extendBodyBehindAppBar: true,
+        // extendBody: true,
+        // extendBodyBehindAppBar: true,
         body: Padding(
           padding: EdgeInsets.only(
             left: ScreenAdaptor().getLengthByOrientation(

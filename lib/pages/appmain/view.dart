@@ -43,10 +43,12 @@ class _AppMainPageState extends State<AppMainPage>
 
   @override
   Widget build(BuildContext context) {
+    // 状态栏颜色
+    AppTheme.statusBarAndBottomBarImmersed();
     return Scaffold(
       key: state.scaffoldKey,
-      extendBody: true,
-      extendBodyBehindAppBar: true,
+      // extendBody: true,
+      // extendBodyBehindAppBar: true,
       drawer: _getDrawer(),
       body: Row(
         children: [
@@ -111,7 +113,7 @@ class _AppMainPageState extends State<AppMainPage>
                             state.avatarUrl.value,
                           ),
                           fit: BoxFit.cover,
-                          colorFilter: AppTheme().isDarkMode(
+                          colorFilter: AppTheme.isDarkMode(
                             dart: ColorFilter.mode(
                               Colors.black.withOpacity(0.5),
                               BlendMode.srcOver,

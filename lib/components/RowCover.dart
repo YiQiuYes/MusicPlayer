@@ -52,7 +52,7 @@ class RowCover extends StatelessWidget {
     );
   }
 
-  // 单个列组件 playlist
+  /// 单个列组件 playlist
   List<Widget> _singlePlayList(
       {required int index, required List<dynamic> items}) {
     return [
@@ -130,7 +130,7 @@ class RowCover extends StatelessWidget {
     ];
   }
 
-  // 单个列组件 artist
+  /// 单个列组件 artist
   List<Widget> _singleArtist(
       {required int index, required List<dynamic> items}) {
     // 外层为横型

@@ -1,4 +1,7 @@
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:musicplayer/common/utils/PlatFormUtils.dart';
 
 class AppTheme {
   AppTheme._privateConstructor();
@@ -8,7 +11,23 @@ class AppTheme {
   }
 
   /// 判断是否为暗色模式并返回对应的值
-  T? isDarkMode<T>({T? dart, T? light}) {
+  static T? isDarkMode<T>({T? dart, T? light}) {
     return Get.isDarkMode ? dart : light;
+  }
+
+  /// 状态栏和底部小白条沉浸
+  static void statusBarAndBottomBarImmersed() {
+    if (PlatformUtils.isAndroid || PlatformUtils.isIOS) {
+      SystemUiOverlayStyle systemUiOverlayStyle = const SystemUiOverlayStyle(
+        statusBarColor: Colors.transparent,
+        statusBarBrightness: Brightness.dark,
+        systemNavigationBarColor: Colors.transparent,
+        systemNavigationBarIconBrightness: Brightness.dark,
+        systemNavigationBarDividerColor: Colors.transparent,
+        statusBarIconBrightness: Brightness.dark,
+      );
+      SystemChrome.setSystemUIOverlayStyle(systemUiOverlayStyle);
+      SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
+    }
   }
 }

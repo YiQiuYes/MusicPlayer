@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:musicplayer/common/utils/AppTheme.dart';
 import 'package:musicplayer/common/utils/ScreenAdaptor.dart';
 import 'package:musicplayer/components/RowCover.dart';
 
@@ -47,6 +48,8 @@ class _ExplorePageState extends State<ExplorePage>
 
   @override
   Widget build(BuildContext context) {
+    // 状态栏颜色
+    AppTheme.statusBarAndBottomBarImmersed();
     super.build(context);
     appMainContext = context;
     return SafeArea(
@@ -54,8 +57,8 @@ class _ExplorePageState extends State<ExplorePage>
       right: false,
       bottom: false,
       child: Scaffold(
-        extendBody: true,
-        extendBodyBehindAppBar: true,
+        // extendBody: true,
+        // extendBodyBehindAppBar: true,
         body: Padding(
           padding: EdgeInsets.only(
             left: ScreenAdaptor().getLengthByOrientation(

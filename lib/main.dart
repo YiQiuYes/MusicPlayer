@@ -4,6 +4,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:musicplayer/common/net/RequestManager.dart';
+import 'package:musicplayer/common/utils/AppTheme.dart';
 import 'package:musicplayer/common/utils/DataStorageManager.dart';
 import 'package:musicplayer/common/utils/PlatFormUtils.dart';
 import 'package:musicplayer/generated/l10n.dart';
@@ -19,23 +20,7 @@ Future<void> main() async {
   // 启动APP
   runApp(const MyApp());
   // 状态栏和底部小白条沉浸
-  statusBarAndBottomBarImmersed();
-}
-
-/// 状态栏和底部小白条沉浸
-void statusBarAndBottomBarImmersed() {
-  if (PlatformUtils.isAndroid || PlatformUtils.isIOS) {
-    SystemUiOverlayStyle systemUiOverlayStyle = const SystemUiOverlayStyle(
-      statusBarColor: Colors.transparent,
-      statusBarBrightness: Brightness.dark,
-      systemNavigationBarColor: Colors.transparent,
-      systemNavigationBarIconBrightness: Brightness.dark,
-      systemNavigationBarDividerColor: Colors.transparent,
-      statusBarIconBrightness: Brightness.dark,
-    );
-    SystemChrome.setSystemUIOverlayStyle(systemUiOverlayStyle);
-    SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
-  }
+  AppTheme.statusBarAndBottomBarImmersed();
 }
 
 class MyApp extends StatelessWidget {
@@ -45,8 +30,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return ScreenUtilInit(
       designSize: const Size(720, 1080),
-      //minTextAdapt: true,
-      //splitScreenMode: true,
+      splitScreenMode: true,
       ensureScreenSize: true,
       builder: (context, child) {
         return GetMaterialApp(
