@@ -46,6 +46,8 @@ class _HomePageState extends State<HomePage>
     super.build(context);
     return SafeArea(
       left: false,
+      right: false,
+      bottom: false,
       child: Scaffold(
         extendBody: true,
         extendBodyBehindAppBar: true,
@@ -53,7 +55,7 @@ class _HomePageState extends State<HomePage>
           padding: EdgeInsets.only(
             left: ScreenAdaptor().getLengthByOrientation(
               vertical: 30.w,
-              horizon: 0,
+              horizon: 10.w,
             ),
             right: ScreenAdaptor().getLengthByOrientation(
               vertical: 30.w,
@@ -346,12 +348,13 @@ class _HomePageState extends State<HomePage>
                   vertical: 3,
                   horizon: 5,
                 )!;
-                double horizontalSpacing = ScreenAdaptor().getLengthByOrientation(
+                double horizontalSpacing =
+                    ScreenAdaptor().getLengthByOrientation(
                   vertical: 30.w,
                   horizon: 10.w,
                 );
                 double size = (constraints.crossAxisExtent -
-                    (columnNumber - 1) * horizontalSpacing) /
+                        (columnNumber - 1) * horizontalSpacing) /
                     columnNumber;
                 return RowCover(
                   items: snapshot.data!,
@@ -397,12 +400,13 @@ class _HomePageState extends State<HomePage>
                   vertical: 3,
                   horizon: 5,
                 )!;
-                double horizontalSpacing = ScreenAdaptor().getLengthByOrientation(
+                double horizontalSpacing =
+                    ScreenAdaptor().getLengthByOrientation(
                   vertical: 30.w,
                   horizon: 10.w,
                 );
                 double size = (constraints.crossAxisExtent -
-                    (columnNumber - 1) * horizontalSpacing) /
+                        (columnNumber - 1) * horizontalSpacing) /
                     columnNumber;
                 return RowCover(
                   items: snapshot.data!,
@@ -449,12 +453,13 @@ class _HomePageState extends State<HomePage>
                   vertical: 3,
                   horizon: 5,
                 )!;
-                double horizontalSpacing = ScreenAdaptor().getLengthByOrientation(
+                double horizontalSpacing =
+                    ScreenAdaptor().getLengthByOrientation(
                   vertical: 30.w,
                   horizon: 10.w,
                 );
                 double size = (constraints.crossAxisExtent -
-                    (columnNumber - 1) * horizontalSpacing) /
+                        (columnNumber - 1) * horizontalSpacing) /
                     columnNumber;
                 return RowCover(
                   items: snapshot.data!,
@@ -609,6 +614,12 @@ class _HomePageState extends State<HomePage>
                     state.scrollController.offset.roundToDouble(),
                 MediaQuery.sizeOf(context).width -
                     (ScreenAdaptor().getOrientation() ? 230.w : 0),
+              ),
+              padding: EdgeInsets.only(
+                bottom: ScreenAdaptor().getLengthByOrientation(
+                  vertical: 8.w,
+                  horizon: 0,
+                ),
               ),
               child: SizedBox(
                 height: ScreenAdaptor().getLengthByOrientation(

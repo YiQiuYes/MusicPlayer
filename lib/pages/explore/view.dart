@@ -49,28 +49,33 @@ class _ExplorePageState extends State<ExplorePage>
   Widget build(BuildContext context) {
     super.build(context);
     appMainContext = context;
-    return Scaffold(
-      extendBody: true,
-      extendBodyBehindAppBar: true,
-      body: Padding(
-        padding: EdgeInsets.only(
-          left: ScreenAdaptor().getLengthByOrientation(
-            vertical: 30.w,
-            horizon: 10.w,
+    return SafeArea(
+      left: false,
+      right: false,
+      bottom: false,
+      child: Scaffold(
+        extendBody: true,
+        extendBodyBehindAppBar: true,
+        body: Padding(
+          padding: EdgeInsets.only(
+            left: ScreenAdaptor().getLengthByOrientation(
+              vertical: 30.w,
+              horizon: 10.w,
+            ),
+            right: ScreenAdaptor().getLengthByOrientation(
+              vertical: 30.w,
+              horizon: 20.w,
+            ),
           ),
-          right: ScreenAdaptor().getLengthByOrientation(
-            vertical: 30.w,
-            horizon: 20.w,
+          child: CustomScrollView(
+            controller: state.scrollController,
+            slivers: [
+              // 获取AppBar
+              _getSliverBarWidget(),
+              // 获取歌单组件
+              _getPlayListWidget(),
+            ],
           ),
-        ),
-        child: CustomScrollView(
-          controller: state.scrollController,
-          slivers: [
-            // 获取AppBar
-            _getSliverBarWidget(),
-            // 获取歌单组件
-            _getPlayListWidget(),
-          ],
         ),
       ),
     );
@@ -83,7 +88,7 @@ class _ExplorePageState extends State<ExplorePage>
       elevation: 0,
       surfaceTintColor: Colors.transparent,
       toolbarHeight: ScreenAdaptor().getLengthByOrientation(
-        vertical: 67.w,
+        vertical: 110.w,
         horizon: 57.w,
       ),
       flexibleSpace: FlexibleSpaceBar(
@@ -108,8 +113,8 @@ class _ExplorePageState extends State<ExplorePage>
             // TabBar
             Positioned(
               top: ScreenAdaptor().getLengthByOrientation(
-                vertical: 47.w,
-                horizon: 45.w,
+                vertical: 45.w,
+                horizon: 17.w,
               ),
               left: ScreenAdaptor().getLengthByOrientation(
                 vertical: 130.w,
@@ -139,7 +144,7 @@ class _ExplorePageState extends State<ExplorePage>
             Positioned(
               top: ScreenAdaptor().getLengthByOrientation(
                 vertical: 25.w,
-                horizon: 32.w,
+                horizon: 3.w,
               ),
               right: 0,
               child: TextButton(
