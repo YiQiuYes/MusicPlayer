@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:musicplayer/common/utils/ScreenAdaptor.dart';
@@ -130,35 +131,45 @@ class _HomePageState extends State<HomePage>
 
   /// 获取byAppleMusic专辑
   Widget _getByAppleMusicAlbumWidget() {
-    // 列数
-    int columnNumber = 5;
-    double padding = MediaQuery.paddingOf(context).left + MediaQuery.paddingOf(context).right;
-    double width =
-        (MediaQuery.of(context).size.width - 10.w * columnNumber - 120.w - padding) / columnNumber;
-    return RowCover(
-      items: byAppleMusicStaticData,
-      subText: "appleMusic",
-      type: "playlist",
-      imageWidth: ScreenAdaptor().getLengthByOrientation(
-        vertical: 250.w,
-        horizon: width,
-      ),
-      imageHeight: ScreenAdaptor().getLengthByOrientation(
-        vertical: 250.w,
-        horizon: width,
-      ),
-      horizontalSpacing: ScreenAdaptor().getLengthByOrientation(
-        vertical: 30.w,
-        horizon: 10.w,
-      ),
-      fontMainSize: ScreenAdaptor().getLengthByOrientation(
-        vertical: 24.sp,
-        horizon: 11.sp,
-      ),
-      fontSubSize: ScreenAdaptor().getLengthByOrientation(
-        vertical: 18.sp,
-        horizon: 9.sp,
-      ),
+    return SliverLayoutBuilder(
+      builder: (BuildContext context, SliverConstraints constraints) {
+        int columnNumber = ScreenAdaptor().byOrientationReturn(
+          vertical: 3,
+          horizon: 5,
+        )!;
+        double horizontalSpacing = ScreenAdaptor().getLengthByOrientation(
+          vertical: 30.w,
+          horizon: 10.w,
+        );
+        double size = (constraints.crossAxisExtent -
+                (columnNumber - 1) * horizontalSpacing) /
+            columnNumber;
+        return RowCover(
+          items: byAppleMusicStaticData,
+          subText: "appleMusic",
+          type: "playlist",
+          imageWidth: ScreenAdaptor().getLengthByOrientation(
+            vertical: 250.w,
+            horizon: size,
+          ),
+          imageHeight: ScreenAdaptor().getLengthByOrientation(
+            vertical: 250.w,
+            horizon: size,
+          ),
+          horizontalSpacing: ScreenAdaptor().getLengthByOrientation(
+            vertical: 30.w,
+            horizon: 10.w,
+          ),
+          fontMainSize: ScreenAdaptor().getLengthByOrientation(
+            vertical: 24.sp,
+            horizon: 11.sp,
+          ),
+          fontSubSize: ScreenAdaptor().getLengthByOrientation(
+            vertical: 18.sp,
+            horizon: 9.sp,
+          ),
+        );
+      },
     );
   }
 
@@ -169,35 +180,42 @@ class _HomePageState extends State<HomePage>
       builder: (BuildContext context, AsyncSnapshot<List<dynamic>> snapshot) {
         if (snapshot.connectionState == ConnectionState.done &&
             snapshot.data!.isNotEmpty) {
-          // 列数
-          int columnNumber = 5;
-          double padding = MediaQuery.paddingOf(context).left + MediaQuery.paddingOf(context).right;
-          double width =
-              (MediaQuery.of(context).size.width - 10.w * columnNumber - 120.w - padding) / columnNumber;
-          return RowCover(
-            items: snapshot.data!,
-            subText: "copywriter",
-            type: "playlist",
-            imageWidth: ScreenAdaptor().getLengthByOrientation(
-              vertical: 250.w,
-              horizon: width,
-            ),
-            imageHeight: ScreenAdaptor().getLengthByOrientation(
-              vertical: 250.w,
-              horizon: width,
-            ),
-            horizontalSpacing: ScreenAdaptor().getLengthByOrientation(
-              vertical: 30.w,
-              horizon: 10.w,
-            ),
-            fontMainSize: ScreenAdaptor().getLengthByOrientation(
-              vertical: 24.sp,
-              horizon: 11.sp,
-            ),
-            fontSubSize: ScreenAdaptor().getLengthByOrientation(
-              vertical: 18.sp,
-              horizon: 9.sp,
-            ),
+          return SliverLayoutBuilder(
+            builder: (BuildContext context, SliverConstraints constraints) {
+              int columnNumber = ScreenAdaptor().byOrientationReturn(
+                vertical: 3,
+                horizon: 5,
+              )!;
+              double horizontalSpacing = ScreenAdaptor().getLengthByOrientation(
+                vertical: 30.w,
+                horizon: 10.w,
+              );
+              double size = (constraints.crossAxisExtent -
+                      (columnNumber - 1) * horizontalSpacing) /
+                  columnNumber;
+              return RowCover(
+                items: snapshot.data!,
+                subText: "copywriter",
+                type: "playlist",
+                imageWidth: ScreenAdaptor().getLengthByOrientation(
+                  vertical: 250.w,
+                  horizon: size,
+                ),
+                imageHeight: ScreenAdaptor().getLengthByOrientation(
+                  vertical: 250.w,
+                  horizon: size,
+                ),
+                horizontalSpacing: horizontalSpacing,
+                fontMainSize: ScreenAdaptor().getLengthByOrientation(
+                  vertical: 24.sp,
+                  horizon: 11.sp,
+                ),
+                fontSubSize: ScreenAdaptor().getLengthByOrientation(
+                  vertical: 18.sp,
+                  horizon: 9.sp,
+                ),
+              );
+            },
           );
         }
         return const SliverToBoxAdapter(child: SizedBox());
@@ -322,34 +340,41 @@ class _HomePageState extends State<HomePage>
         builder: (BuildContext context, AsyncSnapshot<List<dynamic>> snapshot) {
           if (snapshot.connectionState == ConnectionState.done &&
               snapshot.data!.isNotEmpty) {
-            // 列数
-            int columnNumber = 5;
-            double padding = MediaQuery.paddingOf(context).left + MediaQuery.paddingOf(context).right;
-            double width =
-                (MediaQuery.of(context).size.width - 10.w * columnNumber - 120.w - padding) / columnNumber;
-            return RowCover(
-              items: snapshot.data!,
-              type: "artist",
-              imageWidth: ScreenAdaptor().getLengthByOrientation(
-                vertical: 250.w,
-                horizon: width,
-              ),
-              imageHeight: ScreenAdaptor().getLengthByOrientation(
-                vertical: 250.w,
-                horizon: width,
-              ),
-              horizontalSpacing: ScreenAdaptor().getLengthByOrientation(
-                vertical: 30.w,
-                horizon: 10.w,
-              ),
-              fontMainSize: ScreenAdaptor().getLengthByOrientation(
-                vertical: 24.sp,
-                horizon: 11.sp,
-              ),
-              fontSubSize: ScreenAdaptor().getLengthByOrientation(
-                vertical: 18.sp,
-                horizon: 9.sp,
-              ),
+            return SliverLayoutBuilder(
+              builder: (BuildContext context, SliverConstraints constraints) {
+                int columnNumber = ScreenAdaptor().byOrientationReturn(
+                  vertical: 3,
+                  horizon: 5,
+                )!;
+                double horizontalSpacing = ScreenAdaptor().getLengthByOrientation(
+                  vertical: 30.w,
+                  horizon: 10.w,
+                );
+                double size = (constraints.crossAxisExtent -
+                    (columnNumber - 1) * horizontalSpacing) /
+                    columnNumber;
+                return RowCover(
+                  items: snapshot.data!,
+                  type: "artist",
+                  imageWidth: ScreenAdaptor().getLengthByOrientation(
+                    vertical: 250.w,
+                    horizon: size,
+                  ),
+                  imageHeight: ScreenAdaptor().getLengthByOrientation(
+                    vertical: 250.w,
+                    horizon: size,
+                  ),
+                  horizontalSpacing: horizontalSpacing,
+                  fontMainSize: ScreenAdaptor().getLengthByOrientation(
+                    vertical: 24.sp,
+                    horizon: 11.sp,
+                  ),
+                  fontSubSize: ScreenAdaptor().getLengthByOrientation(
+                    vertical: 18.sp,
+                    horizon: 9.sp,
+                  ),
+                );
+              },
             );
           }
           return const SliverToBoxAdapter(child: SizedBox());
@@ -366,35 +391,42 @@ class _HomePageState extends State<HomePage>
         builder: (BuildContext context, AsyncSnapshot<List<dynamic>> snapshot) {
           if (snapshot.connectionState == ConnectionState.done &&
               snapshot.data!.isNotEmpty) {
-            // 列数
-            int columnNumber = 5;
-            double padding = MediaQuery.paddingOf(context).left + MediaQuery.paddingOf(context).right;
-            double width =
-                (MediaQuery.of(context).size.width - 10.w * columnNumber - 120.w - padding) / columnNumber;
-            return RowCover(
-              items: snapshot.data!,
-              type: "album",
-              subText: "artist",
-              imageWidth: ScreenAdaptor().getLengthByOrientation(
-                vertical: 250.w,
-                horizon: width,
-              ),
-              imageHeight: ScreenAdaptor().getLengthByOrientation(
-                vertical: 250.w,
-                horizon: width,
-              ),
-              horizontalSpacing: ScreenAdaptor().getLengthByOrientation(
-                vertical: 30.w,
-                horizon: 10.w,
-              ),
-              fontMainSize: ScreenAdaptor().getLengthByOrientation(
-                vertical: 24.sp,
-                horizon: 11.sp,
-              ),
-              fontSubSize: ScreenAdaptor().getLengthByOrientation(
-                vertical: 18.sp,
-                horizon: 9.sp,
-              ),
+            return SliverLayoutBuilder(
+              builder: (BuildContext context, SliverConstraints constraints) {
+                int columnNumber = ScreenAdaptor().byOrientationReturn(
+                  vertical: 3,
+                  horizon: 5,
+                )!;
+                double horizontalSpacing = ScreenAdaptor().getLengthByOrientation(
+                  vertical: 30.w,
+                  horizon: 10.w,
+                );
+                double size = (constraints.crossAxisExtent -
+                    (columnNumber - 1) * horizontalSpacing) /
+                    columnNumber;
+                return RowCover(
+                  items: snapshot.data!,
+                  subText: "artist",
+                  type: "album",
+                  imageWidth: ScreenAdaptor().getLengthByOrientation(
+                    vertical: 250.w,
+                    horizon: size,
+                  ),
+                  imageHeight: ScreenAdaptor().getLengthByOrientation(
+                    vertical: 250.w,
+                    horizon: size,
+                  ),
+                  horizontalSpacing: horizontalSpacing,
+                  fontMainSize: ScreenAdaptor().getLengthByOrientation(
+                    vertical: 24.sp,
+                    horizon: 11.sp,
+                  ),
+                  fontSubSize: ScreenAdaptor().getLengthByOrientation(
+                    vertical: 18.sp,
+                    horizon: 9.sp,
+                  ),
+                );
+              },
             );
           }
           return const SliverToBoxAdapter(child: SizedBox());
@@ -411,35 +443,42 @@ class _HomePageState extends State<HomePage>
         builder: (BuildContext context, AsyncSnapshot<List<dynamic>> snapshot) {
           if (snapshot.connectionState == ConnectionState.done &&
               snapshot.data!.isNotEmpty) {
-            // 列数
-            int columnNumber = 5;
-            double padding = MediaQuery.paddingOf(context).left + MediaQuery.paddingOf(context).right;
-            double width =
-                (MediaQuery.of(context).size.width - 10.w * columnNumber - 120.w - padding) / columnNumber;
-            return RowCover(
-              items: snapshot.data!,
-              type: "playlist",
-              subText: "updateFrequency",
-              imageWidth: ScreenAdaptor().getLengthByOrientation(
-                vertical: 250.w,
-                horizon: width,
-              ),
-              imageHeight: ScreenAdaptor().getLengthByOrientation(
-                vertical: 250.w,
-                horizon: width,
-              ),
-              horizontalSpacing: ScreenAdaptor().getLengthByOrientation(
-                vertical: 30.w,
-                horizon: 10.w,
-              ),
-              fontMainSize: ScreenAdaptor().getLengthByOrientation(
-                vertical: 24.sp,
-                horizon: 11.sp,
-              ),
-              fontSubSize: ScreenAdaptor().getLengthByOrientation(
-                vertical: 18.sp,
-                horizon: 9.sp,
-              ),
+            return SliverLayoutBuilder(
+              builder: (BuildContext context, SliverConstraints constraints) {
+                int columnNumber = ScreenAdaptor().byOrientationReturn(
+                  vertical: 3,
+                  horizon: 5,
+                )!;
+                double horizontalSpacing = ScreenAdaptor().getLengthByOrientation(
+                  vertical: 30.w,
+                  horizon: 10.w,
+                );
+                double size = (constraints.crossAxisExtent -
+                    (columnNumber - 1) * horizontalSpacing) /
+                    columnNumber;
+                return RowCover(
+                  items: snapshot.data!,
+                  subText: "updateFrequency",
+                  type: "playlist",
+                  imageWidth: ScreenAdaptor().getLengthByOrientation(
+                    vertical: 250.w,
+                    horizon: size,
+                  ),
+                  imageHeight: ScreenAdaptor().getLengthByOrientation(
+                    vertical: 250.w,
+                    horizon: size,
+                  ),
+                  horizontalSpacing: horizontalSpacing,
+                  fontMainSize: ScreenAdaptor().getLengthByOrientation(
+                    vertical: 24.sp,
+                    horizon: 11.sp,
+                  ),
+                  fontSubSize: ScreenAdaptor().getLengthByOrientation(
+                    vertical: 18.sp,
+                    horizon: 9.sp,
+                  ),
+                );
+              },
             );
           }
           return const SliverToBoxAdapter(child: SizedBox());

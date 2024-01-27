@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:musicplayer/common/utils/ScreenAdaptor.dart';
@@ -82,7 +83,7 @@ class _ExplorePageState extends State<ExplorePage>
       elevation: 0,
       surfaceTintColor: Colors.transparent,
       toolbarHeight: ScreenAdaptor().getLengthByOrientation(
-        vertical: 125.w,
+        vertical: 67.w,
         horizon: 57.w,
       ),
       flexibleSpace: FlexibleSpaceBar(
@@ -107,8 +108,8 @@ class _ExplorePageState extends State<ExplorePage>
             // TabBar
             Positioned(
               top: ScreenAdaptor().getLengthByOrientation(
-                vertical: 53.w,
-                horizon: 18.w,
+                vertical: 47.w,
+                horizon: 45.w,
               ),
               left: ScreenAdaptor().getLengthByOrientation(
                 vertical: 130.w,
@@ -120,6 +121,7 @@ class _ExplorePageState extends State<ExplorePage>
               ),
               child: Obx(() {
                 return TabBar(
+                  padding: EdgeInsets.zero,
                   tabs: logic.getTabBarTabs(),
                   controller: state.tabController.value,
                   isScrollable: true,
@@ -137,7 +139,7 @@ class _ExplorePageState extends State<ExplorePage>
             Positioned(
               top: ScreenAdaptor().getLengthByOrientation(
                 vertical: 25.w,
-                horizon: 5.w,
+                horizon: 32.w,
               ),
               right: 0,
               child: TextButton(
@@ -289,39 +291,44 @@ class _ExplorePageState extends State<ExplorePage>
           if (snapshot.connectionState == ConnectionState.done &&
               snapshot.data!.isNotEmpty &&
               snapshot.data![state.currentTab] != null) {
-            // 列数
-            int columnNumber = ScreenAdaptor().byOrientationReturn(
-              vertical: 3,
-              horizon: 5,
-            )!;
-            double padding = MediaQuery.paddingOf(context).left + MediaQuery.paddingOf(context).right;
-            double width =
-                (MediaQuery.of(context).size.width - 10.w * columnNumber - 120.w - padding) / columnNumber;
-            return RowCover(
-              items: snapshot.data![state.currentTab]!,
-              subText: logic.getSubText(state.currentTab),
-              type: "playlist",
-              columnNumber: columnNumber,
-              imageWidth: ScreenAdaptor().getLengthByOrientation(
-                vertical: 200.w,
-                horizon: width,
-              ),
-              imageHeight: ScreenAdaptor().getLengthByOrientation(
-                vertical: 200.w,
-                horizon: width,
-              ),
-              horizontalSpacing: ScreenAdaptor().getLengthByOrientation(
-                vertical: 30.w,
-                horizon: 10.w,
-              ),
-              fontMainSize: ScreenAdaptor().getLengthByOrientation(
-                vertical: 20.sp,
-                horizon: 11.sp,
-              ),
-              fontSubSize: ScreenAdaptor().getLengthByOrientation(
-                vertical: 15.sp,
-                horizon: 9.sp,
-              ),
+            return SliverLayoutBuilder(
+              builder: (BuildContext context, SliverConstraints constraints) {
+                int columnNumber = ScreenAdaptor().byOrientationReturn(
+                  vertical: 3,
+                  horizon: 5,
+                )!;
+                double horizontalSpacing =
+                    ScreenAdaptor().getLengthByOrientation(
+                  vertical: 30.w,
+                  horizon: 10.w,
+                );
+                double size = (constraints.crossAxisExtent -
+                        (columnNumber - 1) * horizontalSpacing) /
+                    columnNumber;
+                return RowCover(
+                  items: snapshot.data![state.currentTab]!,
+                  subText: logic.getSubText(state.currentTab),
+                  type: "playlist",
+                  columnNumber: columnNumber,
+                  imageWidth: ScreenAdaptor().getLengthByOrientation(
+                    vertical: 200.w,
+                    horizon: size,
+                  ),
+                  imageHeight: ScreenAdaptor().getLengthByOrientation(
+                    vertical: 200.w,
+                    horizon: size,
+                  ),
+                  horizontalSpacing: horizontalSpacing,
+                  fontMainSize: ScreenAdaptor().getLengthByOrientation(
+                    vertical: 20.sp,
+                    horizon: 11.sp,
+                  ),
+                  fontSubSize: ScreenAdaptor().getLengthByOrientation(
+                    vertical: 15.sp,
+                    horizon: 9.sp,
+                  ),
+                );
+              },
             );
           }
           return const SliverToBoxAdapter(child: SizedBox());

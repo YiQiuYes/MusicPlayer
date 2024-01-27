@@ -18,6 +18,7 @@ class ExploreState {
   late ScrollController scrollController;
   // 分类面板总分类标题
   late List<String> playlistCategoriesTile;
+  GlobalKey key = GlobalKey();
 
   // 歌单缓存数据
   late Rx<Future<Map<String, List<dynamic>>>> futurePlayListCacheData;
