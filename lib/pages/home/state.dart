@@ -1,6 +1,11 @@
+import 'dart:async';
+
+import 'package:event_bus/event_bus.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get_connect/http/src/response/response.dart';
 import 'package:get/get_rx/src/rx_types/rx_types.dart';
+import 'package:musicplayer/common/utils/EventBusManager.dart';
+import 'package:musicplayer/common/utils/ShareData.dart';
 
 class HomeState {
   // 滚动控制器
@@ -19,6 +24,9 @@ class HomeState {
   late Rx<Future<List<dynamic>>> futureTopList;
   // 排行榜过滤器id数组
   late List<int> topListIds;
+
+  // 监听数据总线返回的数据
+  late StreamSubscription streamSubscription;
 
   HomeState() {
     scrollController = ScrollController();

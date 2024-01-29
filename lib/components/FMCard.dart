@@ -118,7 +118,7 @@ class _FMCardState extends State<FMCard> {
                           ),
                         ),
                         Text(
-                          S.of(context).fmCardPrivateFM,
+                          S.of(context).homeDailyTracksCardTitle,
                           style: TextStyle(
                             letterSpacing: 0,
                             color: Colors.white.withOpacity(0.18),

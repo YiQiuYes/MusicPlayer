@@ -91,7 +91,7 @@ class _ExplorePageState extends State<ExplorePage>
       elevation: 0,
       surfaceTintColor: Colors.transparent,
       toolbarHeight: ScreenAdaptor().getLengthByOrientation(
-        vertical: 110.w,
+        vertical: 120.w,
         horizon: 57.w,
       ),
       flexibleSpace: FlexibleSpaceBar(
@@ -100,7 +100,7 @@ class _ExplorePageState extends State<ExplorePage>
             // 侧边栏按钮
             ScreenAdaptor().byOrientationReturn(
               vertical: Positioned(
-                top: 25.w,
+                top: 23.w,
                 child: TextButton(
                   child: Icon(
                     Icons.menu,

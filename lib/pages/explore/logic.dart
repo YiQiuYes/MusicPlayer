@@ -25,12 +25,10 @@ class ExploreLogic extends GetxController {
       Map<String, dynamic> cacheData =
           await state.futurePlayListCacheData.value;
       // 判断是否需要添加数据
-      if (cacheData[state.currentTab] == null ||
-          !value[state.currentTab]!.contains(cacheData[state.currentTab][0])) {
+      if (cacheData[state.currentTab] == null) {
         // 添加数据
         cacheData.addAll(value);
       }
-
       state.futurePlayListCacheData.refresh();
     });
   }
@@ -63,14 +61,28 @@ class ExploreLogic extends GetxController {
         bool isLogin = await RequestManager().isLogin();
         // 登录成功
         if (isLogin) {
-          return {
-            type: await PlayListApi()
-                .getRecommendPlayList(limit: 8)
-                .then((value) {
-              var result = RequestUtils.transformResponse(value);
-              return result["result"];
-            })
-          };
+          // 每日推荐歌单
+          List<dynamic> dailyRecommendPlayList = await PlayListApi()
+              .getDailyRecommendPlayList(limit: 8)
+              .then((value) {
+            var result = RequestUtils.transformResponse(value);
+            return result["recommend"];
+          });
+
+          // 推荐歌单
+          List<dynamic> recommendPlayList = await PlayListApi()
+              .getRecommendPlayList(limit: 99 - dailyRecommendPlayList.length)
+              .then((value) {
+            var result = RequestUtils.transformResponse(value);
+            return result["result"];
+          });
+
+          // 合并list
+          List<dynamic> list = [];
+          list.addAll(dailyRecommendPlayList);
+          list.addAll(recommendPlayList);
+
+          return {type: list};
         } else {
           // 尚未登陆
           return {

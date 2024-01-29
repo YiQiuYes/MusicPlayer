@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:get/get_rx/src/rx_types/rx_types.dart';
 import 'package:flutter/material.dart';
 import 'package:musicplayer/common/utils/DataStorageManager.dart';
@@ -11,6 +13,9 @@ class AppMainState {
   late RxInt currentIndex;
   // TabBarView控制器
   late TabController tabController;
+
+  // 监听数据总线返回的数据
+  late StreamSubscription streamSubscription;
 
   AppMainState() {
     currentIndex = 0.obs;

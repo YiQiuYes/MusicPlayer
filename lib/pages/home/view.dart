@@ -4,8 +4,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:musicplayer/common/net/RequestManager.dart';
 import 'package:musicplayer/common/utils/AppTheme.dart';
+import 'package:musicplayer/common/utils/EventBusManager.dart';
 import 'package:musicplayer/common/utils/ScreenAdaptor.dart';
+import 'package:musicplayer/common/utils/ShareData.dart';
 import 'package:musicplayer/common/utils/StaticData.dart';
 import 'package:musicplayer/components/DailyTrackscard.dart';
 import 'package:musicplayer/components/FMCard.dart';
@@ -33,12 +36,15 @@ class _HomePageState extends State<HomePage>
   void initState() {
     // 页面初始化
     logic.pageInit();
+    // 监听逻辑
+    logic.listenForEvents();
     super.initState();
   }
 
   @override
   void dispose() {
     state.scrollController.dispose();
+    state.streamSubscription.cancel();
     super.dispose();
   }
 
@@ -239,6 +245,7 @@ class _HomePageState extends State<HomePage>
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
+            // 每日推荐歌曲
             Obx(() {
               return FutureBuilder(
                 future: state.futureDailyTracksList.value,
@@ -505,7 +512,7 @@ class _HomePageState extends State<HomePage>
             horizon: 10.w,
           ),
           bottom: ScreenAdaptor().getLengthByOrientation(
-            vertical: 15.w,
+            vertical: 30.w,
             horizon: 15.w,
           ),
         ),

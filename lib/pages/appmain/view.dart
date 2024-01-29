@@ -32,12 +32,15 @@ class _AppMainPageState extends State<AppMainPage>
       length: 3,
       vsync: this,
     );
+    // 监听逻辑初始化
+    logic.listenForEvents();
     super.initState();
   }
 
   @override
   void dispose() {
     state.tabController.dispose();
+    state.streamSubscription.cancel();
     super.dispose();
   }
 
@@ -310,10 +313,7 @@ class _AppMainPageState extends State<AppMainPage>
             ),
           ],
           selectedIndex: state.currentIndex.value,
-          onDestinationSelected: (int index) {
-            state.tabController.animateTo(index);
-            state.currentIndex.value = index;
-          },
+          onDestinationSelected: logic.navigationManage,
           labelType: NavigationRailLabelType.selected,
         ),
       );
@@ -347,10 +347,7 @@ class _AppMainPageState extends State<AppMainPage>
           ),
         ],
         selectedIndex: state.currentIndex.value,
-        onDestinationSelected: (int index) {
-          state.currentIndex.value = index;
-          state.tabController.animateTo(index);
-        },
+        onDestinationSelected: logic.navigationManage,
       );
     });
   }

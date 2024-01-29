@@ -37,16 +37,13 @@ class RequestManager {
     });
   }
 
-  // 初始化cookie管理器,main函数中调用
-  Future<void> persistCookieJarInit() async {
-    Directory tempDir = await getTemporaryDirectory();
-    final tempPath = tempDir.path;
-    _persistCookieJar = PersistCookieJar(
-      ignoreExpires: true,
-      storage: FileStorage(tempPath),
-    );
-    // 添加拦截器
-    _dio.interceptors.add(CookieManager(_persistCookieJar));
+  /// 清除Cookie
+  Future<void> clearCookie() async {
+    await _persistCookieJar.deleteAll();
+  }
+
+  /// 判断是否需要添加游客cookie
+  Future<void> _isAddVisitorCookie() async {
     await _persistCookieJar
         .loadForRequest(Uri.parse("https://music.163.com"))
         .then((value) async {
@@ -60,6 +57,20 @@ class RequestManager {
         ]);
       }
     });
+  }
+
+  // 初始化cookie管理器,main函数中调用
+  Future<void> persistCookieJarInit() async {
+    Directory tempDir = await getTemporaryDirectory();
+    final tempPath = tempDir.path;
+    _persistCookieJar = PersistCookieJar(
+      ignoreExpires: true,
+      storage: FileStorage(tempPath),
+    );
+    // 添加拦截器
+    _dio.interceptors.add(CookieManager(_persistCookieJar));
+    // 判断是否需要添加游客Cookie
+    await _isAddVisitorCookie();
   }
 
   // {

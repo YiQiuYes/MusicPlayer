@@ -160,6 +160,26 @@ class S {
     );
   }
 
+  /// `PrivateFM`
+  String get homeFMCardPrivateFM {
+    return Intl.message(
+      'PrivateFM',
+      name: 'homeFMCardPrivateFM',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Recommended\ndaily`
+  String get homeDailyTracksCardTitle {
+    return Intl.message(
+      'Recommended\ndaily',
+      name: 'homeDailyTracksCardTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Hello`
   String get drawerHeaderName {
     return Intl.message(
@@ -190,21 +210,111 @@ class S {
     );
   }
 
-  /// `PrivateFM`
-  String get fmCardPrivateFM {
+  /// `Login to Netease`
+  String get loginText {
     return Intl.message(
-      'PrivateFM',
-      name: 'fmCardPrivateFM',
+      'Login to Netease',
+      name: 'loginText',
       desc: '',
       args: [],
     );
   }
 
-  /// `Recommended\ndaily`
-  String get dailyTracksCardTitle {
+  /// `Open the Netease APP and scan the code to log in`
+  String get loginQRTip {
     return Intl.message(
-      'Recommended\ndaily',
-      name: 'dailyTracksCardTitle',
+      'Open the Netease APP and scan the code to log in',
+      name: 'loginQRTip',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `'s Library`
+  String get librarySLibrary {
+    return Intl.message(
+      '\'s Library',
+      name: 'librarySLibrary',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Liked Songs`
+  String get libraryLikedSongs {
+    return Intl.message(
+      'Liked Songs',
+      name: 'libraryLikedSongs',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Songs`
+  String get libraryLikedSongsNumber {
+    return Intl.message(
+      'Songs',
+      name: 'libraryLikedSongsNumber',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `All Playlists`
+  String get libraryAllPlayList {
+    return Intl.message(
+      'All Playlists',
+      name: 'libraryAllPlayList',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Album`
+  String get libraryAlbum {
+    return Intl.message(
+      'Album',
+      name: 'libraryAlbum',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Artist`
+  String get libraryArtist {
+    return Intl.message(
+      'Artist',
+      name: 'libraryArtist',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `MV`
+  String get libraryMV {
+    return Intl.message(
+      'MV',
+      name: 'libraryMV',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Cloud Disk`
+  String get libraryCloudDisk {
+    return Intl.message(
+      'Cloud Disk',
+      name: 'libraryCloudDisk',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Songs Rank`
+  String get librarySongsRank {
+    return Intl.message(
+      'Songs Rank',
+      name: 'librarySongsRank',
       desc: '',
       args: [],
     );

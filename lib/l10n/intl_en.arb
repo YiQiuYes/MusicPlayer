@@ -11,12 +11,23 @@
   "homeRecommendArtist": "Recommended Artists",
   "homeNewAlbum": "Latest Albums",
   "homeCharts": "Charts",
+  "homeFMCardPrivateFM" : "PrivateFM",
+  "homeDailyTracksCardTitle" : "Recommended\ndaily",
 
   "drawerHeaderName" : "Hello",
   "drawerTileSettings"  : "Settings",
   "drawerTileHome" : "Home",
 
-  "fmCardPrivateFM" : "PrivateFM",
+  "loginText" : "Login to Netease",
+  "loginQRTip" : "Open the Netease APP and scan the code to log in",
 
-  "dailyTracksCardTitle" : "Recommended\ndaily"
+  "librarySLibrary" : "'s Library",
+  "libraryLikedSongs" : "Liked Songs",
+  "libraryLikedSongsNumber" : "Songs",
+  "libraryAllPlayList" : "All Playlists",
+  "libraryAlbum" : "Album",
+  "libraryArtist" : "Artist",
+  "libraryMV" : "MV",
+  "libraryCloudDisk" : "Cloud Disk",
+  "librarySongsRank" : "Songs Rank"
 }

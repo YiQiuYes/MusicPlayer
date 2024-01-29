@@ -128,7 +128,7 @@ class _DailyTracksCardState extends State<DailyTracksCard>
                       horizon: 18.w,
                     ),
                     child: Text(
-                      S.of(context).dailyTracksCardTitle,
+                      S.of(context).homeDailyTracksCardTitle,
                       style: TextStyle(
                         fontSize: ScreenAdaptor().getLengthByOrientation(
                           vertical: 60.sp,

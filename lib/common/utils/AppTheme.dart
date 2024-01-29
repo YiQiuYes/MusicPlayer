@@ -20,11 +20,11 @@ class AppTheme {
     if (PlatformUtils.isAndroid || PlatformUtils.isIOS) {
       SystemUiOverlayStyle systemUiOverlayStyle = const SystemUiOverlayStyle(
         statusBarColor: Colors.transparent,
-        statusBarBrightness: Brightness.dark,
+        // statusBarBrightness: Brightness.light,
         systemNavigationBarColor: Colors.transparent,
-        systemNavigationBarIconBrightness: Brightness.dark,
+        // systemNavigationBarIconBrightness: Brightness.dark,
         systemNavigationBarDividerColor: Colors.transparent,
-        statusBarIconBrightness: Brightness.dark,
+        // statusBarIconBrightness: Brightness.dark,
       );
       SystemChrome.setSystemUIOverlayStyle(systemUiOverlayStyle);
       SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);

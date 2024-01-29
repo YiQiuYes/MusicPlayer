@@ -28,6 +28,23 @@ class PlayListApi {
     );
   }
 
+  // 获取每日推荐歌单 需要登录的情况下调用
+  Future<Response> getDailyRecommendPlayList(
+      {MyOptions? myOptions, int? limit}) async {
+    myOptions ??= MyOptions();
+    myOptions.crypto = "weapi";
+    Map<String, dynamic> queryParameters = {
+      "limit": limit ?? 30,
+      "total": true,
+      "n": 1000,
+    };
+    return await requestManager.post(
+      "https://music.163.com/weapi/v1/discovery/recommend/resource",
+      queryParameters: queryParameters,
+      myOptions: myOptions,
+    );
+  }
+
   /// 获取每日推荐歌曲 需要登录的情况下调用
   Future<Response> getDailyRecommendTracks() async {
     MyOptions myOptions = MyOptions(crypto: "weapi");
@@ -69,7 +86,7 @@ class PlayListApi {
     );
   }
 
-  // 获取精品歌单
+  /// 获取精品歌单
   Future<Response> getHighQualityPlayList(
       {String? cat, int? limit, int? lasttime}) async {
     MyOptions myOptions = MyOptions(crypto: "weapi");
@@ -81,6 +98,26 @@ class PlayListApi {
 
     return await requestManager.post(
       "https://music.163.com/api/playlist/highquality/list",
+      myOptions: myOptions,
+      queryParameters: queryParameters,
+    );
+  }
+
+  /// 通过歌单id获取歌单详情
+  /// 说明 : 调用此接口 , 传入歌单 id, 可获得歌单详情
+  /// - [id] : 歌单 id
+  /// - [s] : 歌单最近的 s 个收藏者,默认为8
+  Future<Response> getPlaylistDetail(
+      {int? id, int? s}) async {
+    MyOptions myOptions = MyOptions(crypto: "weapi");
+    Map<String, dynamic> queryParameters = {
+      "id": id,
+      "n": 100000,
+      "s": s ?? 8,
+    };
+
+    return await requestManager.post(
+      "https://music.163.com/weapi/v6/playlist/detail",
       myOptions: myOptions,
       queryParameters: queryParameters,
     );

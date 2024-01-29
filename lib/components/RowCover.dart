@@ -39,16 +39,14 @@ class RowCover extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     List<Widget> rowList = _buildRows(items);
-    return SliverList(
-      delegate: SliverChildBuilderDelegate(
-        childCount: rowList.length,
-        (BuildContext context, int index) {
-          return SingleChildScrollView(
-            scrollDirection: Axis.horizontal,
-            child: rowList[index],
-          );
-        },
-      ),
+    return SliverList.builder(
+      itemCount: rowList.length,
+      itemBuilder: (BuildContext context, int index) {
+        return SingleChildScrollView(
+          scrollDirection: Axis.horizontal,
+          child: rowList[index],
+        );
+      },
     );
   }
 
