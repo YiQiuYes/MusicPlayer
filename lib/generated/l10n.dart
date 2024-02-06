@@ -319,6 +319,26 @@ class S {
       args: [],
     );
   }
+
+  /// `The last week`
+  String get librarySongsRankLastWeek {
+    return Intl.message(
+      'The last week',
+      name: 'librarySongsRankLastWeek',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `All the time`
+  String get librarySongsRankAllTime {
+    return Intl.message(
+      'All the time',
+      name: 'librarySongsRankAllTime',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

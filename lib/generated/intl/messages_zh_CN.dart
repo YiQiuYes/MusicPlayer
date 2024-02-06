@@ -46,6 +46,9 @@ class MessageLookup extends MessageLookupByLibrary {
         "libraryMV": MessageLookupByLibrary.simpleMessage("MV"),
         "librarySLibrary": MessageLookupByLibrary.simpleMessage("的音乐库"),
         "librarySongsRank": MessageLookupByLibrary.simpleMessage("听歌排行"),
+        "librarySongsRankAllTime": MessageLookupByLibrary.simpleMessage("所有时间"),
+        "librarySongsRankLastWeek":
+            MessageLookupByLibrary.simpleMessage("最近一周"),
         "loginQRTip": MessageLookupByLibrary.simpleMessage("打开网易云音乐APP扫码登录"),
         "loginText": MessageLookupByLibrary.simpleMessage("登录网易云账号"),
         "navigationBarExplore": MessageLookupByLibrary.simpleMessage("发现"),

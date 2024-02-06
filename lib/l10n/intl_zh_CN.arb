@@ -29,5 +29,7 @@
   "libraryArtist" : "艺人",
   "libraryMV" : "MV",
   "libraryCloudDisk" : "云盘",
-  "librarySongsRank" : "听歌排行"
+  "librarySongsRank" : "听歌排行",
+  "librarySongsRankLastWeek" : "最近一周",
+  "librarySongsRankAllTime" : "所有时间"
 }

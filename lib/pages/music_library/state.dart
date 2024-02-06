@@ -1,5 +1,7 @@
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
+import 'package:musicplayer/common/utils/ScreenAdaptor.dart';
 import 'package:musicplayer/generated/l10n.dart';
 
 class MusicLibraryState {
@@ -17,26 +19,23 @@ class MusicLibraryState {
   late Rx<Future<List>> futureUserLikedMVs;
   // 云盘歌曲信息
   late Rx<Future<List>> futureCloudDiskSongs;
-  // 听歌排行
-  late Rx<Future<List>> futureHistorySongsRank;
+  // 听歌排行最近一周
+  late Rx<Future<List>> futureHistorySongsRankLastWeek;
+  // 听歌排行所有时间
+  late Rx<Future<List>> futureHistorySongsRankAllTime;
 
   // 随机歌词
   late RxString randomLyric;
 
   // TabBar控制器
   late TabController tabController;
-  // Tabs
-  late List<Widget> tabs;
+  // 听歌排行TabBar控制器
+  late TabController tabControllerHistorySongsRank;
+  // 听歌排行是否被选中
+  late RxBool historySongsRankIsTrue;
 
   MusicLibraryState() {
     randomLyric = "".obs;
-    tabs = [
-      Text(S.current.libraryAllPlayList),
-      Text(S.current.libraryAlbum),
-      Text(S.current.libraryArtist),
-      Text(S.current.libraryMV),
-      Text(S.current.libraryCloudDisk),
-      Text(S.current.librarySongsRank),
-    ];
+    historySongsRankIsTrue = false.obs;
   }
 }

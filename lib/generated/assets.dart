@@ -20,6 +20,7 @@ class Assets {
   static const String componentsCover = 'lib/components/Cover.dart';
   static const String componentsDailyTrackscard = 'lib/components/DailyTrackscard.dart';
   static const String componentsFMCard = 'lib/components/FMCard.dart';
+  static const String componentsMvRow = 'lib/components/MvRow.dart';
   static const String componentsRowCover = 'lib/components/RowCover.dart';
   static const String componentsTrackList = 'lib/components/TrackList.dart';
   static const String componentsTrackListItem = 'lib/components/TrackListItem.dart';

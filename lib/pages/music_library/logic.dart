@@ -22,11 +22,13 @@ class MusicLibraryLogic extends GetxController {
     state.futureUserLikedArtists = loadUserLikedArtists().obs;
     state.futureUserLikedMVs = loadUserLikedMVs().obs;
     state.futureCloudDiskSongs = loadCloudDisk().obs;
+    state.futureHistorySongsRankLastWeek = loadHistorySongsRankLastWeek().obs;
+    state.futureHistorySongsRankAllTime = loadHistorySongsRankAllTime().obs;
     // 获取随机歌词
     loadRandomLyric();
   }
 
-  // 获取随机歌词
+  /// 获取随机歌词
   Future<void> loadRandomLyric() async {
     List likeSongs = await state.futureLikeSongs.value;
     if (likeSongs.isEmpty) {
@@ -49,21 +51,21 @@ class MusicLibraryLogic extends GetxController {
     });
   }
 
-  // 摘取三行歌词
+  /// 摘取三行歌词
   String pickedLyric(List<String> lyrics) {
     // developer.log(state.randomLyric.toString());
     List lyricLines = lyrics
         .where((line) =>
-    !line.contains("作词") &&
-        !line.contains("作曲") &&
-        line.split("]").last != " ")
+            !line.contains("作词") &&
+            !line.contains("作曲") &&
+            line.split("]").last != " ")
         .toList();
     // 获取随机三行歌词
     int lyricsToPick = min(lyricLines.length, 3);
     int randomUpperBound = lyricLines.length - lyricsToPick;
 
     // 防止为0的时候报错
-    if(randomUpperBound == 0) {
+    if (randomUpperBound == 0) {
       return lyricLines.map((e) {
         return e.split("]").last;
       }).join("\n");
@@ -146,5 +148,40 @@ class MusicLibraryLogic extends GetxController {
         });
       });
     });
+  }
+
+  /// 获取听歌排行最近一周歌曲
+  Future<List> loadHistorySongsRankLastWeek() async {
+    return await state.futureUserInfoMap.value.then((userInfo) async {
+      // 听歌排行最近一周歌曲
+      return await UserApi()
+          .userPlayHistory(uid: userInfo["userId"].toString(), type: 1)
+          .then((value) async {
+        var result = RequestUtils.transformResponse(value);
+        return result["weekData"];
+      });
+    });
+  }
+
+  /// 获取听歌排行所有时间歌曲
+  Future<List> loadHistorySongsRankAllTime() async {
+    return await state.futureUserInfoMap.value.then((userInfo) async {
+      // 听歌排行所有时间歌曲
+      return await UserApi()
+          .userPlayHistory(uid: userInfo["userId"].toString(), type: 0)
+          .then((value) async {
+        var result = RequestUtils.transformResponse(value);
+        return result["allData"];
+      });
+    });
+  }
+
+  /// 听歌排行TabBar切换逻辑
+  void historySongsRankChange(int index) {
+    if(index == 5) {
+      state.historySongsRankIsTrue.value = true;
+    } else {
+      state.historySongsRankIsTrue.value = false;
+    }
   }
 }

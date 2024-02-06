@@ -29,5 +29,7 @@
   "libraryArtist" : "Artist",
   "libraryMV" : "MV",
   "libraryCloudDisk" : "Cloud Disk",
-  "librarySongsRank" : "Songs Rank"
+  "librarySongsRank" : "Songs Rank",
+  "librarySongsRankLastWeek" : "The last week",
+  "librarySongsRankAllTime" : "All the time"
 }

@@ -10,6 +10,7 @@ class TrackListItem extends StatelessWidget {
   const TrackListItem(
       {super.key,
       required this.track,
+      this.subTitleAndArtistPaddingTop,
       required this.subTitleAndArtistPaddingLeft,
       required this.subTitleAndArtistPaddingRight,
       required this.artistPaddingTop,
@@ -29,6 +30,7 @@ class TrackListItem extends StatelessWidget {
 
   final Map track;
   // 歌曲标题和歌手边距
+  final List<double>? subTitleAndArtistPaddingTop;
   final List<double> subTitleAndArtistPaddingLeft;
   final List<double> subTitleAndArtistPaddingRight;
   final List<double> artistPaddingTop;
@@ -75,8 +77,8 @@ class TrackListItem extends StatelessWidget {
           child: ClipRRect(
             borderRadius: BorderRadius.circular(
               ScreenAdaptor().getLengthByOrientation(
-                vertical: 8.w,
-                horizon: 5.w,
+                vertical: 12.w,
+                horizon: 6.w,
               ),
             ),
             child: CachedNetworkImage(
@@ -88,8 +90,8 @@ class TrackListItem extends StatelessWidget {
         // 歌曲标题
         Positioned(
           top: ScreenAdaptor().getLengthByOrientation(
-            vertical: 8.w,
-            horizon: 5.w,
+            vertical: subTitleAndArtistPaddingTop?[0] ?? 8.w,
+            horizon: subTitleAndArtistPaddingTop?[1] ?? 5.w,
           ),
           left: ScreenAdaptor().getLengthByOrientation(
             vertical: subTitleAndArtistPaddingLeft[0],

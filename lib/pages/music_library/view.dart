@@ -5,6 +5,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:musicplayer/common/utils/AppTheme.dart';
 import 'package:musicplayer/common/utils/ScreenAdaptor.dart';
+import 'package:musicplayer/components/MvRow.dart';
+import 'package:musicplayer/components/RowCover.dart';
 import 'package:musicplayer/components/TrackList.dart';
 import 'package:musicplayer/generated/l10n.dart';
 
@@ -18,7 +20,7 @@ class MusicLibraryPage extends StatefulWidget {
 }
 
 class _MusicLibraryPageState extends State<MusicLibraryPage>
-    with AutomaticKeepAliveClientMixin, SingleTickerProviderStateMixin {
+    with AutomaticKeepAliveClientMixin, TickerProviderStateMixin {
   final logic = Get.put(MusicLibraryLogic());
   final state = Get.find<MusicLibraryLogic>().state;
 
@@ -32,6 +34,10 @@ class _MusicLibraryPageState extends State<MusicLibraryPage>
     logic.pageInit();
     state.tabController = TabController(
       length: 6,
+      vsync: this,
+    );
+    state.tabControllerHistorySongsRank = TabController(
+      length: 2,
       vsync: this,
     );
   }
@@ -57,48 +63,603 @@ class _MusicLibraryPageState extends State<MusicLibraryPage>
               horizon: 20.w,
             ),
           ),
-          child: CustomScrollView(
-            slivers: [
-              // AppBar
-              _getAppBarWidget(),
-              // 间距
-              _getHeightPaddingWidget(vertical: 28.w, horizon: 15.w),
-              // 用户名
-              _getUserNameWidget(),
-              // 间距
-              _getHeightPaddingWidget(vertical: 50.w, horizon: 30.w),
-              // 获取我喜欢的音乐和我喜欢的歌曲
-              _getILoveAndLikeSongsWidget(),
-              // 间距
-              _getHeightPaddingWidget(vertical: 50.w, horizon: 30.w),
-              // TabBar条
-              _getTabBarWidget(),
-            ],
+          child: NestedScrollView(
+            headerSliverBuilder: (BuildContext context, bool isTrue) {
+              return [
+                // AppBar
+                _getAppBarWidget(),
+                // 间距
+                _getHeightPaddingWidget(vertical: 28.w, horizon: 15.w),
+                // 用户名
+                _getUserNameWidget(),
+                // 间距
+                _getHeightPaddingWidget(vertical: 50.w, horizon: 30.w),
+                // 获取我喜欢的音乐和我喜欢的歌曲
+                _getILoveAndLikeSongsWidget(),
+                // 间距
+                _getHeightPaddingWidget(vertical: 50.w, horizon: 30.w),
+                // TabBar条
+                _getTabBarWidget(),
+                // 听歌排行TabBar
+                _getHistorySongsRankTabBarWidget(),
+              ];
+            },
+            // TabBarView
+            body: _getTabBarViewWidget(),
           ),
         ),
       ),
     );
   }
 
-  /// 获取TabBar条
-  Widget _getTabBarWidget() {
-    return SliverToBoxAdapter(
-      child: Center(
-        child: TabBar(
-          controller: state.tabController,
-          isScrollable: true,
-          padding: EdgeInsets.zero,
-            tabAlignment: TabAlignment.start,
-          splashBorderRadius: BorderRadius.circular(
-            ScreenAdaptor().getLengthByOrientation(
-              vertical: 23.w,
-              horizon: 15.w,
+  /// 获取TabBarView
+  Widget _getTabBarViewWidget() {
+    return TabBarView(
+      controller: state.tabController,
+      physics: const NeverScrollableScrollPhysics(),
+      children: [
+        // 全部歌单
+        _getAllPlayListTabBarViewWidget(),
+        // 专辑
+        _getLikedAlbumsTabBarViewWidget(),
+        // 艺人
+        _getLikedArtistsTabBarViewWidget(),
+        // MV
+        _getLikedMVsTabBarViewWidget(),
+        // 云盘歌曲
+        _getCloudDiskSongsTabBarViewWidget(),
+        // 听歌排行
+        _getHistorySongsRankWidget(),
+      ],
+    );
+  }
+
+  /// 获取全部歌单
+  Widget _getAllPlayListTabBarViewWidget() {
+    return CustomScrollView(
+      anchor: ScreenAdaptor().getLengthByOrientation(
+        vertical: 0.13.w,
+        horizon: 0.12.w,
+      ),
+      slivers: [
+        Obx(() {
+          return FutureBuilder(
+            future: state.futureUserPlayList.value,
+            builder:
+                (BuildContext context, AsyncSnapshot<List<dynamic>> snapshot) {
+              if (snapshot.connectionState == ConnectionState.done) {
+                return SliverLayoutBuilder(
+                  builder:
+                      (BuildContext context, SliverConstraints constraints) {
+                    int columnNumber = ScreenAdaptor().byOrientationReturn(
+                      vertical: 3,
+                      horizon: 5,
+                    )!;
+                    double horizontalSpacing =
+                        ScreenAdaptor().getLengthByOrientation(
+                      vertical: 30.w,
+                      horizon: 10.w,
+                    );
+                    double size = (constraints.crossAxisExtent -
+                            (columnNumber - 1) * horizontalSpacing) /
+                        columnNumber;
+                    return RowCover(
+                      items: snapshot.data!,
+                      subText: "creator",
+                      type: "playlist",
+                      columnNumber: columnNumber,
+                      imageWidth: ScreenAdaptor().getLengthByOrientation(
+                        vertical: 200.w,
+                        horizon: size,
+                      ),
+                      imageHeight: ScreenAdaptor().getLengthByOrientation(
+                        vertical: 200.w,
+                        horizon: size,
+                      ),
+                      horizontalSpacing: horizontalSpacing,
+                      fontMainSize: ScreenAdaptor().getLengthByOrientation(
+                        vertical: 20.sp,
+                        horizon: 11.sp,
+                      ),
+                      fontSubSize: ScreenAdaptor().getLengthByOrientation(
+                        vertical: 15.sp,
+                        horizon: 9.sp,
+                      ),
+                    );
+                  },
+                );
+              }
+              return const SliverToBoxAdapter(child: SizedBox());
+            },
+          );
+        }),
+        // 间距
+        _getHeightPaddingWidget(vertical: 50.w, horizon: 30.w),
+      ],
+    );
+  }
+
+  /// 获取专辑
+  Widget _getLikedAlbumsTabBarViewWidget() {
+    return CustomScrollView(
+      anchor: ScreenAdaptor().getLengthByOrientation(
+        vertical: 0.13.w,
+        horizon: 0.12.w,
+      ),
+      slivers: [
+        Obx(() {
+          return FutureBuilder(
+            future: state.futureUserLikedAlbums.value,
+            builder:
+                (BuildContext context, AsyncSnapshot<List<dynamic>> snapshot) {
+              if (snapshot.connectionState == ConnectionState.done) {
+                return SliverLayoutBuilder(
+                  builder:
+                      (BuildContext context, SliverConstraints constraints) {
+                    int columnNumber = ScreenAdaptor().byOrientationReturn(
+                      vertical: 3,
+                      horizon: 5,
+                    )!;
+                    double horizontalSpacing =
+                        ScreenAdaptor().getLengthByOrientation(
+                      vertical: 30.w,
+                      horizon: 10.w,
+                    );
+                    double size = (constraints.crossAxisExtent -
+                            (columnNumber - 1) * horizontalSpacing) /
+                        columnNumber;
+                    return RowCover(
+                      items: snapshot.data!,
+                      subText: "artist",
+                      type: "album",
+                      columnNumber: columnNumber,
+                      imageWidth: ScreenAdaptor().getLengthByOrientation(
+                        vertical: 200.w,
+                        horizon: size,
+                      ),
+                      imageHeight: ScreenAdaptor().getLengthByOrientation(
+                        vertical: 200.w,
+                        horizon: size,
+                      ),
+                      horizontalSpacing: horizontalSpacing,
+                      fontMainSize: ScreenAdaptor().getLengthByOrientation(
+                        vertical: 20.sp,
+                        horizon: 11.sp,
+                      ),
+                      fontSubSize: ScreenAdaptor().getLengthByOrientation(
+                        vertical: 15.sp,
+                        horizon: 9.sp,
+                      ),
+                    );
+                  },
+                );
+              }
+              return const SliverToBoxAdapter(child: SizedBox());
+            },
+          );
+        }),
+        // 间距
+        _getHeightPaddingWidget(vertical: 50.w, horizon: 30.w),
+      ],
+    );
+  }
+
+  /// 获取艺人
+  Widget _getLikedArtistsTabBarViewWidget() {
+    return CustomScrollView(
+      anchor: ScreenAdaptor().getLengthByOrientation(
+        vertical: 0.13.w,
+        horizon: 0.12.w,
+      ),
+      slivers: [
+        Obx(() {
+          return FutureBuilder(
+            future: state.futureUserLikedArtists.value,
+            builder:
+                (BuildContext context, AsyncSnapshot<List<dynamic>> snapshot) {
+              if (snapshot.connectionState == ConnectionState.done) {
+                return SliverLayoutBuilder(
+                  builder:
+                      (BuildContext context, SliverConstraints constraints) {
+                    int columnNumber = ScreenAdaptor().byOrientationReturn(
+                      vertical: 3,
+                      horizon: 5,
+                    )!;
+                    double horizontalSpacing =
+                        ScreenAdaptor().getLengthByOrientation(
+                      vertical: 30.w,
+                      horizon: 10.w,
+                    );
+                    double size = (constraints.crossAxisExtent -
+                            (columnNumber - 1) * horizontalSpacing) /
+                        columnNumber;
+                    return RowCover(
+                      items: snapshot.data!,
+                      type: "artist",
+                      columnNumber: columnNumber,
+                      imageWidth: ScreenAdaptor().getLengthByOrientation(
+                        vertical: 200.w,
+                        horizon: size,
+                      ),
+                      imageHeight: ScreenAdaptor().getLengthByOrientation(
+                        vertical: 200.w,
+                        horizon: size,
+                      ),
+                      horizontalSpacing: horizontalSpacing,
+                      fontMainSize: ScreenAdaptor().getLengthByOrientation(
+                        vertical: 20.sp,
+                        horizon: 11.sp,
+                      ),
+                      fontSubSize: ScreenAdaptor().getLengthByOrientation(
+                        vertical: 15.sp,
+                        horizon: 9.sp,
+                      ),
+                    );
+                  },
+                );
+              }
+              return const SliverToBoxAdapter(child: SizedBox());
+            },
+          );
+        }),
+        // 间距
+        _getHeightPaddingWidget(vertical: 50.w, horizon: 30.w),
+      ],
+    );
+  }
+
+  /// 获取MV
+  Widget _getLikedMVsTabBarViewWidget() {
+    return CustomScrollView(
+      anchor: ScreenAdaptor().getLengthByOrientation(
+        vertical: 0.13.w,
+        horizon: 0.12.w,
+      ),
+      slivers: [
+        Obx(() {
+          return FutureBuilder(
+            future: state.futureUserLikedMVs.value,
+            builder:
+                (BuildContext context, AsyncSnapshot<List<dynamic>> snapshot) {
+              if (snapshot.connectionState == ConnectionState.done) {
+                return SliverLayoutBuilder(
+                  builder:
+                      (BuildContext context, SliverConstraints constraints) {
+                    int columnNumber = ScreenAdaptor().byOrientationReturn(
+                      vertical: 3,
+                      horizon: 5,
+                    )!;
+                    double horizontalSpacing =
+                        ScreenAdaptor().getLengthByOrientation(
+                      vertical: 30.w,
+                      horizon: 10.w,
+                    );
+                    double size = (constraints.crossAxisExtent -
+                            (columnNumber - 1) * horizontalSpacing) /
+                        columnNumber;
+                    return MvRow(
+                      items: snapshot.data!,
+                      columnNumber: columnNumber,
+                      imageWidth: ScreenAdaptor().getLengthByOrientation(
+                        vertical: 200.w,
+                        horizon: size,
+                      ),
+                      imageHeight: ScreenAdaptor().getLengthByOrientation(
+                        vertical: 120.w,
+                        horizon: size * 3 / 5,
+                      ),
+                      horizontalSpacing: horizontalSpacing,
+                      fontMainSize: ScreenAdaptor().getLengthByOrientation(
+                        vertical: 20.sp,
+                        horizon: 11.sp,
+                      ),
+                      fontSubSize: ScreenAdaptor().getLengthByOrientation(
+                        vertical: 15.sp,
+                        horizon: 9.sp,
+                      ),
+                    );
+                  },
+                );
+              }
+              return const SliverToBoxAdapter(child: SizedBox());
+            },
+          );
+        }),
+        // 间距
+        _getHeightPaddingWidget(vertical: 50.w, horizon: 30.w),
+      ],
+    );
+  }
+
+  /// 获取云盘歌曲
+  Widget _getCloudDiskSongsTabBarViewWidget() {
+    return CustomScrollView(
+      anchor: ScreenAdaptor().getLengthByOrientation(
+        vertical: 0.13.w,
+        horizon: 0.12.w,
+      ),
+      slivers: [
+        Obx(() {
+          return FutureBuilder(
+            future: state.futureCloudDiskSongs.value,
+            builder:
+                (BuildContext context, AsyncSnapshot<List<dynamic>> snapshot) {
+              if (snapshot.connectionState == ConnectionState.done) {
+                return TrackList(
+                  type: "sliverCloudDisk",
+                  tracks: snapshot.data!,
+                  columnCount: 1,
+                  isShowSongAlbumNameAndTimes: true,
+                );
+              }
+              return const SliverToBoxAdapter(child: SizedBox());
+            },
+          );
+        }),
+        // 间距
+        _getHeightPaddingWidget(vertical: 50.w, horizon: 30.w),
+      ],
+    );
+  }
+
+  /// 获取听歌排行Tabs
+  List<Widget> _getTabsHistorySongsRankListWidget() {
+    return [
+      Tab(
+        height: ScreenAdaptor().getLengthByOrientation(
+          vertical: 50.w,
+          horizon: 27.w,
+        ),
+        child: Text(
+          S.current.librarySongsRankLastWeek,
+          style: TextStyle(
+            fontSize: ScreenAdaptor().getLengthByOrientation(
+              vertical: 22.sp,
+              horizon: 13.sp,
             ),
           ),
-          tabs: state.tabs,
         ),
       ),
+      Tab(
+        height: ScreenAdaptor().getLengthByOrientation(
+          vertical: 50.w,
+          horizon: 27.w,
+        ),
+        child: Text(
+          S.current.librarySongsRankAllTime,
+          style: TextStyle(
+            fontSize: ScreenAdaptor().getLengthByOrientation(
+              vertical: 22.sp,
+              horizon: 13.sp,
+            ),
+          ),
+        ),
+      ),
+    ];
+  }
+
+  /// 获取听歌排行
+  Widget _getHistorySongsRankWidget() {
+    return TabBarView(
+      controller: state.tabControllerHistorySongsRank,
+      children: [
+        // 听歌排行最近一周歌曲
+        _getHistorySongsRankLastWeekWidget(),
+        // 听歌排行所有时间歌曲
+        _getHistorySongsRankAllTimeWidget(),
+      ],
     );
+  }
+
+  /// 获取听歌排行所有时间歌曲
+  Widget _getHistorySongsRankAllTimeWidget() {
+    return CustomScrollView(
+      anchor: ScreenAdaptor().getLengthByOrientation(
+        vertical: 0.13.w,
+        horizon: 0.12.w,
+      ),
+      physics: const NeverScrollableScrollPhysics(),
+      slivers: [
+        Obx(() {
+          return FutureBuilder(
+            future: state.futureHistorySongsRankAllTime.value,
+            builder:
+                (BuildContext context, AsyncSnapshot<List<dynamic>> snapshot) {
+              if (snapshot.connectionState == ConnectionState.done) {
+                return TrackList(
+                  type: "sliverTrackList",
+                  columnCount: 1,
+                  tracks: snapshot.data!,
+                );
+              }
+              return const SliverToBoxAdapter(child: SizedBox());
+            },
+          );
+        }),
+      ],
+    );
+  }
+
+  /// 获取听歌排行最近一周歌曲
+  Widget _getHistorySongsRankLastWeekWidget() {
+    return CustomScrollView(
+      anchor: ScreenAdaptor().getLengthByOrientation(
+        vertical: 0.13.w,
+        horizon: 0.12.w,
+      ),
+      physics: const NeverScrollableScrollPhysics(),
+      slivers: [
+        Obx(() {
+          return FutureBuilder(
+            future: state.futureHistorySongsRankLastWeek.value,
+            builder:
+                (BuildContext context, AsyncSnapshot<List<dynamic>> snapshot) {
+              if (snapshot.connectionState == ConnectionState.done) {
+                return TrackList(
+                  type: "sliverTrackList",
+                  columnCount: 1,
+                  tracks: snapshot.data!,
+                );
+              }
+              return const SliverToBoxAdapter(child: SizedBox());
+            },
+          );
+        }),
+      ],
+    );
+  }
+
+  /// 获取Tabs
+  List<Widget> _getTabsListWidget() {
+    return [
+      Tab(
+        height: ScreenAdaptor().getLengthByOrientation(
+          vertical: 60.w,
+          horizon: 35.w,
+        ),
+        child: Text(
+          S.current.libraryAllPlayList,
+          style: TextStyle(
+            fontSize: ScreenAdaptor().getLengthByOrientation(
+              vertical: 28.sp,
+              horizon: 16.sp,
+            ),
+          ),
+        ),
+      ),
+      Tab(
+        height: ScreenAdaptor().getLengthByOrientation(
+          vertical: 60.w,
+          horizon: 35.w,
+        ),
+        child: Text(
+          S.current.libraryAlbum,
+          style: TextStyle(
+            fontSize: ScreenAdaptor().getLengthByOrientation(
+              vertical: 28.sp,
+              horizon: 16.sp,
+            ),
+          ),
+        ),
+      ),
+      Tab(
+        height: ScreenAdaptor().getLengthByOrientation(
+          vertical: 60.w,
+          horizon: 35.w,
+        ),
+        child: Text(
+          S.current.libraryArtist,
+          style: TextStyle(
+            fontSize: ScreenAdaptor().getLengthByOrientation(
+              vertical: 28.sp,
+              horizon: 16.sp,
+            ),
+          ),
+        ),
+      ),
+      Tab(
+        height: ScreenAdaptor().getLengthByOrientation(
+          vertical: 60.w,
+          horizon: 35.w,
+        ),
+        child: Text(
+          S.current.libraryMV,
+          style: TextStyle(
+            fontSize: ScreenAdaptor().getLengthByOrientation(
+              vertical: 28.sp,
+              horizon: 16.sp,
+            ),
+          ),
+        ),
+      ),
+      Tab(
+        height: ScreenAdaptor().getLengthByOrientation(
+          vertical: 60.w,
+          horizon: 35.w,
+        ),
+        child: Text(
+          S.current.libraryCloudDisk,
+          style: TextStyle(
+            fontSize: ScreenAdaptor().getLengthByOrientation(
+              vertical: 28.sp,
+              horizon: 16.sp,
+            ),
+          ),
+        ),
+      ),
+      Tab(
+        height: ScreenAdaptor().getLengthByOrientation(
+          vertical: 60.w,
+          horizon: 35.w,
+        ),
+        child: Text(
+          S.current.librarySongsRank,
+          style: TextStyle(
+            fontSize: ScreenAdaptor().getLengthByOrientation(
+              vertical: 28.sp,
+              horizon: 16.sp,
+            ),
+          ),
+        ),
+      ),
+    ];
+  }
+
+  /// 获取TabBar条
+  Widget _getTabBarWidget() {
+    return SliverAppBar(
+      toolbarHeight: ScreenAdaptor().getLengthByOrientation(
+        vertical: 80.w,
+        horizon: 40.w,
+      ),
+      flexibleSpace: TabBar(
+        controller: state.tabController,
+        isScrollable: true,
+        padding: EdgeInsets.zero,
+        onTap: logic.historySongsRankChange,
+        splashBorderRadius: BorderRadius.circular(
+          ScreenAdaptor().getLengthByOrientation(
+            vertical: 23.w,
+            horizon: 15.w,
+          ),
+        ),
+        tabs: _getTabsListWidget(),
+      ),
+    );
+  }
+
+  /// 获取听歌排行TabBar
+  Widget _getHistorySongsRankTabBarWidget() {
+    return Obx(() {
+      return SliverVisibility(
+        visible: state.historySongsRankIsTrue.value,
+        sliver: SliverAppBar(
+          toolbarHeight: ScreenAdaptor().getLengthByOrientation(
+            vertical: 103.w,
+            horizon: 62.w,
+          ),
+          flexibleSpace: Padding(
+            padding: EdgeInsets.only(
+              top: ScreenAdaptor().getLengthByOrientation(
+                vertical: 23.w,
+                horizon: 15.w,
+              ),
+            ),
+            child: TabBar(
+              isScrollable: true,
+              controller: state.tabControllerHistorySongsRank,
+              splashBorderRadius: BorderRadius.circular(
+                ScreenAdaptor().getLengthByOrientation(
+                  vertical: 20.w,
+                  horizon: 10.w,
+                ),
+              ),
+              tabs: _getTabsHistorySongsRankListWidget(),
+            ),
+          ),
+        ),
+      );
+    });
   }
 
   /// 获取我喜欢的音乐和我喜欢的歌曲
@@ -212,7 +773,7 @@ class _MusicLibraryPageState extends State<MusicLibraryPage>
                     // 三行歌词
                     Positioned(
                       top: ScreenAdaptor().getLengthByOrientation(
-                        vertical: 23.w,
+                        vertical: 30.w,
                         horizon: 15.w,
                       ),
                       left: ScreenAdaptor().getLengthByOrientation(
@@ -243,29 +804,31 @@ class _MusicLibraryPageState extends State<MusicLibraryPage>
               ),
             ),
             // 我喜欢的歌曲
-            FutureBuilder(
-              future: state.futureLikeSongs.value,
-              builder: (BuildContext context, AsyncSnapshot<List> snapShot) {
-                if (snapShot.connectionState == ConnectionState.done) {
-                  return SizedBox(
-                    width: ScreenAdaptor().getLengthByOrientation(
-                      vertical: 860.w,
-                      horizon: 488.w,
-                    ),
-                    height: ScreenAdaptor().getLengthByOrientation(
-                      vertical: 370.w,
-                      horizon: 220.w,
-                    ),
-                    child: TrackList(
-                      type: "tracklist",
-                      tracks: snapShot.data!,
-                      columnCount: 3,
-                    ),
-                  );
-                }
-                return const SizedBox();
-              },
-            ),
+            Obx(() {
+              return FutureBuilder(
+                future: state.futureLikeSongs.value,
+                builder: (BuildContext context, AsyncSnapshot<List> snapShot) {
+                  if (snapShot.connectionState == ConnectionState.done) {
+                    return SizedBox(
+                      width: ScreenAdaptor().getLengthByOrientation(
+                        vertical: 860.w,
+                        horizon: 488.w,
+                      ),
+                      height: ScreenAdaptor().getLengthByOrientation(
+                        vertical: 370.w,
+                        horizon: 220.w,
+                      ),
+                      child: TrackList(
+                        type: "tracklist",
+                        tracks: snapShot.data!,
+                        columnCount: 3,
+                      ),
+                    );
+                  }
+                  return const SizedBox();
+                },
+              );
+            }),
           ],
         ),
       ),
@@ -276,7 +839,7 @@ class _MusicLibraryPageState extends State<MusicLibraryPage>
   Widget _getAppBarWidget() {
     if (ScreenAdaptor().getOrientation()) {
       return SliverAppBar(
-        pinned: true,
+        //pinned: true,
         backgroundColor: Colors.transparent,
         surfaceTintColor: Colors.transparent,
         flexibleSpace: FlexibleSpaceBar(

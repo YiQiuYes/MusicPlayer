@@ -53,6 +53,10 @@ class MessageLookup extends MessageLookupByLibrary {
         "libraryMV": MessageLookupByLibrary.simpleMessage("MV"),
         "librarySLibrary": MessageLookupByLibrary.simpleMessage("\'s Library"),
         "librarySongsRank": MessageLookupByLibrary.simpleMessage("Songs Rank"),
+        "librarySongsRankAllTime":
+            MessageLookupByLibrary.simpleMessage("All the time"),
+        "librarySongsRankLastWeek":
+            MessageLookupByLibrary.simpleMessage("The last week"),
         "loginQRTip": MessageLookupByLibrary.simpleMessage(
             "Open the Netease APP and scan the code to log in"),
         "loginText": MessageLookupByLibrary.simpleMessage("Login to Netease"),
